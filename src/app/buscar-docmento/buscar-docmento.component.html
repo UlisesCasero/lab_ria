@@ -1,0 +1,14 @@
+<input type="number" [(ngModel)]="idDocumento" name="idDocumento">
+<button (click)="getDocumento(idDocumento)">Obtener Área</button>
+
+<div *ngIf="documento">
+  <h3>Documento:</h3>
+  <p>ID: {{ documento.id }}</p>
+  <p>Activo: {{ documento.activo }}</p>
+  <p>Nombre: {{ documento.nombre }}</p>
+</div>
+
+<div *ngIf="error">
+  <p>Error: {{ error }}</p>
+</div>
+usf-rted-cgr
