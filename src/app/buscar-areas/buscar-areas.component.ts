@@ -10,6 +10,7 @@ export class BuscarAreasComponent {
   public area: any;
   public idArea: number = 0;
   public error: String = '';
+//  public nombre: String = '';
 
   constructor(private http: HttpClient) { }
 
@@ -26,5 +27,4 @@ export class BuscarAreasComponent {
       }
     );
   }
-
 }

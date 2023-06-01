@@ -11,6 +11,9 @@ import { ListarTipoDocumentoComponent } from './listar-tipo-documento/listar-tip
 import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tipo-documento.component';
 import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
 import { AltaAreasComponent } from './alta-areas/alta-areas.component';
+import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
+import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estados-posibles/buscar-llamados-estados-posibles.component';
+
 
 @NgModule({
   declarations: [
@@ -21,6 +24,8 @@ import { AltaAreasComponent } from './alta-areas/alta-areas.component';
     BuscarTipoDocumentoComponent,
     BuscarAreasComponent,
     AltaAreasComponent,
+    AltaLlamadosEstadosPosiblesComponent,
+    BuscarLlamadosEstadosPosiblesComponent,
   ],
   imports: [
     HttpClientModule,
