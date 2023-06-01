@@ -9,6 +9,8 @@ import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-docu
 import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
 import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tipo-documento.component';
 import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/eliminar-tipo-documento.component';
+import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
+import { AltaAreasComponent } from './alta-areas/alta-areas.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +18,9 @@ import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/elimin
     AltaTipoDocumentoComponent,
     ModificarTipoDocumentoComponent,
     BuscarTipoDocumentoComponent,
-    EliminarTipoDocumentoComponent
+    EliminarTipoDocumentoComponent,        
+    BuscarAreasComponent,
+    AltaAreasComponent,
   ],
   imports: [
     HttpClientModule,
