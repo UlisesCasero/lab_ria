@@ -7,8 +7,8 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
 import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
-import { ListarTipoDocumentoComponent } from './listar-tipo-documento/listar-tipo-documento.component';
 import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tipo-documento.component';
+import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/eliminar-tipo-documento.component';
 import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
 import { AltaAreasComponent } from './alta-areas/alta-areas.component';
 import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
@@ -20,8 +20,8 @@ import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estado
     AppComponent,    
     AltaTipoDocumentoComponent,
     ModificarTipoDocumentoComponent,
-    ListarTipoDocumentoComponent,
     BuscarTipoDocumentoComponent,
+    EliminarTipoDocumentoComponent,        
     BuscarAreasComponent,
     AltaAreasComponent,
     AltaLlamadosEstadosPosiblesComponent,
