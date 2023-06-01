@@ -18,7 +18,7 @@ export class BuscarDocmentoComponent {
     // Lógica que deseas ejecutar cuando se inicialice el componente
   }
 
-  getDocumento(id: number): void {
+  getDocumento(id: number) {
     const url = `http://localhost:5000/api/TiposDeDocumentos/${id}`;
     this.http.get<any>(url).subscribe(
       (response) => {

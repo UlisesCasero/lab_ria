@@ -6,11 +6,17 @@ import { AppComponent } from './app.component';
 import { BuscarDocmentoComponent } from './buscar-docmento/buscar-docmento.component';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
+import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
+import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
+import { ListarTipoDocumentoComponent } from './listar-tipo-documento/listar-tipo-documento.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    BuscarDocmentoComponent
+    BuscarDocmentoComponent,
+    AltaTipoDocumentoComponent,
+    ModificarTipoDocumentoComponent,
+    ListarTipoDocumentoComponent
   ],
   imports: [
     HttpClientModule,

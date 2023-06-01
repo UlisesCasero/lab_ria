@@ -1,0 +1,9 @@
+<form (ngSubmit)="altaTipoDocumento(nombre)" #altaTipoDocumentoForm="ngForm">
+    <div>
+      <label for="nombre">Nombre:</label>
+      <input type="text" id="nombre" name="nombre" [(ngModel)]="nombre" required>
+    </div>
+    <button type="submit">Guardar</button>
+</form>
+  
+  
