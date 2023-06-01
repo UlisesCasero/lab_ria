@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tipo-documento.component';
 import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
+import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
 
 const routes: Routes = [
   { 
@@ -9,8 +10,12 @@ const routes: Routes = [
     component: BuscarTipoDocumentoComponent 
   },
   { 
-    path: 'alta-docmento', 
+    path: 'alta-documento', 
     component: AltaTipoDocumentoComponent 
+  },
+  { 
+    path: 'modificar-documento', 
+    component: ModificarTipoDocumentoComponent 
   }
 ];
 
