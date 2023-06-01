@@ -1,13 +1,13 @@
 <div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-6">
     <div class="border-b border-gray-900/10 pb-6">
-      <form (ngSubmit)="buscarDocumento()" #buscarDocumentoForm="ngForm">
-        <h2 class="text-base font-semibold leading-7 text-gray-900">Buscar tipo documento</h2>
+      <form (ngSubmit)="buscarLlamadosEstadosPosibles()" #buscarLlamadosEstadosPosiblesForm="ngForm">
+        <h2 class="text-base font-semibold leading-7 text-gray-900">Buscador Llamados Estados Posibles</h2>
         <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
           <div class="sm:col-span-4">
-            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nmbre tipo:</label>
+            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Id llamado:</label>
             <div class="mt-2">
               <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">          
-                <input type="number" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="id" name="id" [(ngModel)]="idDocumento" required>
+                <input type="text" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="id" name="id" [(ngModel)]="idLlamado" required>
               </div>
             </div>
           </div>
@@ -19,13 +19,15 @@
     </div>
   </div>
 
-  <div *ngIf="documento">
-    <h2>Documento encontrado:</h2>
-    <p>ID: {{ documento.id }}</p>
-    <p>Nombre: {{ documento.nombre }}</p>
-    <p>Activo: {{ documento.activo ? 'Sí' : 'No' }}</p>
+  <div *ngIf="llamado">
+    <h2>Llamado encontrado:</h2>
+    <p>ID: {{ llamado.id }}</p>
+    <p>Nombre: {{ llamado.nombre }}</p>
+    <p>Activa: {{ llamado.activo ? 'Sí' : 'No' }}</p>
   </div>
 
   <div *ngIf="error">
+    <h2>Llamado No encontrado:</h2>
     <p>Error: {{ error }}</p>
   </div>
+
