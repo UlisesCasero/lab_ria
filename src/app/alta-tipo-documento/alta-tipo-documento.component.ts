@@ -16,10 +16,9 @@ export class AltaTipoDocumentoComponent {
 
   altaTipoDocumento(nombre: String){
     const url = `http://localhost:5000/api/TiposDeDocumentos`;
-    const body = { nombre: nombre };
-    this.http.post<any>(url, body).subscribe(
-      (response) => {
-        // Aquí puedes hacer lo que necesites con los datos del área devueltos
+    const nom = { nombre: nombre };
+    this.http.post<any>(url, nom).subscribe(
+      (response) => {        
         console.log('Documento creado:', response);        
       },
       (error) => {

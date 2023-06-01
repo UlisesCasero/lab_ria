@@ -21,9 +21,8 @@ export class BuscarDocmentoComponent {
   getDocumento(id: number) {
     const url = `http://localhost:5000/api/TiposDeDocumentos/${id}`;
     this.http.get<any>(url).subscribe(
-      (response) => {
-        // Aquí puedes hacer lo que necesites con los datos del área devueltos
-        console.log('Área:', response);
+      (response) => {       
+        console.log('Documento:', response);
         this.documento = response;
       },
       (error) => {
