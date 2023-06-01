@@ -7,7 +7,39 @@ import { HttpClient } from '@angular/common/http';
   styleUrls: ['./eliminar-tipo-documento.component.scss']
 })
 export class EliminarTipoDocumentoComponent {
-  
-  
+  public documento: any;
+  public nombre: String = '';
+  public idDocumento: number = 0;
+  public error: String = '';
+
   constructor(private http: HttpClient) { }
+
+  buscarDocumento() {
+    const url = `http://localhost:5000/api/TiposDeDocumentos/${this.idDocumento}`;    
+    this.http.get<any>(url).subscribe(
+      (response) => {       
+        console.log('Documento:', response);   
+        this.documento = response;   
+      },
+      (error) => {
+        console.log('Error al obtener el documento:', error);
+        this.error = `Error al obtener el documento`;
+      }
+    );
+  }
+
+  eliminarDocumento(){
+    const url = `http://localhost:5000/api/TiposDeDocumentos/${this.documento.id}`;
+
+    this.http.delete<any>(url).subscribe(
+      (response) => {       
+        console.log('Documento:', response);   
+        this.documento = response;   
+      },
+      (error) => {
+        console.log('Error al obtener el documento:', error);
+        this.error = `Error al obtener el documento`;
+      }
+    );
+  }
 }

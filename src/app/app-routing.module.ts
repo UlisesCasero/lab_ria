@@ -4,6 +4,7 @@ import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tip
 import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
 import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
 import { AltaAreasComponent } from './alta-areas/alta-areas.component';
+import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/eliminar-tipo-documento.component';
 
 const routes: Routes = [
   { 
@@ -17,6 +18,10 @@ const routes: Routes = [
   { 
     path: 'modificar-documento', 
     component: ModificarTipoDocumentoComponent 
+  },
+  { 
+    path: 'eliminar-documento', 
+    component: EliminarTipoDocumentoComponent 
   },
   {
     path: 'alta-areas', 
