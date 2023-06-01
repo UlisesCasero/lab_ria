@@ -1,12 +1,12 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BuscarDocmentoComponent } from './buscar-docmento/buscar-docmento.component';
+import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tipo-documento.component';
 import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
 
 const routes: Routes = [
   { 
-    path: 'buscar-docmento', 
-    component: BuscarDocmentoComponent 
+    path: 'buscar-documento', 
+    component: BuscarTipoDocumentoComponent 
   },
   { 
     path: 'alta-docmento', 
