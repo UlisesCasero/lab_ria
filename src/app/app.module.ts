@@ -14,6 +14,12 @@ import { AltaAreasComponent } from './alta-areas/alta-areas.component';
 import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
 import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estados-posibles/buscar-llamados-estados-posibles.component';
 import { ListarTipoDocumentosComponent } from './listar-tipo-documentos/listar-tipo-documentos.component';
+import { ModificarAreasComponent } from './modificar-areas/modificar-areas.component';
+import { ModificarLlamadosEstadosPosiblesComponent } from './modificar-llamados-estados-posibles/modificar-llamados-estados-posibles.component';
+import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.component';
+import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
+import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
+import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 
 
 @NgModule({
@@ -27,7 +33,13 @@ import { ListarTipoDocumentosComponent } from './listar-tipo-documentos/listar-t
     AltaAreasComponent,
     AltaLlamadosEstadosPosiblesComponent,
     BuscarLlamadosEstadosPosiblesComponent,
-    ListarTipoDocumentosComponent,    
+    ListarTipoDocumentosComponent,
+    ModificarAreasComponent,
+    ModificarLlamadosEstadosPosiblesComponent,
+    EliminarAreasComponent,
+    EliminarLlamadosEstadosPosiblesComponent,
+    ListarLlamadosEstadosPosiblesComponent,
+    ListarAreasComponent,    
   ],
   imports: [
     HttpClientModule,
