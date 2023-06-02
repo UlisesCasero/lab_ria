@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'ria_lab';
+  public isSlideOverOpen = false;
+
+  openSlideOver() {
+    this.isSlideOverOpen = true;
+  }
+
+  closeSlideOver() {
+    this.isSlideOverOpen = false;
+  }
 }

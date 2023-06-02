@@ -25,7 +25,7 @@ import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estado
     BuscarAreasComponent,
     AltaAreasComponent,
     AltaLlamadosEstadosPosiblesComponent,
-    BuscarLlamadosEstadosPosiblesComponent,
+    BuscarLlamadosEstadosPosiblesComponent,    
   ],
   imports: [
     HttpClientModule,

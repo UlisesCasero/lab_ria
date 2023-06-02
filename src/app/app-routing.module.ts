@@ -15,7 +15,7 @@ const routes: Routes = [
     component: BuscarTipoDocumentoComponent 
   },
   { 
-    path: 'alta-docmento', 
+    path: 'alta-documento', 
     component: AltaTipoDocumentoComponent 
   },
   { 
