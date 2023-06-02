@@ -9,6 +9,11 @@ import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
 import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estados-posibles/buscar-llamados-estados-posibles.component';
 import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
 import { ListarTipoDocumentosComponent } from './listar-tipo-documentos/listar-tipo-documentos.component';
+import { ModificarAreasComponent } from './modificar-areas/modificar-areas.component';
+import { ModificarLlamadosEstadosPosiblesComponent } from './modificar-llamados-estados-posibles/modificar-llamados-estados-posibles.component';
+import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.component';
+import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
+import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 
 const routes: Routes = [
   { 
@@ -46,6 +51,26 @@ const routes: Routes = [
   { 
     path: 'listar-documentos', 
     component: ListarTipoDocumentosComponent 
+  },
+  { 
+    path: 'modificar-areas', 
+    component: ModificarAreasComponent 
+  },
+  { 
+    path: 'modificar-llamados-estados-posibles', 
+    component: ModificarLlamadosEstadosPosiblesComponent 
+  },
+  { 
+    path: 'eliminar-llamados-estados-posibles', 
+    component: EliminarLlamadosEstadosPosiblesComponent 
+  },
+  { 
+    path: 'eliminar-areas', 
+    component: EliminarAreasComponent 
+  },
+  { 
+    path: 'login-iniciar-sesion', 
+    component: LoginIniciarSesionComponent 
   }
 ];
 
