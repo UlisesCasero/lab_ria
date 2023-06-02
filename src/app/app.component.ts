@@ -1,19 +1,16 @@
 import { Component } from '@angular/core';
+import { AfterViewInit } from '@angular/core';
+
+import { Dropdown, Ripple, initTE } from 'tw-elements';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss']
 })
-export class AppComponent {
+export class AppComponent implements AfterViewInit{
   title = 'ria_lab';
-  public isSlideOverOpen = false;
-
-  openSlideOver() {
-    this.isSlideOverOpen = true;
-  }
-
-  closeSlideOver() {
-    this.isSlideOverOpen = false;
+  ngAfterViewInit() {
+    initTE({ Dropdown, Ripple });
   }
 }

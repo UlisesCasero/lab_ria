@@ -8,6 +8,7 @@ import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/elimin
 import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
 import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estados-posibles/buscar-llamados-estados-posibles.component';
 import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
+import { ListarTipoDocumentosComponent } from './listar-tipo-documentos/listar-tipo-documentos.component';
 
 const routes: Routes = [
   { 
@@ -41,6 +42,10 @@ const routes: Routes = [
   { 
     path: 'buscar-llamados-estados-posibles', 
     component: BuscarLlamadosEstadosPosiblesComponent 
+  },
+  { 
+    path: 'listar-documentos', 
+    component: ListarTipoDocumentosComponent 
   }
 ];
 
