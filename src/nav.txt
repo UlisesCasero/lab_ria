@@ -1,0 +1,53 @@
+app.component.html::::::::::
+<!-- app.component.html -->
+<div class="inline-flex" id="main_menu">
+  <ul class="flex flex-wrap p-1 md:p-2 sm:bg-gray-300 sm:rounded-full text-sm md:text-base" id="menu_nav">
+    <!-- Otros elementos del menú -->
+
+    <li class="relative mx-1 px-1 py-2 group bg-gray-300 rounded-full mb-1 md:mb-0" id="button_admin">
+      <a class="font-semibold whitespace-no-wrap text-gray-600 hover:text-blue-800" (click)="mostrarAltaAreas = !mostrarAltaAreas">
+        <span class="firstlevel">Areas</span>
+      </a>
+      <ul class="absolute left-0 top-0 mt-10 p-2 rounded-lg shadow-lg bg-white z-10 hidden group-hover:block">
+        <!-- Opciones del submenú -->
+        <li class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+          <a (click)="mostrarAltaAreas = true">
+            <span class="">Agregar Area</span>
+          </a>
+        </li>
+        <li class="p-1 whitespace-no-wrap rounded-full text-sm md:text-base text-gray-600 hover:text-gray-800 hover:bg-gray-100">
+          <a (click)="mostrarBuscarAreas = true">
+            <span class="">Buscar Area</span>
+          </a>
+        </li>
+        <!-- Otras opciones del submenú -->
+      </ul>
+    </li>
+  </ul>
+</div>
+
+<app-alta-areas *ngIf="mostrarAltaAreas"></app-alta-areas>
+<app-buscar-areas *ngIf="mostrarBuscarAreas"></app-buscar-areas>
+
+
+app.components.ts:::::::
+import { Component } from '@angular/core';
+
+@Component({
+  selector: 'app-root',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss']
+})
+export class AppComponent {
+  title = 'ria_lab';
+  public isSlideOverOpen = false;
+  mostrarAltaAreas: boolean = false;-------------------
+  mostrarBuscarAreas: boolean = false;----------------estas 2 agregue
+  openSlideOver() {
+    this.isSlideOverOpen = true;
+  }
+
+  closeSlideOver() {
+    this.isSlideOverOpen = false;
+  }
+}
