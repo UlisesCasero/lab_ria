@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+
 @Component({
   selector: 'app-listar-tipo-documentos',
   templateUrl: './listar-tipo-documentos.component.html',
@@ -40,4 +41,24 @@ export class ListarTipoDocumentosComponent {
       } 
     );
   }
+
+  eliminarDocumento(Documento : any) {
+    const url = `http://localhost:5000/api/TiposDeDocumentos/${Documento.id}`;
+    const body = {
+      id: Documento.id,
+      activo: false,
+      nombre: Documento.nombre,      
+    };
+    this.http.put<any>(url,body).subscribe(
+      (response) => {       
+        console.log('Documento:', response);   
+        Documento = response;   
+      },
+      (error) => {
+        console.log('Error al obtener el documento:', error);
+        this.error = `Error al obtener el documento`;
+      }
+    );
+  }
+
 }

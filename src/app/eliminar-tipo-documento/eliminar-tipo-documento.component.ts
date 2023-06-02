@@ -30,8 +30,12 @@ export class EliminarTipoDocumentoComponent {
 
   eliminarDocumento(){
     const url = `http://localhost:5000/api/TiposDeDocumentos/${this.documento.id}`;
-
-    this.http.delete<any>(url).subscribe(
+    const body = {
+      id: this.documento.id,
+      activo: false,
+      nombre: this.documento.nombre,      
+    };
+    this.http.put<any>(url,body).subscribe(
       (response) => {       
         console.log('Documento:', response);   
         this.documento = response;   
