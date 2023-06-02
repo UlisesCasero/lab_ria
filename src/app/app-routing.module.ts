@@ -13,6 +13,7 @@ import { ModificarAreasComponent } from './modificar-areas/modificar-areas.compo
 import { ModificarLlamadosEstadosPosiblesComponent } from './modificar-llamados-estados-posibles/modificar-llamados-estados-posibles.component';
 import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.component';
 import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
+import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 
 const routes: Routes = [
   { 
@@ -66,6 +67,10 @@ const routes: Routes = [
   { 
     path: 'eliminar-areas', 
     component: EliminarAreasComponent 
+  },
+  { 
+    path: 'login-iniciar-sesion', 
+    component: LoginIniciarSesionComponent 
   }
 ];
 

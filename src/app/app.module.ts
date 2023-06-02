@@ -20,6 +20,7 @@ import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.componen
 import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
 import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
+import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 
 
 @NgModule({
@@ -39,7 +40,8 @@ import { ListarAreasComponent } from './listar-areas/listar-areas.component';
     EliminarAreasComponent,
     EliminarLlamadosEstadosPosiblesComponent,
     ListarLlamadosEstadosPosiblesComponent,
-    ListarAreasComponent,    
+    ListarAreasComponent,
+    LoginIniciarSesionComponent,    
   ],
   imports: [
     HttpClientModule,
