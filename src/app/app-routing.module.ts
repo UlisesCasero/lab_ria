@@ -14,6 +14,7 @@ import { ModificarLlamadosEstadosPosiblesComponent } from './modificar-llamados-
 import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.component';
 import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
 import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
+import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
 
 const routes: Routes = [
   { 
@@ -71,6 +72,10 @@ const routes: Routes = [
   { 
     path: 'login-iniciar-sesion', 
     component: LoginIniciarSesionComponent 
+  },
+  { 
+    path: 'alta-tipo-de-integrantes', 
+    component: AltaTipoDeIntegrantesComponent 
   }
 ];
 
