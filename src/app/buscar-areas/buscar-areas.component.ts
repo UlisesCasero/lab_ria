@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-buscar-areas',
@@ -9,8 +10,7 @@ import { HttpClient } from '@angular/common/http';
 export class BuscarAreasComponent {
   public area: any;
   public idArea: number = 0;
-  public error: String = '';
-//  public nombre: String = '';
+  public error: String | null = null;
 
   constructor(private http: HttpClient) { }
 
@@ -20,6 +20,7 @@ export class BuscarAreasComponent {
       (response) => {       
         console.log('Area:', response);   
         this.area = response;   
+        this.error = null; // Reiniciar el mensaje de error si se encuentra un área
       },
       (error) => {
         console.log('Error al obtener el area:', error);

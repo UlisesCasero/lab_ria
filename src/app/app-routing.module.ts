@@ -15,6 +15,7 @@ import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.componen
 import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
 import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
+import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
 
 const routes: Routes = [
   { 
@@ -76,6 +77,10 @@ const routes: Routes = [
   { 
     path: 'alta-tipo-de-integrantes', 
     component: AltaTipoDeIntegrantesComponent 
+  },
+  { 
+    path: 'buscar-tipo-de-integrantes', 
+    component: BuscarTipoDeIntegrantesComponent 
   }
 ];
 

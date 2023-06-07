@@ -22,6 +22,7 @@ import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estado
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
+import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
 
 
 @NgModule({
@@ -43,7 +44,8 @@ import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-
     ListarLlamadosEstadosPosiblesComponent,
     ListarAreasComponent,
     LoginIniciarSesionComponent,
-    AltaTipoDeIntegrantesComponent,    
+    AltaTipoDeIntegrantesComponent,
+    BuscarTipoDeIntegrantesComponent,    
   ],
   imports: [
     HttpClientModule,
