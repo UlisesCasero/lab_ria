@@ -15,7 +15,7 @@ export class AltaAreasComponent {
 
   constructor(private http: HttpClient) { }
 
-  altaAreas(nombre: string, activo: boolean) {
+  altaAreas(nombre: string) {
     if (!nombre) {
       Swal.fire({
         icon: 'error',
@@ -30,7 +30,7 @@ export class AltaAreasComponent {
     const url = `http://localhost:5000/api/Areas`;
     const area = {
       nombre: nombre,
-      activo: activo
+      activo: true
     };
 
     this.http.post<any>(url, area).subscribe(

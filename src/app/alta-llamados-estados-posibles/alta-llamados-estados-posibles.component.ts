@@ -30,7 +30,7 @@ public nombre: string = '';
     }
   
     const url = `http://localhost:5000/api/LlamadosEstadosPosibles`;
-    const nom = { nombre: nombre };
+    const nom = { nombre: nombre, activo: true };
     this.http.post<any>(url, nom).subscribe(
       (response) => {
         console.log('LlamadosEstadosPosibles creado:', response);
