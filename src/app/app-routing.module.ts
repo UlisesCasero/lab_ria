@@ -4,7 +4,6 @@ import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tip
 import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
 import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
 import { AltaAreasComponent } from './alta-areas/alta-areas.component';
-import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/eliminar-tipo-documento.component';
 import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
 import { BuscarLlamadosEstadosPosiblesComponent } from './buscar-llamados-estados-posibles/buscar-llamados-estados-posibles.component';
 import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
@@ -13,12 +12,12 @@ import { ModificarAreasComponent } from './modificar-areas/modificar-areas.compo
 import { ModificarLlamadosEstadosPosiblesComponent } from './modificar-llamados-estados-posibles/modificar-llamados-estados-posibles.component';
 import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.component';
 import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
-import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
 import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
 import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 
+import { LoginComponent } from './login/login.component';
 
 const routes: Routes = [
   { 
@@ -32,10 +31,6 @@ const routes: Routes = [
   { 
     path: 'modificar-documento', 
     component: ModificarTipoDocumentoComponent 
-  },
-  { 
-    path: 'eliminar-documento', 
-    component: EliminarTipoDocumentoComponent 
   },
   {
     path: 'alta-areas', 
@@ -74,8 +69,8 @@ const routes: Routes = [
     component: EliminarAreasComponent 
   },
   { 
-    path: 'login-iniciar-sesion', 
-    component: LoginIniciarSesionComponent 
+    path: 'login-sesion', 
+    component: LoginComponent 
   },
   { 
     path: 'alta-tipo-de-integrantes', 

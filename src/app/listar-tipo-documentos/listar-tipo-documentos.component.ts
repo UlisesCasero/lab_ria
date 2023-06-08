@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -11,7 +12,7 @@ export class ListarTipoDocumentosComponent {
   Documentos: any[] = [];
   public error: String = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
     this.obtenerTipoDocumentos();
@@ -61,24 +62,8 @@ export class ListarTipoDocumentosComponent {
     );
   }
 
-  modificarDocumento(Documento : any){
-    const url = `http://localhost:5000/api/TiposDeDocumentos/${Documento.id}`;
-    const body = {
-      id: Documento.id,
-      activo: Documento.activo,
-      nombre: Documento.nombre,      
-    };
-
-    this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Documento:', response);   
-        Documento = response;   
-      },
-      (error) => {
-        console.log('Error al obtener el documento:', error);
-        this.error = `Error al obtener el documento`;
-      }
-    );
+  modificarDocumento(Documento: number) {
+    this.router.navigate(['modificar-documento', Documento]);
   }
 
 }
