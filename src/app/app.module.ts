@@ -8,7 +8,6 @@ import { HttpClientModule } from '@angular/common/http';
 import { AltaTipoDocumentoComponent } from './alta-tipo-documento/alta-tipo-documento.component';
 import { ModificarTipoDocumentoComponent } from './modificar-tipo-documento/modificar-tipo-documento.component';
 import { BuscarTipoDocumentoComponent } from './buscar-tipo-documento/buscar-tipo-documento.component';
-import { EliminarTipoDocumentoComponent } from './eliminar-tipo-documento/eliminar-tipo-documento.component';
 import { BuscarAreasComponent } from './buscar-areas/buscar-areas.component';
 import { AltaAreasComponent } from './alta-areas/alta-areas.component';
 import { AltaLlamadosEstadosPosiblesComponent } from './alta-llamados-estados-posibles/alta-llamados-estados-posibles.component';
@@ -20,9 +19,9 @@ import { EliminarAreasComponent } from './eliminar-areas/eliminar-areas.componen
 import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-estados-posibles/eliminar-llamados-estados-posibles.component';
 import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
-import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
 import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
+import { LoginComponent } from './login/login.component';
 
 
 @NgModule({
@@ -30,8 +29,7 @@ import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/b
     AppComponent,    
     AltaTipoDocumentoComponent,
     ModificarTipoDocumentoComponent,
-    BuscarTipoDocumentoComponent,
-    EliminarTipoDocumentoComponent,        
+    BuscarTipoDocumentoComponent,        
     BuscarAreasComponent,
     AltaAreasComponent,
     AltaLlamadosEstadosPosiblesComponent,
@@ -43,9 +41,9 @@ import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/b
     EliminarLlamadosEstadosPosiblesComponent,
     ListarLlamadosEstadosPosiblesComponent,
     ListarAreasComponent,
-    LoginIniciarSesionComponent,
     AltaTipoDeIntegrantesComponent,
-    BuscarTipoDeIntegrantesComponent,    
+    BuscarTipoDeIntegrantesComponent,
+    LoginComponent,
   ],
   imports: [
     HttpClientModule,
