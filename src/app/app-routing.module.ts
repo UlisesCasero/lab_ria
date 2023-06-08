@@ -16,6 +16,9 @@ import { EliminarLlamadosEstadosPosiblesComponent } from './eliminar-llamados-es
 import { LoginIniciarSesionComponent } from './login-iniciar-sesion/login-iniciar-sesion.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
 import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
+import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
+import { ListarAreasComponent } from './listar-areas/listar-areas.component';
+
 
 const routes: Routes = [
   { 
@@ -81,6 +84,14 @@ const routes: Routes = [
   { 
     path: 'buscar-tipo-de-integrantes', 
     component: BuscarTipoDeIntegrantesComponent 
+  },
+  { 
+    path: 'listar-llamados-estados-posibles', 
+    component: ListarLlamadosEstadosPosiblesComponent 
+  },
+  { 
+    path: 'listar-areas', 
+    component: ListarAreasComponent 
   }
 ];
 
