@@ -18,7 +18,7 @@ export class BuscarTipoDeIntegrantesComponent {
     const url = `http://localhost:5000/api/TiposDeIntegrantes/${this.idIntegrante}`;    
     this.http.get<any>(url).subscribe(
       (response) => {       
-        console.log('Area:', response);   
+        console.log('Integrante:', response);   
         this.integrante = response;   
         this.error = null;
       },
