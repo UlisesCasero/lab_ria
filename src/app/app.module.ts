@@ -22,6 +22,7 @@ import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
 import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
 import { LoginComponent } from './login/login.component';
+import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 
 
 @NgModule({
@@ -44,6 +45,7 @@ import { LoginComponent } from './login/login.component';
     AltaTipoDeIntegrantesComponent,
     BuscarTipoDeIntegrantesComponent,
     LoginComponent,
+    AltaPersonaComponent,
   ],
   imports: [
     HttpClientModule,

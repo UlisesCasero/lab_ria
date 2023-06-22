@@ -18,8 +18,14 @@ import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estado
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 
 import { LoginComponent } from './login/login.component';
+import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
+
 
 const routes: Routes = [
+  {
+    path: 'alta-persona', 
+    component: AltaPersonaComponent 
+  },
   { 
     path: 'buscar-documento', 
     component: BuscarTipoDocumentoComponent 
