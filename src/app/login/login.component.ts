@@ -1,4 +1,7 @@
+import { NgFor } from '@angular/common';
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { NgForm } from '@angular/forms';
 
 @Component({
   selector: 'app-login',
@@ -6,8 +9,51 @@ import { Component } from '@angular/core';
   styleUrls: ['./login.component.scss']
 })
 export class LoginComponent {
-  private username: String = "";
-  private password: number = 0;
+  errorMessage: string = '';
 
-  
+  constructor(private http: HttpClient) { }
+
+  ngOnInit(): void {
+    
+  }
+
+  login(form:NgForm){
+    const username = form.value.username
+    const password = form.value.password
+
+    const requestBody = {
+      username: username,
+      password: password
+    };
+
+    this.http.post<any>('http://localhost:5000/api/Auth/Login', requestBody)
+    .subscribe(
+      response => {
+        // Verificar si el login fue exitoso
+        if (response.statusOk) {
+          // Obtener el token de autenticación
+          const token = response.token;
+
+          
+
+          // Guardar el token en sessionStorage
+          sessionStorage.setItem('token', token);
+
+          console.log("se hizo");
+
+          // Redireccionar al usuario a otra página (por ejemplo, el panel de control)
+          // Aquí puedes usar el enrutamiento de Angular para navegar a otra ruta
+        } else {
+          // Mostrar un mensaje de error al usuario
+          const errorMessage = response.statusMessage;
+          // Por ejemplo, puedes utilizar una variable en el componente para mostrar el mensaje en el template
+          this.errorMessage = errorMessage;
+        }
+      },
+      error => {
+        // Mostrar un mensaje de error genérico al usuario
+        this.errorMessage = 'Ocurrió un error al realizar el inicio de sesión. Por favor, intenta nuevamente.';
+      }
+    );  
+  }
 }
