@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-listar-areas',
@@ -16,12 +18,16 @@ export class ListarAreasComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.obtenerArea();
   }
 
+  altaAreas() {
+    this.router.navigate(['alta-areas']);
+  }
+  
   obtenerArea() {
     const url = 'http://localhost:5000/api/Areas/Paged';
     const Body = {
