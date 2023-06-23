@@ -10,7 +10,13 @@ import { Router } from '@angular/router';
 })
 export class ListarTipoDocumentosComponent {
   Documentos: any[] = [];
+  DocumentoData: any[] = []; 
+  DocumentoPaginated: any[] = [];
   public error: String = '';
+
+  currentPage: number = 1;
+  itemsPerPage: number = 5;
+  totalItems: number = 0;
 
   constructor(private http: HttpClient, private router: Router) {}
 
@@ -35,6 +41,8 @@ export class ListarTipoDocumentosComponent {
       (response) => {       
         console.log('Documentos:', response);   
         this.Documentos = response.list;   
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
       },
       (error) => {
         console.log('Error al obtener los documents');
@@ -66,4 +74,32 @@ export class ListarTipoDocumentosComponent {
     this.router.navigate(['modificar-documento', Documento]);
   }
 
+  irPaginaAnterior() {
+    if (this.currentPage > 1) {
+      this.currentPage--;
+      this.actualizarDatosPaginados();
+    }
+  }
+
+  irPaginaSiguiente() {
+    const totalPages = Math.ceil(this.totalItems / this.itemsPerPage);
+    if (this.currentPage < totalPages) {
+      this.currentPage++;
+      this.actualizarDatosPaginados();
+    }
+  }
+
+  actualizarDatosPaginados() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.DocumentoPaginated = this.DocumentoData.slice(startIndex, endIndex);
+  }
+
+  getTotalItems(): number {
+    return this.DocumentoData.length;
+  }
+
+  getTotalPages(): number {
+    return Math.ceil(this.getTotalItems() / this.itemsPerPage);
+  }
 }
