@@ -24,6 +24,7 @@ import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/b
 import { LoginComponent } from './login/login.component';
 import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
+import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/listar-tipo-de-integrantes.component';
 
 
 @NgModule({
@@ -47,6 +48,7 @@ import { AuthInterceptorService } from './auth-interceptor.service';
     BuscarTipoDeIntegrantesComponent,
     LoginComponent,
     AltaPersonaComponent,
+    ListarTipoDeIntegrantesComponent,
   ],
   imports: [
     HttpClientModule,

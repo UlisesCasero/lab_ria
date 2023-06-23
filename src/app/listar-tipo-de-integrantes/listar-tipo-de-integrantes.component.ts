@@ -2,16 +2,15 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 
-
 @Component({
-  selector: 'app-listar-tipo-documentos',
-  templateUrl: './listar-tipo-documentos.component.html',
-  styleUrls: ['./listar-tipo-documentos.component.scss']
+  selector: 'app-listar-tipo-de-integrantes',
+  templateUrl: './listar-tipo-de-integrantes.component.html',
+  styleUrls: ['./listar-tipo-de-integrantes.component.scss']
 })
-export class ListarTipoDocumentosComponent {
-  Documentos: any[] = [];
-  DocumentoData: any[] = []; 
-  DocumentoPaginated: any[] = [];
+export class ListarTipoDeIntegrantesComponent {
+  Integrantes: any[] = [];
+  IntegrantesData: any[] = []; 
+  IntegrantesPaginated: any[] = [];
   public error: String = '';
 
   currentPage: number = 1;
@@ -21,11 +20,11 @@ export class ListarTipoDocumentosComponent {
   constructor(private http: HttpClient, private router: Router) {}
 
   ngOnInit() {
-    this.obtenerTipoDocumentos();
+    this.obtenerTipoIntegrantes();
   }
 
-  obtenerTipoDocumentos() {
-    const url = 'http://localhost:5000/api/TiposDeDocumentos/Paged';
+  obtenerTipoIntegrantes() {
+    const url = 'http://localhost:5000/api/TiposDeIntegrantes/Paged';
     const Body = {
       limit: -1,
       offset: 0,
@@ -39,39 +38,39 @@ export class ListarTipoDocumentosComponent {
 
     this.http.post<any>(url, Body).subscribe(
       (response) => {       
-        console.log('Documentos:', response);   
-        this.Documentos = response.list;   
+        console.log('Integrantes:', response);   
+        this.Integrantes = response.list;   
         this.totalItems = response.totalCount;
         this.actualizarDatosPaginados();
       },
       (error) => {
-        console.log('Error al obtener los documents');
-        this.error = `Error al obtener los documents`;
+        console.log('Error al obtener los integrantes');
+        this.error = `Error al obtener los integrantes`;
       } 
     );
   }
 
-  eliminarDocumento(Documento : any) {
-    const url = `http://localhost:5000/api/TiposDeDocumentos/${Documento.id}`;
+  eliminarIntegrantes(Integrantes : any) {
+    const url = `http://localhost:5000/api/TiposDeIntegrantes/${Integrantes.id}`;
     const body = {
-      id: Documento.id,
+      id: Integrantes.id,
       activo: false,
-      nombre: Documento.nombre,      
+      nombre: Integrantes.nombre,      
     };
     this.http.put<any>(url,body).subscribe(
       (response) => {       
-        console.log('Documento:', response);   
-        Documento = response;   
+        console.log('Integrantes:', response);   
+        Integrantes = response;   
       },
       (error) => {
-        console.log('Error al obtener el documento:', error);
-        this.error = `Error al obtener el documento`;
+        console.log('Error al obtener el integrante:', error);
+        this.error = `Error al obtener el integrante`;
       }
     );
   }
 
-  modificarDocumento(Documento: number) {
-    this.router.navigate(['modificar-documento', Documento]);
+  modificarIntegrantes(Integrantes: number) {
+    this.router.navigate(['modificar-integrante', Integrantes]);
   }
 
   irPaginaAnterior() {
@@ -92,11 +91,11 @@ export class ListarTipoDocumentosComponent {
   actualizarDatosPaginados() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.DocumentoPaginated = this.Documentos.slice(startIndex, endIndex);
+    this.IntegrantesPaginated = this.Integrantes.slice(startIndex, endIndex);
   }
 
   getTotalItems(): number {
-    return this.Documentos.length;
+    return this.Integrantes.length;
   }
 
   getTotalPages(): number {

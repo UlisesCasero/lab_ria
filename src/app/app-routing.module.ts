@@ -16,6 +16,8 @@ import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-
 import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
 import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
+import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/listar-tipo-de-integrantes.component';
+
 
 import { LoginComponent } from './login/login.component';
 import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
@@ -93,6 +95,10 @@ const routes: Routes = [
   { 
     path: 'listar-areas', 
     component: ListarAreasComponent 
+  },
+  { 
+    path: 'listar-tipo-de-integrantes', 
+    component: ListarTipoDeIntegrantesComponent 
   }
 ];
 
