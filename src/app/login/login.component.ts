@@ -1,4 +1,3 @@
-import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
@@ -10,6 +9,8 @@ import { NgForm } from '@angular/forms';
 })
 export class LoginComponent {
   errorMessage: string = '';
+  username: string = "";
+  password: string = "";
 
   constructor(private http: HttpClient) { }
 
@@ -17,16 +18,14 @@ export class LoginComponent {
     
   }
 
-  login(form:NgForm){
-    const username = form.value.username
-    const password = form.value.password
-
+  login(username: string, password: string){
     const requestBody = {
       username: username,
       password: password
     };
+    const url = `http://localhost:5000/api/Auth/Login`;
 
-    this.http.post<any>('http://localhost:5000/api/Auth/Login', requestBody)
+    this.http.post<any>(url, requestBody)
     .subscribe(
       response => {
         // Verificar si el login fue exitoso
@@ -39,7 +38,7 @@ export class LoginComponent {
           // Guardar el token en sessionStorage
           sessionStorage.setItem('token', token);
 
-          console.log("se hizo");
+          console.log(token);
 
           // Redireccionar al usuario a otra página (por ejemplo, el panel de control)
           // Aquí puedes usar el enrutamiento de Angular para navegar a otra ruta
