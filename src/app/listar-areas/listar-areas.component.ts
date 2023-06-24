@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-areas',
@@ -65,7 +66,15 @@ export class ListarAreasComponent {
     this.http.put<any>(url, body).subscribe(
       (response) => {       
         console.log('Área:', response);   
-        area = response;   
+        area = response; 
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El área se elimino correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });  
+        this.obtenerArea();
       },
       (error) => {
         console.log('Error al eliminar el área:', error);
@@ -85,7 +94,8 @@ export class ListarAreasComponent {
     this.http.put<any>(url, body).subscribe(
       (response) => {       
         console.log('Área:', response);   
-        area = response;   
+        area = response;
+        this.router.navigate(['modificar-area', area.id]); 
       },
       (error) => {
         console.log('Error al modificar el área:', error);

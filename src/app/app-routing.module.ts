@@ -65,9 +65,10 @@ const routes: Routes = [
     component: ListarTipoDocumentosComponent 
   },
   { 
-    path: 'modificar-areas', 
+    path: 'modificar-area/:id', 
     component: ModificarAreasComponent 
   },
+  
   { 
     path: 'modificar-llamados-estados-posibles', 
     component: ModificarLlamadosEstadosPosiblesComponent 

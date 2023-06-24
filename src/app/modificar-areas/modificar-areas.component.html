@@ -1,47 +1,37 @@
-<div class="flex min-h-full flex-col justify-center px-6 py-12 lg:px-6">
-    <div class="border-b border-gray-900/10 pb-6">
-      <h2 class="text-base font-semibold leading-7 text-gray-900">Buscar area a modificar</h2>
-      <form (ngSubmit)="buscarArea()" #buscarAreaForm="ngForm">  
-        <div class="mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
-          <div class="sm:col-span-4">
-            <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Id Area:</label>
-            <div class="mt-2">
-              <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">          
-                <input type="number" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="id" name="id" [(ngModel)]="idArea" required>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="mt-6 flex items-center justify-end gap-x-6">
-          <button class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" type="submit">Buscar</button>
-        </div>
-      </form>
-    </div>
-  </div>
-  
-  <div *ngIf="area">
-    <h3>Area:</h3>
+<div class="flex justify-center items-center h-screen bg-blue-900">
+  <div class="w-1/3 bg-gray-100 shadow-lg rounded-lg p-6">
+    <div *ngIf="area">
+      <h3>Área: {{ area.nombre }}</h3>
       <p>ID: {{ area.id }}</p>
       <div class="form-check form-switch">
-          <input class="form-check-input switch-lg" type="checkbox" [(ngModel)]="area.activo" name="activo" id="activoSwitch">
-          <label class="form-check-label switch-label" for="activoSwitch" [ngClass]="{'text-success': area.activo, 'text-danger': !area.activo}">
-            {{ area.activo ? 'Activo' : 'Inactivo' }}
-          </label>
+        <input class="form-check-input switch-lg" type="checkbox" [(ngModel)]="area.activo" name="activo"
+          id="activoSwitch">
+        <label class="form-check-label switch-label" for="activoSwitch"
+          [ngClass]="{'text-success': area.activo, 'text-danger': !area.activo}">
+          {{ area.activo ? 'Activo' : 'Inactivo' }}
+        </label>
       </div>
       <div class="sm:col-span-4">
-        <label for="username" class="block text-sm font-medium leading-6 text-gray-900">Nombre:</label>
+        <label for="nombre" class="block text-sm font-medium leading-6 text-gray-900">Nombre:</label>
         <div class="mt-2">
-          <div class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">          
-            <input type="text" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6" id="nombre" name="nombre" [(ngModel)]="area.nombre" required>
+          <div
+            class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+            <input type="text"
+              class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6"
+              id="nombre" name="nombre" [(ngModel)]="area.nombre" required>
           </div>
         </div>
       </div>
-  
       <div class="mt-6 flex items-center justify-end gap-x-6">
-        <input type="number" class="hidden" [(ngModel)]="idArea" name="idArea">
-        <button class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600" (click)="modificarArea()">Modificar</button>      
-      </div>
+        <input type="number" class="hidden" [(ngModel)]="area.id" name="idArea">
+        <button
+          class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+          (click)="modificarArea()">Modificar</button>
+          <button
+          class="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+          (click)="cancelar()">Cancelar</button>        
       <div class="mt-4" *ngIf="error" class="alert alert-danger">
         <p>Error: {{ error }}</p>
       </div>
+    </div>
   </div>
