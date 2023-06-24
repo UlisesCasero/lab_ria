@@ -17,16 +17,19 @@ import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/b
 import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estados-posibles/listar-llamados-estados-posibles.component';
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/listar-tipo-de-integrantes.component';
-
-
 import { LoginComponent } from './login/login.component';
 import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
+import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
 
 
 const routes: Routes = [
   {
     path: 'alta-persona', 
     component: AltaPersonaComponent 
+  },
+  {
+    path: 'alta-llamado', 
+    component: AltaLlamadosComponent 
   },
   { 
     path: 'buscar-documento', 
