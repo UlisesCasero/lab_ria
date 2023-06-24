@@ -21,6 +21,7 @@ import { LoginComponent } from './login/login.component';
 import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
 import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
+import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
 
 
 const routes: Routes = [
@@ -68,7 +69,6 @@ const routes: Routes = [
     path: 'modificar-area/:id', 
     component: ModificarAreasComponent 
   },
-  
   { 
     path: 'modificar-llamados-estados-posibles', 
     component: ModificarLlamadosEstadosPosiblesComponent 
@@ -108,7 +108,11 @@ const routes: Routes = [
   { 
     path: 'listar-llamados', 
     component: ListarLlamadosComponent 
-  }
+  },
+  { 
+    path: 'modificar-llamado/:id', 
+    component: ModificarLlamadoComponent 
+  },
 ];
 
 @NgModule({

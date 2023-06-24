@@ -87,19 +87,30 @@ export class ListarLlamadosComponent {
   modificarLlamado(llamado: any) {
     const url = `http://localhost:5000/api/Llamados/${llamado.id}`;
     const body = {
-      id: llamado.id,
-      activo: llamado.activo,
-      nombre: llamado.nombre,      
+      "id": llamado.id,
+      "activo": llamado.activo,
+      "identificador": llamado.identificador,
+      "nombre": llamado.nombre,
+      "linkPlanillaPuntajes": llamado.linkPlanillaPuntajes,
+      "linkActa": llamado.linkActa,
+      "minutosEntrevista": llamado.minutosEntrevista,
+      "areaId": llamado.areaId,
+      "area": {
+        "id": llamado.area.id,
+        "activo": llamado.area.activo,
+        "nombre": llamado.area.nombre
+      }
     };
 
     this.http.put<any>(url, body).subscribe(
       (response) => {       
-        console.log('Área:', response);   
-        llamado = response;   
+        console.log('Llamado:', response);   
+        llamado = response;
+        this.router.navigate(['modificar-llamado', llamado.id]); 
       },
       (error) => {
-        console.log('Error al modificar el área:', error);
-        this.error = `Error al modificar el área`;
+        console.log('Error al modificar el Llamado:', error);
+        this.error = `Error al modificar el Llamado`;
       }
     );
   }
