@@ -87,7 +87,7 @@ export class ModificarLlamadoComponent {
     const body = {
       activoLlamado: this.llamado.activo,
       identificador: this.llamado.identificador,
-      nombreLlamado: this.llamado.nombre,
+      nombreLlamado: this.llamado.nombreLlamado,
       linkPlanillaPuntajes: this.llamado.linkPLanillaPuntajes,
       linkActa: this.llamado.linkActa,
       minutosEntrevista: this.llamado.minutosEntrevista,
