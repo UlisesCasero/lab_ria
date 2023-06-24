@@ -90,35 +90,10 @@ export class ModificarLlamadoComponent {
             "nombre": "string"
         }       
       };
-      console.log(
-        body.activo,
-        body.identificador,
-        body.nombre,        
-        body.linkPlanillaPuntajes,
-        body.linkActa,
-        body.minutosEntrevista,
-        body.areaId,
-        body.area.id,
-        body.area.activo,
-        body.area.nombre
-      );
       const url = `http://localhost:5000/api/Llamados/${this.llamado.id}`;
       this.buscarArea(this.llamado.areaId).subscribe(
         (areaRespuesta) => {
           body.area = areaRespuesta; // Asigna el resultado de buscarArea al campo 'area' en requestBody
-          
-          console.log(
-            body.activo,
-            body.identificador,
-            body.nombre,        
-            body.linkPlanillaPuntajes,
-            body.linkActa,
-            body.minutosEntrevista,
-            body.areaId,
-            body.area.id,
-            body.area.activo,
-            body.area.nombre
-          );
 
           this.http.put<any>(url, body).subscribe(
             response => {
