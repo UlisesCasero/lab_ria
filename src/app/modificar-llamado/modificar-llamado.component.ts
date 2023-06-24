@@ -13,19 +13,10 @@ import { NgForm } from '@angular/forms';
 export class ModificarLlamadoComponent {
   public llamado: any;
   public areas: any[] = [];
-  public area: any = [];
   public error: String = '';
+  public area: any = [];
 
-  public activoLlamado: boolean = true;
-  public identificador: string = "";
-  public nombreLlamado: string = "";
-  public linkPlanillaPuntajes: string = "";
-  public linkActa: string = "";
-  public minutosEntrevista: number = 0;
-  public areaId: number = 0;
-  public idArea: number = 0;
-  public activoArea: boolean = true;
-  public nombreArea: string = "";
+  
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location) { }
 
@@ -38,7 +29,7 @@ export class ModificarLlamadoComponent {
   }
 
   obtenerAreas() {
-    const url = 'http://localhost:5000/api/Areas/Paged';
+    const url = `http://localhost:5000/api/Areas/Paged`;
     const Body = {
       limit: -1,
       offset: 0,
@@ -62,7 +53,7 @@ export class ModificarLlamadoComponent {
   }
 
   buscarArea(area: number) {
-    const url = 'http://localhost:5000/api/Areas/' + area;
+    const url = `http://localhost:5000/api/Areas/${area}`;
 
     return this.http.get<any>(url);
   }
@@ -83,43 +74,69 @@ export class ModificarLlamadoComponent {
 
 
   modificarLlamado(){
-    const url = `http://localhost:5000/api/Llamados/${this.llamado.id}`;
-    const body = {
-      activoLlamado: this.llamado.activo,
-      identificador: this.llamado.identificador,
-      nombreLlamado: this.llamado.nombreLlamado,
-      linkPlanillaPuntajes: this.llamado.linkPLanillaPuntajes,
-      linkActa: this.llamado.linkActa,
-      minutosEntrevista: this.llamado.minutosEntrevista,
-      areaId: this.llamado.areaId,
-      area: {
-        idArea: this.llamado.area.id,
-        activoArea: this.llamado.area.activo,
-        nombreArea: this.llamado.area.nombre
-      }
-    };
+    console.log(this.llamado.id);     
+      const body = {
+        "id": this.llamado.id,
+        "activo": true,
+        "identificador": this.llamado.identificador,
+        "nombre": this.llamado.nombre,
+        "linkPlanillaPuntajes": this.llamado.linkPlanillaPuntajes,
+        "linkActa": this.llamado.linkActa,
+        "minutosEntrevista": this.llamado.minutosEntrevista,
+        "areaId": this.llamado.areaId,
+        "area": {
+          "id": 0,
+            "activo": true,
+            "nombre": "string"
+        }       
+      };
+      console.log(
+        body.activo,
+        body.identificador,
+        body.nombre,        
+        body.linkPlanillaPuntajes,
+        body.linkActa,
+        body.minutosEntrevista,
+        body.areaId,
+        body.area.id,
+        body.area.activo,
+        body.area.nombre
+      );
+      const url = `http://localhost:5000/api/Llamados/${this.llamado.id}`;
+      this.buscarArea(this.llamado.areaId).subscribe(
+        (areaRespuesta) => {
+          body.area = areaRespuesta; // Asigna el resultado de buscarArea al campo 'area' en requestBody
+          
+          console.log(
+            body.activo,
+            body.identificador,
+            body.nombre,        
+            body.linkPlanillaPuntajes,
+            body.linkActa,
+            body.minutosEntrevista,
+            body.areaId,
+            body.area.id,
+            body.area.activo,
+            body.area.nombre
+          );
 
-    this.buscarArea(this.area.value.idArea).subscribe(
-      (areaRespuesta) => {
-        body.area = areaRespuesta; // Asigna el resultado de buscarArea al campo 'area' en requestBody
-
-        this.http.post<any>(url, body).subscribe(
-          response => {
-            if (response.statusOk) {
-              console.log('Lo logró');
-            } else {
-              console.log('No lo logró');
+          this.http.put<any>(url, body).subscribe(
+            response => {
+              if (response.statusOk) {
+                console.log('Lo logró');
+              } else {
+                console.log('No lo logró');
+              }
+            },
+            error => {
+              console.log('Hubo un error');
             }
-          },
-          error => {
-            console.log('Hubo un error');
-          }
-        );
-      },
-      (error) => {
-        console.log('Error al obtener el área:', error);
-      }
-    );
+          );
+        },
+        (error) => {
+          console.log('Error al obtener el área:', error);
+        }
+      );
   }
   
   cancelar() {

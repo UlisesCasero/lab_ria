@@ -16,7 +16,7 @@
   
           <div class="mb-4 mt-4">
                   <label for="linkPLanillaPuntajes" class="block mb-2 text-sm font-medium text-gray-700">Enlace para planilla de puntajes:</label>
-                  <input type="text" id="linkPLanillaPuntajes" name="linkPLanillaPuntajes" [(ngModel)]="llamado.linkPLanillaPuntajes" required
+                  <input type="text" id="linkPLanillaPuntajes" name="linkPLanillaPuntajes" [(ngModel)]="llamado.linkPlanillaPuntajes" required
                   class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
   
@@ -31,7 +31,7 @@
                   <input type="numeric" id="minutosEntrevista" name="minutosEntrevista" [(ngModel)]="llamado.minutosEntrevistaminutosEntrevista" required
                   class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
           </div>
-
+ 
           <div class="mb-4">
             <label for="tipoDocumentoId" class="block mb-2 text-sm font-medium text-gray-700">Area:</label>
             <select id="idArea" name="idArea" [(ngModel)]="llamado.areaId" required
@@ -42,7 +42,7 @@
 					</div>
   
           <button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg">Registrar Llamado</button>
-          </form>
+        </form>
       </div>
   </div>
     

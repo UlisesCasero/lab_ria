@@ -1,52 +1,57 @@
 <div class="flex justify-center items-center h-screen bg-blue-900">
 	<div class="w-1/3 bg-gray-100 shadow-lg rounded-lg p-6">
+		<div *ngIf="llamado">
+			<form #form="ngForm" (submit)="modificarLlamado()" class="max-w-md mx-auto">
+				<div class="sm:col-span-4">
+					<div class="mt-2">
+						<label for="nombre" class="block text-sm font-medium leading-6 text-gray-900">Nombre Llamado:</label>
+						<div
+							class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+							<input type="text" required id="nombre" name="nombre" [(ngModel)]="llamado.nombre" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 floating-placeholder">
+						</div>
+					</div>
 
-		<div class="mb-4 mt-4">
-			<label for="nombre" class="block mb-2 text-sm font-medium text-gray-700">Nombre Llamado:</label>
-			<input type="text" id="nombre" name="nombre" [(ngModel)]="llamado.nombreLlamado" required
-				class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-		</div>
+					<div class="mt-2">
+						<label for="linkPlanillaPuntajes" class="block text-sm font-medium leading-6 text-gray-900">Enlace Planilla Puntajes:</label>
+						<div
+							class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+							<input type="text" required id="linkPlanillaPuntajes" name="linkPlanillaPuntajes" [(ngModel)]="llamado.linkPlanillaPuntajes" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 floating-placeholder">
+						</div>
+					</div>
+					
+					<div class="mt-2">
+						<label for="linkActa" class="block text-sm font-medium leading-6 text-gray-900">linkActa:</label>
+						<div
+							class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+							<input type="text" required id="linkActa" name="linkActa" [(ngModel)]="llamado.linkActa" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 floating-placeholder">
+						</div>
+					</div>
 
-		<div class="mb-4 mt-4">
-			<label for="linkPLanillaPuntajes" class="block mb-2 text-sm font-medium text-gray-700">Enlace para planilla de
-				puntajes:</label>
-			<input type="text" id="linkPLanillaPuntajes" name="linkPLanillaPuntajes"
-				[(ngModel)]="llamado.linkPLanillaPuntajes" required
-				class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-		</div>
+					<div class="mt-2">
+						<label for="minutosEntrevista" class="block text-sm font-medium leading-6 text-gray-900">Duracion entrevista (minutos):</label>
+						<div
+							class="flex rounded-md shadow-sm ring-1 ring-inset ring-gray-300 focus-within:ring-2 focus-within:ring-inset focus-within:ring-indigo-600 sm:max-w-md">
+							<input type="text" required id="minutosEntrevista" name="minutosEntrevista" [(ngModel)]="llamado.minutosEntrevista" class="block flex-1 border-0 bg-transparent py-1.5 pl-1 text-gray-900 placeholder:text-gray-400 focus:ring-0 sm:text-sm sm:leading-6 floating-placeholder">
+						</div>
+					</div>
 
-		<div class="mb-4">
-			<label for="linkActa" class="block mb-2 text-sm font-medium text-gray-700">Enlace para Acta:</label>
-			<input type="text" id="linkActa" name="linkActa" [(ngModel)]="llamado.linkActa"
-				class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-		</div>
+					<div class="mb-4">
+						<label for="areaId" class="block mb-2 text-sm font-medium text-gray-700">Area:</label>
+						<select id="idArea" name="idArea" [(ngModel)]="llamado.area.id" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+							<option value="" disabled selected>{{llamado.area.nombre}}</option>
+							<option *ngFor="let area of areas" [value]="area.id">{{ area.nombre }}</option>
+						</select>
+					</div>
 
-		<div class="mb-4">
-			<label for="minutosEntrevista" class="block mb-2 text-sm font-medium text-gray-700">Duracion entrevista
-				(minutos):</label>
-			<input type="numeric" id="minutosEntrevista" name="minutosEntrevista"
-				[(ngModel)]="llamado.minutosEntrevistaminutosEntrevista" required
-				class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-		</div>
-
-		<div class="mb-4">
-			<label for="tipoDocumentoId" class="block mb-2 text-sm font-medium text-gray-700">Area:</label>
-			<select id="idArea" name="idArea" [(ngModel)]="llamado.areaId" required
-				class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-				<option value="" disabled selected>Seleccionar</option>
-				<option *ngFor="let area of areas" [value]="area.id">{{ area.nombre }}</option>
-			</select>
-		</div>
-
-		<div class="mt-6 flex items-center justify-end gap-x-6">
-			<input type="number" class="hidden" [(ngModel)]="llamado.id" name="idLlamado">
-			<button
-				class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-				(click)="modificarLlamado()">Modificar</button>
-				<button
-				class="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
-				(click)="cancelar()">Cancelar</button>        
-		<div class="mt-4" *ngIf="error" class="alert alert-danger">
-			<p>Error: {{ error }}</p>
+					<div class="mt-6 flex items-center justify-end gap-x-6">
+						<input type="number" class="hidden" [(ngModel)]="llamado.areaId" name="idLlamado">
+						<button type="submit" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg">Registrar Llamado</button>
+							<button
+							class="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400"
+							(click)="cancelar()">Cancelar</button>
+					</div>
+				</div>	
+			</form>
+			<div class="mt-4" *ngIf="error" class="alert alert-danger"></div>
 	</div>
 </div>
