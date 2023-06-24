@@ -28,6 +28,8 @@ import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/l
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
 import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
 import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
+import { EliminarLlamadoComponent } from './eliminar-llamado/eliminar-llamado.component';
+import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
 
 
 @NgModule({
@@ -54,6 +56,8 @@ import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integra
     ListarTipoDeIntegrantesComponent,
     AltaLlamadosComponent,
     ListarLlamadosComponent,
+    ModificarLlamadoComponent,
+    EliminarLlamadoComponent,
     ModificarTipoDeIntegrantesComponent,
   ],
   imports: [
