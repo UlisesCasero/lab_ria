@@ -56,6 +56,9 @@ import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado
     ListarTipoDeIntegrantesComponent,
     AltaLlamadosComponent,
     ListarLlamadosComponent,
+    ModificarLlamadoComponent,
+    EliminarLlamadoComponent,
+    ModificarTipoDeIntegrantesComponent,
   ],
   imports: [
     HttpClientModule,
