@@ -53,4 +53,9 @@ export class AltaAreasComponent {
     );
   }
   
+  cancelar() {
+    this.location.back();
+  }
+  
+  
 }
