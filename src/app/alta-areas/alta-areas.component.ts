@@ -25,7 +25,7 @@ export class AltaAreasComponent {
         timer: 2000,
         timerProgressBar: true
       });
-      return; // Detener la ejecución si no se proporciona un nombre
+      return; 
     }
   
     const url = `http://localhost:5000/api/Areas`;
@@ -52,7 +52,7 @@ export class AltaAreasComponent {
       }
     );
   }
-  
+
   cancelar() {
     this.location.back();
   }
