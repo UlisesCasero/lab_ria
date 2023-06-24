@@ -1,5 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-llamados-estados-posibles',
@@ -16,10 +19,14 @@ export class ListarLlamadosEstadosPosiblesComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.obtenerLlamadosEstadosPosibles();
+  }
+
+  altaLlamados() {
+    this.router.navigate(['alta-llamados-estados-posibles']);
   }
 
   obtenerLlamadosEstadosPosibles() {
@@ -61,6 +68,14 @@ export class ListarLlamadosEstadosPosiblesComponent {
       (response) => {       
         console.log('Llamados:', response);   
         Llamados = response;   
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El llamado se elimino correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });  
+        this.obtenerLlamadosEstadosPosibles();
       },
       (error) => {
         console.log('Error al obtener el llamado:', error);
@@ -79,8 +94,9 @@ export class ListarLlamadosEstadosPosiblesComponent {
 
     this.http.put<any>(url, body).subscribe(
       (response) => {       
-        console.log('Documento:', response);   
-        this.Llamados = response;   
+        console.log('Llamado:', response);   
+        Llamados = response;   
+        this.router.navigate(['modificar-llamados-estados-posibles', Llamados.id]); 
       },
       (error) => {
         console.log('Error al obtener el llamado:', error);

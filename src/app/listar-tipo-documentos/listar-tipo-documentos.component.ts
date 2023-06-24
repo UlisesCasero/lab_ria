@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-
+import { Location } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-listar-tipo-documentos',
@@ -18,10 +19,14 @@ export class ListarTipoDocumentosComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
   ngOnInit() {
     this.obtenerTipoDocumentos();
+  }
+
+  altaDocumento() {
+    this.router.navigate(['alta-documento']);
   }
 
   obtenerTipoDocumentos() {
@@ -62,6 +67,14 @@ export class ListarTipoDocumentosComponent {
       (response) => {       
         console.log('Documento:', response);   
         Documento = response;   
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El documento se elimino correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });  
+        this.obtenerTipoDocumentos();
       },
       (error) => {
         console.log('Error al obtener el documento:', error);
@@ -70,8 +83,25 @@ export class ListarTipoDocumentosComponent {
     );
   }
 
-  modificarDocumento(Documento: number) {
-    this.router.navigate(['modificar-documento', Documento]);
+  modificarDocumento(Documento: any) {
+    const url = `http://localhost:5000/api/TiposDeDocumentos/${Documento.id}`;
+    const body = {
+      id: Documento.id,
+      activo: Documento.activo,
+      nombre: Documento.nombre,      
+    };
+
+    this.http.put<any>(url, body).subscribe(
+      (response) => {       
+        console.log('Documento:', response);   
+        Documento = response;
+        this.router.navigate(['modificar-documento', Documento.id]); 
+      },
+      (error) => {
+        console.log('Error al modificar el documento:', error);
+        this.error = `Error al modificar el documento`;
+      }
+    );
   }
 
   irPaginaAnterior() {

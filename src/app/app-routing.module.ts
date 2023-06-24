@@ -22,6 +22,7 @@ import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
 import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
 import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
+import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
 
 
 const routes: Routes = [
@@ -42,8 +43,12 @@ const routes: Routes = [
     component: AltaTipoDocumentoComponent 
   },
   { 
-    path: 'modificar-documento', 
+    path: 'modificar-documento/:id', 
     component: ModificarTipoDocumentoComponent 
+  },
+  { 
+    path: 'modificar-tipo-de-integrantes/:id', 
+    component: ModificarTipoDeIntegrantesComponent 
   },
   {
     path: 'alta-areas', 
@@ -70,7 +75,7 @@ const routes: Routes = [
     component: ModificarAreasComponent 
   },
   { 
-    path: 'modificar-llamados-estados-posibles', 
+    path: 'modificar-llamados-estados-posibles/:id', 
     component: ModificarLlamadosEstadosPosiblesComponent 
   },
   { 

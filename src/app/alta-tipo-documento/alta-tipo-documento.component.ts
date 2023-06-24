@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-alta-tipo-documento',
@@ -13,7 +14,7 @@ export class AltaTipoDocumentoComponent {
   public activo: boolean = true;
   public error: String = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private location: Location) { }
 
   altaTipoDocumento(nombre: String){
 
@@ -45,5 +46,9 @@ export class AltaTipoDocumentoComponent {
         this.error = 'Error al crear el tipo de documento';
       }
     );
+  }
+
+    cancelar() {
+    this.location.back();
   }
 }
