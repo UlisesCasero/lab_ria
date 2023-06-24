@@ -20,6 +20,7 @@ import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/l
 import { LoginComponent } from './login/login.component';
 import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
+import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
 
 
 const routes: Routes = [
@@ -103,6 +104,10 @@ const routes: Routes = [
   { 
     path: 'listar-tipo-de-integrantes', 
     component: ListarTipoDeIntegrantesComponent 
+  },
+  { 
+    path: 'listar-llamados', 
+    component: ListarLlamadosComponent 
   }
 ];
 

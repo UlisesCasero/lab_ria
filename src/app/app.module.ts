@@ -26,6 +26,7 @@ import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
 import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/listar-tipo-de-integrantes.component';
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
+import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
 
 
 @NgModule({
@@ -51,6 +52,7 @@ import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
     AltaPersonaComponent,
     ListarTipoDeIntegrantesComponent,
     AltaLlamadosComponent,
+    ListarLlamadosComponent,
   ],
   imports: [
     HttpClientModule,
