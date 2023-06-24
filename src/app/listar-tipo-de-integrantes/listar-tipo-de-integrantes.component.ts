@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-listar-tipo-de-integrantes',
@@ -17,10 +20,14 @@ export class ListarTipoDeIntegrantesComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
 
-  constructor(private http: HttpClient, private router: Router) {}
+  constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
   ngOnInit() {
     this.obtenerTipoIntegrantes();
+  }
+
+  altaIntegrantes() {
+    this.router.navigate(['alta-tipo-de-integrantes']);
   }
 
   obtenerTipoIntegrantes() {
@@ -61,6 +68,15 @@ export class ListarTipoDeIntegrantesComponent {
       (response) => {       
         console.log('Integrantes:', response);   
         Integrantes = response;   
+        Integrantes = response;   
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El documento se elimino correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });  
+        this.obtenerTipoIntegrantes();
       },
       (error) => {
         console.log('Error al obtener el integrante:', error);
@@ -69,8 +85,25 @@ export class ListarTipoDeIntegrantesComponent {
     );
   }
 
-  modificarIntegrantes(Integrantes: number) {
-    this.router.navigate(['modificar-integrante', Integrantes]);
+  modificarIntegrantes(Integrantes: any) {
+    const url = `http://localhost:5000/api/TiposDeIntegrantes/${Integrantes.id}`;
+    const body = {
+      id: Integrantes.id,
+      activo: Integrantes.activo,
+      nombre: Integrantes.nombre,      
+    };
+
+    this.http.put<any>(url, body).subscribe(
+      (response) => {       
+        console.log('Integrante:', response);   
+        Integrantes = response;
+        this.router.navigate(['modificar-tipo-de-integrantes', Integrantes.id]); 
+      },
+      (error) => {
+        console.log('Error al modificar el integrante:', error);
+        this.error = `Error al modificar el integrante`;
+      }
+    );
   }
 
   irPaginaAnterior() {

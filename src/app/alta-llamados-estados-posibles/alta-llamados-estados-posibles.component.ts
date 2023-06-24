@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import Swal from 'sweetalert2';
+import { Location } from '@angular/common';
 
 @Component({
   selector: 'app-alta-llamados-estados-posibles',
@@ -13,7 +14,7 @@ public nombre: string = '';
   public activo: boolean = true;
   public error: String = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private location: Location) { }
 
   altaLlamadosEstadosPosibles(nombre: string) {
   
@@ -26,7 +27,7 @@ public nombre: string = '';
         timer: 2000,
         timerProgressBar: true
       });
-      return; // Salir de la función si el nombre está vacío
+      return; 
     }
   
     const url = `http://localhost:5000/api/LlamadosEstadosPosibles`;
@@ -55,4 +56,9 @@ public nombre: string = '';
       }
     );
   }
+
+  cancelar() {
+    this.location.back();
+  }
+  
 }
