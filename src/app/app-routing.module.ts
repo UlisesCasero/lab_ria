@@ -40,7 +40,7 @@ const routes: Routes = [
     component: AltaTipoDocumentoComponent 
   },
   { 
-    path: 'modificar-documento', 
+    path: 'modificar-documento/:id', 
     component: ModificarTipoDocumentoComponent 
   },
   {
