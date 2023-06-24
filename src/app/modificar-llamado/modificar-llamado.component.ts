@@ -16,16 +16,16 @@ export class ModificarLlamadoComponent {
   public area: any = [];
   public error: String = '';
 
-  activoLlamado: boolean = true;
-  identificador: string = "";
-  nombreLlamado: string = "";
-  linkPlanillaPuntajes: string = "";
-  linkActa: string = "";
-  minutosEntrevista: number = 0;
-  areaId: number = 0;
-  idArea: number = 0;
-  activoArea: boolean = true;
-  nombreArea: string = "";
+  public activoLlamado: boolean = true;
+  public identificador: string = "";
+  public nombreLlamado: string = "";
+  public linkPlanillaPuntajes: string = "";
+  public linkActa: string = "";
+  public minutosEntrevista: number = 0;
+  public areaId: number = 0;
+  public idArea: number = 0;
+  public activoArea: boolean = true;
+  public nombreArea: string = "";
 
   constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location) { }
 
