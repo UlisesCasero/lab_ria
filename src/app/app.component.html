@@ -1,4 +1,23 @@
+<script>
+  // Obtener todos los elementos del menú desplegable
+  const dropdownItems = document.querySelectorAll('[data-te-dropdown-item-ref]');
 
+  // Función para mostrar un elemento durante 5 segundos y pasar al siguiente
+  function showItem(index) {
+    // Mostrar el elemento actual
+    dropdownItems[index].style.display = 'block';
+
+    // Programar el cambio al siguiente elemento después de 5 segundos
+    setTimeout(function() {
+      dropdownItems[index].style.display = 'none';  // Ocultar el elemento actual
+      const nextIndex = (index + 1) % dropdownItems.length;  // Calcular el índice del siguiente elemento
+      showItem(nextIndex);  // Mostrar el siguiente elemento
+    }, 5000);
+  }
+
+  // Iniciar la secuencia mostrando el primer elemento
+  showItem(0);
+</script>
 <nav class="bg-gray-800">
   <div class="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
     <div class="relative flex h-16 items-center justify-between">
@@ -255,3 +274,14 @@
 <div class="content" role="main">
   <router-outlet></router-outlet>
 </div>
+<body>
+  <ng-container *ngIf="isRootRoute()">
+  <div class="slideshow">
+    <img src="https://moracontenidos.com/wp-content/uploads/2020/10/121162630_10224588913051770_6528556765048266689_o.jpg" alt="Imagen 1">
+    <img src="https://utec.edu.uy/assets/static/sobre_utec/utec_en_territorio/CENTRO-SUR/ITR_1.jpg" alt="Imagen 2">
+    <img src="https://imgs.elpais.com.uy/dims4/default/abe9c7b/2147483647/strip/true/crop/2362x1412+0+169/resize/619x370!/quality/90/?url=https%3A%2F%2Fel-pais-uruguay-production-web.s3.amazonaws.com%2Fbrightspot%2Fuploads%2F2022%2F11%2F27%2F63840499a443c.jpeg" alt="Imagen 3">
+   </div>
+    </ng-container>
+    <router-outlet></router-outlet>
+ </body>
+  

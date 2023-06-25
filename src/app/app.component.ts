@@ -38,4 +38,8 @@ export class AppComponent implements AfterViewInit {
   redirectToLoginForm() {
     this.router.navigate(['/login-sesion']);
   }
+
+  isRootRoute(): boolean {
+    return this.router.url === '/';
+  }
 }
