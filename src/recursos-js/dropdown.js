@@ -4,4 +4,4 @@ import {
     initTE,
   } from "tw-elements";
   
-  initTE({ Dropdown, Ripple });
+  initTE({ Dropdown, Ripple, initTE });

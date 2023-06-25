@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-login',
@@ -11,8 +13,9 @@ export class LoginComponent {
   errorMessage: string = '';
   username: string = "";
   password: string = "";
+  public logueado: boolean = false;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     
@@ -37,9 +40,10 @@ export class LoginComponent {
 
           // Guardar el token en sessionStorage
           sessionStorage.setItem('token', token);
-
+          this.authService.setLoggedIn(true);
+          this.logueado = true;
           console.log(token);
-
+          this.router.navigate(['/']);
           // Redireccionar al usuario a otra página (por ejemplo, el panel de control)
           // Aquí puedes usar el enrutamiento de Angular para navegar a otra ruta
         } else {
