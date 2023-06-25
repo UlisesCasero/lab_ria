@@ -26,6 +26,11 @@ export class ModificarPersonaComponent {
     this.obtenerDocumentos();
   }
 
+  // Comprobar que se esta asignando el id de documento seleccionado a la variable 
+  onDocumentoChange(event: any) {
+    console.log('Documento seleccionado:', event);
+  }
+  
   obtenerDocumentos() {
     const url = `http://localhost:5000/api/TiposDeDocumentos/Paged`;
     const Body = {
@@ -88,10 +93,10 @@ export class ModificarPersonaComponent {
         "primerApellido": this.persona.primerApellido,
         "segundoApellido": this.persona.segundoApellido
       };
-      console.log(this.persona.id);
+      console.log('el documentoId es: ' + this.documentoId);
       const url = `http://localhost:5000/api/Personas/${this.persona.id}`;
 
-      this.buscarDocumento(2).subscribe(
+      this.buscarDocumento(this.documentoId).subscribe(
         (documentoRespuesta) => {
           body.tipoDeDocumento = documentoRespuesta; // Asigna el resultado de buscarArea al campo 'area' en requestBody
           console.log(body.tipoDeDocumento);
