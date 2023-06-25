@@ -16,8 +16,6 @@ export class ModificarLlamadoComponent {
   public error: String = '';
   public area: any = [];
 
-  
-
   constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location) { }
 
   ngOnInit() {

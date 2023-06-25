@@ -23,6 +23,8 @@ import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
 import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
 import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
 import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
+import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
+import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
 
 
 const routes: Routes = [
@@ -118,6 +120,14 @@ const routes: Routes = [
     path: 'modificar-llamado/:id', 
     component: ModificarLlamadoComponent 
   },
+  { 
+    path: 'listar-personas', 
+    component: ListarPersonasComponent 
+  },
+  { 
+    path: 'modificar-persona/:id', 
+    component: ModificarPersonaComponent 
+  }
 ];
 
 @NgModule({

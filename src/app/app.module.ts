@@ -30,6 +30,8 @@ import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.compo
 import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
 import { EliminarLlamadoComponent } from './eliminar-llamado/eliminar-llamado.component';
 import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
+import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
+import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
 
 
 @NgModule({
@@ -59,6 +61,8 @@ import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado
     ModificarLlamadoComponent,
     EliminarLlamadoComponent,
     ModificarTipoDeIntegrantesComponent,
+    ListarPersonasComponent,
+    ModificarPersonaComponent,
   ],
   imports: [
     HttpClientModule,
