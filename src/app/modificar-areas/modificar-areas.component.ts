@@ -43,7 +43,7 @@ export class ModificarAreasComponent {
     const url = `http://localhost:5000/api/Areas/${this.area.id}`;
     const body = {
       id: this.area.id,
-      activo: this.area.activo,
+     // activo: this.area.activo,
       nombre: this.area.nombre,      
     };
 

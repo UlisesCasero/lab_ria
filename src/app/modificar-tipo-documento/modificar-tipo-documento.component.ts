@@ -42,7 +42,7 @@ export class ModificarTipoDocumentoComponent {
     const url = `http://localhost:5000/api/TiposDeDocumentos/${this.documento.id}`;
     const body = {
       id: this.documento.id,
-      activo: this.documento.activo,
+     // activo: this.documento.activo,
       nombre: this.documento.nombre,      
     };
 

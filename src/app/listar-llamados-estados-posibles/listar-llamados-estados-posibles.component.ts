@@ -13,16 +13,25 @@ export class ListarLlamadosEstadosPosiblesComponent {
   Llamados: any[] = [];
   LlamadosData: any[] = []; 
   LlamadosPaginated: any[] = [];
+  LlamadosFiltrados: any[] = []; 
   public error: String = '';
 
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
+  searchTerm: string = '';
 
+  search() {
+    // Lógica de búsqueda
+    console.log('Término de búsqueda:', this.searchTerm);
+    // Aquí puedes realizar la lógica específica de búsqueda para cada pestaña
+    // o llamar a una función que realice la búsqueda correspondiente en función de la pestaña activa.
+  }
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.obtenerLlamadosEstadosPosibles();
+    this.LlamadosFiltrados = this.Llamados;
   }
 
   altaLlamados() {
@@ -104,6 +113,15 @@ export class ListarLlamadosEstadosPosiblesComponent {
       }
     );
   }
+
+  filtrarLlamados() {
+    this.LlamadosPaginated = this.LlamadosData.filter(llamado =>
+      llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+  
+  
+  
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {

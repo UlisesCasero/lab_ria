@@ -231,20 +231,15 @@
             </svg>
           </span>
         </button>
-        <ul
-          class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block"
-          aria-labelledby="dropdownMenuButton1"
-          data-te-dropdown-menu-ref>
-        <!-- <li>
-            <a href="alta-llamados-estados-posibles" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" data-te-dropdown-item-ref>Alta Llamados</a> 
-          </li>-->
+        <ul class="absolute z-[1000] float-left m-0 hidden min-w-max list-none overflow-hidden rounded-lg border-none bg-white bg-clip-padding text-left text-base shadow-lg dark:bg-neutral-700 [&[data-te-dropdown-show]]:block" aria-labelledby="dropdownMenuButton1" data-te-dropdown-menu-ref>
           <li>
             <a href="listar-llamados-estados-posibles" *ngIf="isLoggedIn()" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" data-te-dropdown-item-ref>Listar Llamados</a> 
           </li>
           <li>
             <a href="buscar-llamados-estados-posibles" *ngIf="isLoggedIn()" class="text-gray-300 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium" data-te-dropdown-item-ref>Buscar Llamados</a> 
           </li>
-          </ul>
+        </ul>
+        
         </div>
     </div>
     <div class="relative" data-te-dropdown-ref>
@@ -255,7 +250,7 @@
               aria-expanded="false"
               data-te-ripple-init
               data-te-ripple-color="light"
-              style="justify-self: end;">Login</button>
+              style="justify-self: end;">Acceder</button>
     </div >
       <button *ngIf="isLoggedIn()" (click)="logout()" type="button" class="flex items-center whitespace-nowrap rounded bg-primary px-6 pb-2 pt-2.5 text-xs font-medium uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] motion-reduce:transition-none dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">Cerrar Sesión</button>     
     </div>   

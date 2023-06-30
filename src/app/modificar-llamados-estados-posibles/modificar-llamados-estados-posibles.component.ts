@@ -26,7 +26,7 @@ export class ModificarLlamadosEstadosPosiblesComponent {
   }
 
   obtenerLlamado(id: number) {
-    const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${this.idLlamado}`;    
+    const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${id}`;    
     this.http.get<any>(url).subscribe(
       (response) => {       
         console.log('Llamado:', response);   
@@ -43,7 +43,7 @@ export class ModificarLlamadosEstadosPosiblesComponent {
     const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${this.llamado.id}`;
     const body = {
       id: this.llamado.id,
-      activo: this.llamado.activo,
+    //  activo: this.llamado.activo,
       nombre: this.llamado.nombre,      
     };
 

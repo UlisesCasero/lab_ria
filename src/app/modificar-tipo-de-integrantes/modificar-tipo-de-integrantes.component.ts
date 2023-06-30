@@ -43,7 +43,7 @@ export class ModificarTipoDeIntegrantesComponent {
     const url = `http://localhost:5000/api/TiposDeIntegrantes/${this.Integrantes.id}`;
     const body = {
       id: this.Integrantes.idIntegrante,
-      activo: this.Integrantes.activo,
+      //activo: this.Integrantes.activo,
       nombre: this.Integrantes.nombre,      
     };
 
