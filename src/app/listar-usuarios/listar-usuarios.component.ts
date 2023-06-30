@@ -18,7 +18,14 @@ export class ListarUsuariosComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
+  searchTerm: string = '';
+
+  search() {
+    console.log('Término de búsqueda:', this.searchTerm);
+    this.filtrarLlamados();
+  }
   
+
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
@@ -54,10 +61,11 @@ export class ListarUsuariosComponent {
     );    
   }
   
-  
-  
-  
-  
+  filtrarLlamados() {
+    this.usuarioPaginated = this.UsuarioData.filter(usuario =>
+      usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
 
   eliminarUsuario(usuario: any) {
     const url = `http://localhost:5000/api/Auth/${usuario.id}`;
