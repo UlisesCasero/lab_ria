@@ -18,7 +18,13 @@ export class ListarTipoDocumentosComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
+  searchTerm: string = '';
 
+  search() {
+    console.log('Término de búsqueda:', this.searchTerm);
+    this.filtrarLlamados();
+  }
+  
   constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
   ngOnInit() {
@@ -132,4 +138,12 @@ export class ListarTipoDocumentosComponent {
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
   }
+
+  filtrarLlamados() {
+    this.DocumentoPaginated = this.Documentos.filter(documento =>
+      documento.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+  
+
 }

@@ -30,7 +30,7 @@ export class ListarUsuariosComponent {
   }
   
   obtenerUsuarios() {
-    const url = 'http://localhost:5000/api/Auth/Users';
+    const url = `http://localhost:5000/api/Auth/Users`;
     const Body = {
       limit: -1,
       offset: 0,
@@ -50,17 +50,16 @@ export class ListarUsuariosComponent {
       (response) => {       
         console.log('Usuario:', response);   
         this.UsuarioData = response.list;
-        console.log('Es por aca 1');
+        console.log(this.UsuarioData);
         this.totalItems = response.totalCount;
-        console.log('Es por aca 2');
-        this.actualizarDatosPaginados();
-        console.log('termino');
+        this.actualizarDatosPaginados(); 
       },
       (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
       } 
     );
+    
   }
 
   eliminarUsuario(usuario: any) {

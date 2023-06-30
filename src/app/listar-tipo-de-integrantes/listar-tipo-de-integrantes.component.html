@@ -4,6 +4,7 @@
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10">
           <button
           class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaIntegrantes()">Agregar</button>
+          <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar..." class="form-control" (keyup)="filtrarLlamados()">
           <div class="overflow-hidden">
             <table class="min-w-full text-left text-sm text-slate-300 font-light">
               <thead class="border-b font-medium dark:border-neutral-500">
