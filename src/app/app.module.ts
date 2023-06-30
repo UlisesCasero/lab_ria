@@ -22,7 +22,6 @@ import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 import { AltaTipoDeIntegrantesComponent } from './alta-tipo-de-integrantes/alta-tipo-de-integrantes.component';
 import { BuscarTipoDeIntegrantesComponent } from './buscar-tipo-de-integrantes/buscar-tipo-de-integrantes.component';
 import { LoginComponent } from './login/login.component';
-import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { AuthInterceptorService } from './auth-interceptor.service';
 import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/listar-tipo-de-integrantes.component';
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
@@ -30,8 +29,9 @@ import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.compo
 import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
 import { EliminarLlamadoComponent } from './eliminar-llamado/eliminar-llamado.component';
 import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
-import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
-import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
+import { AltaUsuarioComponent } from './alta-usuario/alta-usuario.component';
+import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
+import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
 
 
 @NgModule({
@@ -54,15 +54,15 @@ import { ModificarPersonaComponent } from './modificar-persona/modificar-persona
     AltaTipoDeIntegrantesComponent,
     BuscarTipoDeIntegrantesComponent,
     LoginComponent,
-    AltaPersonaComponent,
     ListarTipoDeIntegrantesComponent,
     AltaLlamadosComponent,
     ListarLlamadosComponent,
     ModificarLlamadoComponent,
     EliminarLlamadoComponent,
     ModificarTipoDeIntegrantesComponent,
-    ListarPersonasComponent,
-    ModificarPersonaComponent,
+    AltaUsuarioComponent,
+    ListarUsuariosComponent,
+    ModificarUsuarioComponent,
   ],
   imports: [
     HttpClientModule,

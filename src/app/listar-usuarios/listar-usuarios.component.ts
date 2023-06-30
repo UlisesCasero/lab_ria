@@ -5,13 +5,13 @@ import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
 
 @Component({
-  selector: 'app-listar-personas',
-  templateUrl: './listar-personas.component.html',
-  styleUrls: ['./listar-personas.component.scss']
+  selector: 'app-listar-usuarios',
+  templateUrl: './listar-usuarios.component.html',
+  styleUrls: ['./listar-usuarios.component.scss']
 })
-export class ListarPersonasComponent {
-  PersonaData: any[] = []; 
-  personaPaginated: any[] = [];
+export class ListarUsuariosComponent {
+  UsuarioData: any[] = []; 
+  usuarioPaginated: any[] = [];
 
   public error: String = '';
 
@@ -22,32 +22,39 @@ export class ListarPersonasComponent {
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    this.obtenerPersonas();
+    this.obtenerUsuarios();
   }
 
-  altaPersona() {
-    this.router.navigate(['alta-persona']);
+  altaUsuario() {
+    this.router.navigate(['alta-usuario']);
   }
   
-  obtenerPersonas() {
-    const url = 'http://localhost:5000/api/Personas/Paged';
+  obtenerUsuarios() {
+    const url = 'http://localhost:5000/api/Auth/Users';
     const Body = {
       limit: -1,
       offset: 0,
       id: 0,
       filters: {
         activo: true,
-        nombre: ''
+        nombre: "",
+        idUsuario: "",
+        username: "",
+        email: "",
+        documento: ""
       },
-      orders: ['']
+      orders: [""]
     };
 
     this.http.post<any>(url, Body).subscribe(
       (response) => {       
-        console.log('Persona:', response);   
-        this.PersonaData = response.list;
+        console.log('Usuario:', response);   
+        this.UsuarioData = response.list;
+        console.log('Es por aca 1');
         this.totalItems = response.totalCount;
+        console.log('Es por aca 2');
         this.actualizarDatosPaginados();
+        console.log('termino');
       },
       (error) => {
         console.log('Error al obtener las áreas');
@@ -56,26 +63,26 @@ export class ListarPersonasComponent {
     );
   }
 
-  eliminarPersona(persona: any) {
-    const url = `http://localhost:5000/api/Personas/${persona.id}`;
+  eliminarUsuario(usuario: any) {
+    const url = `http://localhost:5000/api/Auth/${usuario.id}`;
     const body = {      
-      "id": persona.id,
-      "activo": false,
-      "tipoDeDocumento": {
-        "id": persona.tipoDeDocumento.id,
-        "activo": true,
-        "nombre": persona.tipoDeDocumento.nombre
+      id: usuario.id,
+      activo: false,
+      tipoDeDocumento: {
+        id: usuario.tipoDeDocumento.id,
+        activo: true,
+        nombre: usuario.tipoDeDocumento.nombre
       },
-      "documento": "string",
-      "primerNombre": persona.primerNombre,
-      "segundoNombre": persona.segundoNombre,
-      "primerApellido": persona.primerApellido,
-      "segundoApellido": persona.segundoApellido
+      documento: "string",
+      primerNombre: usuario.primerNombre,
+      segundoNombre: usuario.segundoNombre,
+      primerApellido: usuario.primerApellido,
+      segundoApellido: usuario.segundoApellido
     }
     this.http.put<any>(url, body).subscribe(
       (response) => {       
         console.log('Persona:', response);   
-        persona = response; 
+        usuario = response; 
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
@@ -83,7 +90,7 @@ export class ListarPersonasComponent {
           timer: 2000,
           timerProgressBar: true
         });  
-        this.obtenerPersonas();
+        this.obtenerUsuarios();
       },
       (error) => {
         console.log('Error al eliminar la Persona:', error);
@@ -92,28 +99,28 @@ export class ListarPersonasComponent {
     );
   }
 
-  modificarPersona(persona: any) {
-    const url = `http://localhost:5000/api/Personas/${persona.id}`;
+  modificarUsuario(usuario: any) {
+    const url = `http://localhost:5000/api/Personas/${usuario.id}`;
     const body = {
-      "id": persona.id,
-      "activo": persona.activo,
-      "tipoDeDocumento": {
-        "id": persona.tipoDeDocumento.id,
-        "activo": persona.tipoDeDocumento.activo,
-        "nombre": persona.tipoDeDocumento.nombre
+      id: usuario.id,
+      activo: usuario.activo,
+      tipoDeDocumento: {
+        id: usuario.tipoDeDocumento.id,
+        activo: usuario.tipoDeDocumento.activo,
+        nombre: usuario.tipoDeDocumento.nombre
       },
-      "documento": persona.documento,
-      "primerNombre": persona.primerNombre,
-      "segundoNombre": persona.segundoNombre,
-      "primerApellido": persona.primerApellido,
-      "segundoApellido": persona.segundoApellido    
+      documento: usuario.documento,
+      primerNombre: usuario.primerNombre,
+      segundoNombre: usuario.segundoNombre,
+      primerApellido: usuario.primerApellido,
+      segundoApellido: usuario.segundoApellido    
     };
 
     this.http.put<any>(url, body).subscribe(
       (response) => {       
         console.log('Persona:', response);   
-        persona = response;
-        this.router.navigate(['modificar-persona', persona.id]); 
+        usuario = response;
+        this.router.navigate(['modificar-usuario', usuario.id]); 
       },
       (error) => {
         console.log('Error al modificar la Persona:', error);
@@ -140,11 +147,11 @@ export class ListarPersonasComponent {
   actualizarDatosPaginados() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.personaPaginated = this.PersonaData.slice(startIndex, endIndex);
+    this.usuarioPaginated = this.UsuarioData.slice(startIndex, endIndex);
   }
 
   getTotalItems(): number {
-    return this.PersonaData.length;
+    return this.UsuarioData.length;
   }
 
   getTotalPages(): number {

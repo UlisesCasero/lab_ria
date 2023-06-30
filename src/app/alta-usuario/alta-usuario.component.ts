@@ -3,12 +3,12 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 
 @Component({
-  selector: 'app-alta-persona',
-  templateUrl: './alta-persona.component.html',
-  styleUrls: ['./alta-persona.component.scss']
+  selector: 'app-alta-usuario',
+  templateUrl: './alta-usuario.component.html',
+  styleUrls: ['./alta-usuario.component.scss']
 })
-export class AltaPersonaComponent {
-  persona: any = [];
+export class AltaUsuarioComponent {
+  usuario: any = [];
   tiposDocumentos: any[] = [];
   public error: String = '';
 
@@ -41,23 +41,24 @@ export class AltaPersonaComponent {
       } 
     );
   }
+
   
-  registrarPersona(form: NgForm){
+  
+  registrarUsuario(form: NgForm){
     if (form.valid) {
       const requestBody = {
-        activo: true,
-        tipoDeDocumento: {
-          id: form.value.tipoDocumentoId,
-          activo: true,
-          nombre: form.value.documento
-        },
+        id: "",
+        tipoDeDocumento: form.value.tipoDocumentoId,
         documento: form.value.documento,
         primerNombre: form.value.primerNombre,
         segundoNombre: form.value.segundoNombre,
         primerApellido: form.value.primerApellido,
-        segundoApellido: form.value.segundoApellido
+        segundoApellido: form.value.segundoApellido,
+        email: form.value.email,
+        imagen: "",
+        activo: true,
       };
-      const url = `http://localhost:5000/api/Personas`;
+      const url = `http://localhost:5000/api/Auth/Register`;
 
       this.http.post<any>(url, requestBody)
       .subscribe(
