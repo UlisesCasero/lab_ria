@@ -30,8 +30,8 @@ export class ListarUsuariosComponent {
   }
   
   obtenerUsuarios() {
-    const url = 'http://localhost:5000/api/Auth/Users';
-    const Body = {
+    const url = `http://localhost:5000/api/Auth/Users/Basic`;
+    /*const Body = {
       limit: -1,
       offset: 0,
       id: 0,
@@ -44,17 +44,19 @@ export class ListarUsuariosComponent {
         documento: ""
       },
       orders: [""]
-    };
+    };*/
 
-    this.http.post<any>(url, Body).subscribe(
+    this.http.get<any>(url).subscribe(
       (response) => {       
-        console.log('Usuario:', response);   
+        //console.log('Usuario:', response);   
+        //this.UsuarioData = response.list;
+        //console.log('Es por aca 1');
+        //this.totalItems = response.totalCount;
+        //console.log('Es por aca 2');
+        // this.actualizarDatosPaginados(); 
+        //console.log('termino');
+
         this.UsuarioData = response.list;
-        console.log('Es por aca 1');
-        this.totalItems = response.totalCount;
-        console.log('Es por aca 2');
-        this.actualizarDatosPaginados();
-        console.log('termino');
       },
       (error) => {
         console.log('Error al obtener las áreas');

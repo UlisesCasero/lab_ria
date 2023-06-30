@@ -19,7 +19,7 @@ export class AltaUsuarioComponent {
   }
 
   obtenerTipoDocumentos() {
-    const url = 'http://localhost:5000/api/TiposDeDocumentos/Paged';
+    const url = `http://localhost:5000/api/TiposDeDocumentos/Paged`;
     const Body = {
       limit: -1,
       offset: 0,
@@ -48,7 +48,7 @@ export class AltaUsuarioComponent {
     if (form.valid) {
       const requestBody = {
         id: "",
-        tipoDeDocumento: form.value.tipoDocumentoId,
+        tipoDocumentoId: form.value.tipoDocumentoId,
         documento: form.value.documento,
         primerNombre: form.value.primerNombre,
         segundoNombre: form.value.segundoNombre,
@@ -56,7 +56,7 @@ export class AltaUsuarioComponent {
         segundoApellido: form.value.segundoApellido,
         email: form.value.email,
         imagen: "",
-        activo: true,
+        activo: true
       };
       const url = `http://localhost:5000/api/Auth/Register`;
 
