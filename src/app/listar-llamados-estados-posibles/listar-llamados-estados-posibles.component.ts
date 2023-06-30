@@ -22,10 +22,7 @@ export class ListarLlamadosEstadosPosiblesComponent {
   searchTerm: string = '';
 
   search() {
-    // Lógica de búsqueda
-    console.log('Término de búsqueda:', this.searchTerm);
-    // Aquí puedes realizar la lógica específica de búsqueda para cada pestaña
-    // o llamar a una función que realice la búsqueda correspondiente en función de la pestaña activa.
+        console.log('Término de búsqueda:', this.searchTerm);
   }
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
