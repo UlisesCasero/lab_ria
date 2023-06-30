@@ -18,19 +18,19 @@ import { ListarLlamadosEstadosPosiblesComponent } from './listar-llamados-estado
 import { ListarAreasComponent } from './listar-areas/listar-areas.component';
 import { ListarTipoDeIntegrantesComponent } from './listar-tipo-de-integrantes/listar-tipo-de-integrantes.component';
 import { LoginComponent } from './login/login.component';
-import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
+import { AltaUsuarioComponent } from './alta-usuario/alta-usuario.component';
 import { AltaLlamadosComponent } from './alta-llamados/alta-llamados.component';
 import { ListarLlamadosComponent } from './listar-llamados/listar-llamados.component';
 import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado.component';
 import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
-import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
-import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
+import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
+import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
 
 
 const routes: Routes = [
   {
-    path: 'alta-persona', 
-    component: AltaPersonaComponent 
+    path: 'alta-usuario', 
+    component: AltaUsuarioComponent 
   },
   {
     path: 'alta-llamado', 
@@ -121,12 +121,12 @@ const routes: Routes = [
     component: ModificarLlamadoComponent 
   },
   { 
-    path: 'listar-personas', 
-    component: ListarPersonasComponent 
+    path: 'listar-usuarios', 
+    component: ListarUsuariosComponent 
   },
   { 
-    path: 'modificar-persona/:id', 
-    component: ModificarPersonaComponent 
+    path: 'modificar-usuario/:id', 
+    component: ModificarUsuarioComponent 
   }
 ];
 
