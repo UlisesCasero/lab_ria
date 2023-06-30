@@ -30,13 +30,8 @@ export class ListarUsuariosComponent {
   }
   
   obtenerUsuarios() {
-<<<<<<< HEAD
-    const url = `http://localhost:5000/api/Auth/Users`;
-    const Body = {
-=======
     const url = `http://localhost:5000/api/Auth/Users/Basic`;
     /*const Body = {
->>>>>>> 4c0efad9a0091248f63ddf9bd9d99fb09d6c6136
       limit: -1,
       offset: 0,
       id: 0,
@@ -62,12 +57,6 @@ export class ListarUsuariosComponent {
         //console.log('termino');
 
         this.UsuarioData = response.list;
-<<<<<<< HEAD
-        console.log(this.UsuarioData);
-        this.totalItems = response.totalCount;
-        this.actualizarDatosPaginados(); 
-=======
->>>>>>> 4c0efad9a0091248f63ddf9bd9d99fb09d6c6136
       },
       (error) => {
         console.log('Error al obtener las áreas');
