@@ -10,8 +10,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./listar-usuarios.component.scss']
 })
 export class ListarUsuariosComponent {
-  UsuarioData: any[] = []; 
+  UsuarioData: any[] = [];
   usuarioPaginated: any[] = [];
+  rolesUsuarios: any[] = [];
 
   public error: String = '';
 
@@ -24,52 +25,196 @@ export class ListarUsuariosComponent {
     console.log('Término de búsqueda:', this.searchTerm);
     this.filtrarLlamados();
   }
-  
+
 
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.obtenerUsuarios();
+    this.actualizarDatosPaginados();
   }
 
   altaUsuario() {
     this.router.navigate(['alta-usuario']);
   }
-  
+
   obtenerUsuarios() {
     const url = 'http://localhost:5000/api/Auth/Users';
     const filters = {
-      activo: true
+      //activo: true
     };
     const request = {
       limit: 22,
-      offset: 1,
+      offset: 0,
       filters: filters,
       orders: ['']
     };
-  
+
     this.http.post<any>(url, request).subscribe(
-      (response) => {       
+      (response) => {
         this.UsuarioData = response.list;
         this.totalItems = response.totalCount;
-        this.actualizarDatosPaginados(); // Actualizar datos paginados después de recibir los usuarios
+        this.actualizarDatosPaginados();
       },
       (error) => {
         console.log('Error al obtener los usuarios:', error);
         this.error = 'Error al obtener los usuarios';
-      } 
-    );    
+      }
+    );
   }
-  
+
   filtrarLlamados() {
     this.usuarioPaginated = this.UsuarioData.filter(usuario =>
       usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 
+  cargarRoles(select: HTMLSelectElement) {
+    this.http.get<string[]>('http://localhost:5000/api/Auth/Users/Roles').subscribe(
+      response => {
+        const roles = response;
+        roles.forEach(function (rol) {
+          const option = document.createElement('option');
+          option.value = rol;
+          option.text = rol;
+          select.add(option);
+        });
+      },
+      error => {
+        console.log('Hubo un error al obtener los roles');
+      }
+    );
+  }
+
+  abrirVentanaAsignarRoles(usuario: any) {
+    Swal.fire({
+      title: 'Asignar Rol',
+      html: '<select id="selectEstado" class="swal2-input"></select>',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Guardar',
+      didOpen: () => {
+        const select = document.getElementById('selectEstado') as HTMLSelectElement;
+        this.cargarRoles(select);
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const select = document.getElementById('selectEstado') as HTMLSelectElement;
+        const rolSeleccionado = select.value;
+        console.log('Rol seleccionado:', rolSeleccionado);
+        this.asignarRoles(usuario.id, rolSeleccionado);
+        console.log('Guardado');
+      }
+    });
+  }
+
+  asignarRoles(userId: string, roleId: string) {
+    const url = 'http://localhost:5000/api/Auth/Users/UserRoles';
+    const requestBody = {
+      userId: userId,
+      roleId: roleId
+    };
+
+    this.http.post<any>(url, requestBody).subscribe(
+      response => {
+        if (response.statusOk) {
+          console.log('Rol asignado correctamente');
+        } else {
+          console.log('No se pudo asignar el rol');
+          this.obtenerUsuarios();
+          this.actualizarDatosPaginados();
+        }
+      },
+      error => {
+        console.log('Hubo un error al asignar el rol');
+      }
+    );
+  }
+
+
+  abrirVentanaEliminarRoles(usuario: any) {
+    Swal.fire({
+      title: 'Eliminar Rol',
+      html: '<select id="selectRoles" class="swal2-input"></select>',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Eliminar',
+      didOpen: () => {
+        const select = document.getElementById('selectRoles') as HTMLSelectElement;
+        this.cargarRolesUsuario(usuario.id, select);
+      },
+    }).then((result) => {
+      if (result.isConfirmed) {
+        const select = document.getElementById('selectRoles') as HTMLSelectElement;
+        const roleId = select.value;
+        console.log('Rol seleccionado:', roleId);
+        this.eliminarRolUsuario(usuario.id, roleId);
+      }
+    });
+  }
+
+  cargarRolesUsuario(userId: string, select: HTMLSelectElement) {
+    const url = 'http://localhost:5000/api/Auth/Users';
+
+    const requestBody = {
+      limit: 10,
+      offset: 1,
+      filters: {
+        activo: true
+      },
+      orders: []
+    };
+
+    this.http.post<any>(url, requestBody).subscribe(
+      response => {
+        const usuarios = response.list;
+        const usuario = usuarios.find((usuario: any) => usuario.id.toString() === userId);
+        if (usuario) {
+          const rolesUsuario = usuario.roles;
+          console.log('Roles del usuario:', rolesUsuario);
+          select.innerHTML = '';
+
+          rolesUsuario.forEach((rol: string) => {
+            const option = document.createElement('option');
+            option.value = rol;
+            option.text = rol;
+            select.appendChild(option);
+          });
+        } else {
+          console.log('No se encontró el usuario');
+        }
+      },
+      error => {
+        console.log('Hubo un error al obtener los roles del usuario');
+      }
+    );
+  }
+
+  eliminarRolUsuario(userId: string, roleId: string) {
+    const url = `http://localhost:5000/api/Auth/Users/UserRoles`;
+    const requestBody = {
+      userId: userId,
+      roleId: roleId
+    };
+
+    this.http.delete<any>(url, { body: requestBody }).subscribe(
+      response => {
+        if (response.statusOk) {
+          console.log('Rol eliminado correctamente');
+          this.obtenerUsuarios();
+        } else {
+          console.log('No se pudo eliminar el rol');
+        }
+      },
+      error => {
+        console.log('Hubo un error al eliminar el rol');
+      }
+    );
+  }
+
   eliminarUsuario(usuario: any) {
     const url = `http://localhost:5000/api/Auth/${usuario.id}`;
-    const body = {      
+    const body = {
       id: usuario.id,
       activo: false,
       tipoDeDocumento: {
@@ -84,16 +229,16 @@ export class ListarUsuariosComponent {
       segundoApellido: usuario.segundoApellido
     }
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Persona:', response);   
-        usuario = response; 
+      (response) => {
+        console.log('Persona:', response);
+        usuario = response;
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
           text: 'El área se elimino correctamente',
           timer: 2000,
           timerProgressBar: true
-        });  
+        });
         this.obtenerUsuarios();
       },
       (error) => {
@@ -117,14 +262,14 @@ export class ListarUsuariosComponent {
       primerNombre: usuario.primerNombre,
       segundoNombre: usuario.segundoNombre,
       primerApellido: usuario.primerApellido,
-      segundoApellido: usuario.segundoApellido    
+      segundoApellido: usuario.segundoApellido
     };
 
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Persona:', response);   
+      (response) => {
+        console.log('Persona:', response);
         usuario = response;
-        this.router.navigate(['modificar-usuario', usuario.id]); 
+        this.router.navigate(['modificar-usuario', usuario.id]);
       },
       (error) => {
         console.log('Error al modificar la Persona:', error);
