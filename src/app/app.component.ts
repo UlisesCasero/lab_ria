@@ -1,9 +1,10 @@
-import { Component, ViewChild, AfterViewInit, ChangeDetectorRef } from '@angular/core';
+import { Component, ViewChild, AfterViewInit, ChangeDetectorRef, NgModule } from '@angular/core';
 import { LoginComponent } from './login/login.component';
 import { Dropdown, Ripple, initTE } from 'tw-elements';
 import { AuthService } from './auth.service';
 import { Router } from '@angular/router';
-
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -48,3 +49,10 @@ export class AppComponent implements AfterViewInit {
     return this.router.url === '/';
   }
 }
+@NgModule({
+  imports: [
+    HttpClientModule,
+    FormsModule,
+  ]
+})
+export class AppModule { }
