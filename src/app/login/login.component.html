@@ -36,8 +36,9 @@
 											type="submit" data-te-ripple-init data-te-ripple-color="light" style="
 							background: linear-gradient(to right, #102149, #051d4d, #143a6b, #144f81);">Acceder</button>
 									</div>
-									<a href="#!">¿Olvidó su contraseña?</a>
-								</form>
+									
+
+								</form><a href="forgot-password">¿Olvidó su contraseña?</a>
 							</div>
 						</div>
 						<div class="flex items-center rounded-b-lg lg:w-6/12 lg:rounded-r-lg lg:rounded-bl-none"
@@ -64,6 +65,3 @@
 		</div>
 	</div>
 </section>
-<input type="text" id="username" name="username" [(ngModel)]="username" required
-	class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-<form (ngSubmit)="login(username,password)" #form="ngForm" class="max-w-md mx-auto">

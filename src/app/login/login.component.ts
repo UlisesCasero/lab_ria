@@ -59,4 +59,9 @@ export class LoginComponent {
       }
     );  
   }
+
+  forgotPassword() {
+    this.router.navigate(['login/forgot-password']);
+  }
+  
 }

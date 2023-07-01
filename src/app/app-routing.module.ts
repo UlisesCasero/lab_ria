@@ -26,6 +26,8 @@ import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integra
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
 import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llamado.component';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 const routes: Routes = [
@@ -132,7 +134,17 @@ const routes: Routes = [
   { 
     path: 'agregar-postulante/:llamadoId', 
     component: PostulanteLlamadoComponent 
-  }
+  },
+  {  path: 'login/restore-password', 
+    component: RestorePasswordComponent 
+  },
+  { 
+    path: 'login/forgot-password', 
+    component: RestorePasswordComponent 
+  },
+  {
+    path: 'forgot-password', component: ForgotPasswordComponent
+  },
 ];
 
 @NgModule({

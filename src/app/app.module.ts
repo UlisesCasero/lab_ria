@@ -33,6 +33,8 @@ import { AltaUsuarioComponent } from './alta-usuario/alta-usuario.component';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
 import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llamado.component';
+import { RestorePasswordComponent } from './restore-password/restore-password.component';
+import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -65,6 +67,8 @@ import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llam
     ListarUsuariosComponent,
     ModificarUsuarioComponent,
     PostulanteLlamadoComponent,
+    RestorePasswordComponent,
+    ForgotPasswordComponent,
   ],
   imports: [
     HttpClientModule,
