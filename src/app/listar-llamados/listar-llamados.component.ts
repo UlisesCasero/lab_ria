@@ -231,6 +231,14 @@ export class ListarLlamadosComponent {
   }
  // Termiona Modificar Estado del llamado
 
+// Asignar Postulante
+
+asignarPostulante(llamadoId: number){
+  this.router.navigate(['agregar-postulante', llamadoId]); 
+}
+
+//
+
   irPaginaAnterior() {
     if (this.currentPage > 1) {
       this.currentPage--;

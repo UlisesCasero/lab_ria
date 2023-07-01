@@ -25,6 +25,7 @@ import { ModificarLlamadoComponent } from './modificar-llamado/modificar-llamado
 import { ModificarTipoDeIntegrantesComponent } from './modificar-tipo-de-integrantes/modificar-tipo-de-integrantes.component';
 import { ListarUsuariosComponent } from './listar-usuarios/listar-usuarios.component';
 import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario.component';
+import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llamado.component';
 
 
 const routes: Routes = [
@@ -127,6 +128,10 @@ const routes: Routes = [
   { 
     path: 'modificar-usuario/:id', 
     component: ModificarUsuarioComponent 
+  },
+  { 
+    path: 'agregar-postulante/:llamadoId', 
+    component: PostulanteLlamadoComponent 
   }
 ];
 
