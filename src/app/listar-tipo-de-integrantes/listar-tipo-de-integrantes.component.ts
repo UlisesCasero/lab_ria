@@ -19,6 +19,11 @@ export class ListarTipoDeIntegrantesComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
+  searchTerm: string = '';
+
+  search() {
+        console.log('Término de búsqueda:', this.searchTerm);
+  }
 
   constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
@@ -47,6 +52,7 @@ export class ListarTipoDeIntegrantesComponent {
       (response) => {       
         console.log('Integrantes:', response);   
         this.Integrantes = response.list;   
+        this.IntegrantesData = response.list;
         this.totalItems = response.totalCount;
         this.actualizarDatosPaginados();
       },
@@ -134,4 +140,11 @@ export class ListarTipoDeIntegrantesComponent {
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
   }
+
+  filtrarLlamados() {
+    this.IntegrantesPaginated = this.IntegrantesData.filter(Integrantes =>
+      Integrantes.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
+  }
+  
 }

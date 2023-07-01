@@ -12,7 +12,12 @@ import { Router } from '@angular/router';
 })
 export class AppComponent implements AfterViewInit {
   title = 'ria_lab';
+  searchTerm: string = '';
 
+  search() {
+    console.log('Término de búsqueda:', this.searchTerm);
+    
+  }
   constructor(private changeDetectorRef: ChangeDetectorRef, private authService: AuthService, private router: Router) {}
 
   ngAfterViewInit() {

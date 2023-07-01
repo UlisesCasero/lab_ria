@@ -18,7 +18,14 @@ export class ListarUsuariosComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
+  searchTerm: string = '';
+
+  search() {
+    console.log('Término de búsqueda:', this.searchTerm);
+    this.filtrarLlamados();
+  }
   
+
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
@@ -30,38 +37,33 @@ export class ListarUsuariosComponent {
   }
   
   obtenerUsuarios() {
-    const url = `http://localhost:5000/api/Auth/Users/Basic`;
-    /*const Body = {
-      limit: -1,
-      offset: 0,
-      id: 0,
-      filters: {
-        activo: true,
-        nombre: "",
-        idUsuario: "",
-        username: "",
-        email: "",
-        documento: ""
-      },
-      orders: [""]
-    };*/
-
-    this.http.get<any>(url).subscribe(
+    const url = 'http://localhost:5000/api/Auth/Users';
+    const filters = {
+      activo: true
+    };
+    const request = {
+      limit: 22,
+      offset: 1,
+      filters: filters,
+      orders: ['']
+    };
+  
+    this.http.post<any>(url, request).subscribe(
       (response) => {       
-        //console.log('Usuario:', response);   
-        //this.UsuarioData = response.list;
-        //console.log('Es por aca 1');
-        //this.totalItems = response.totalCount;
-        //console.log('Es por aca 2');
-        // this.actualizarDatosPaginados(); 
-        //console.log('termino');
-
         this.UsuarioData = response.list;
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados(); // Actualizar datos paginados después de recibir los usuarios
       },
       (error) => {
-        console.log('Error al obtener las áreas');
-        this.error = `Error al obtener las áreas`;
+        console.log('Error al obtener los usuarios:', error);
+        this.error = 'Error al obtener los usuarios';
       } 
+    );    
+  }
+  
+  filtrarLlamados() {
+    this.usuarioPaginated = this.UsuarioData.filter(usuario =>
+      usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase())
     );
   }
 

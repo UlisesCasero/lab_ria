@@ -41,10 +41,17 @@ export class AltaUsuarioComponent {
       } 
     );
   }
-
-  
   
   registrarUsuario(form: NgForm){
+    console.log(
+      form.value.tipoDocumentoId,
+      form.value.documento,
+      form.value.primerNombre,
+      form.value.segundoNombre,
+      form.value.primerApellido,
+      form.value.segundoApellido,
+      form.value.email,
+    );
     if (form.valid) {
       const requestBody = {
         id: "",

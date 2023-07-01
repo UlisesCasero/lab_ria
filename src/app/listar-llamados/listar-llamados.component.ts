@@ -26,6 +26,11 @@ export class ListarLlamadosComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
+  searchTerm: string = '';
+
+  search() {
+        console.log('Término de búsqueda:', this.searchTerm);
+  }
   
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
@@ -253,5 +258,11 @@ export class ListarLlamadosComponent {
 
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
+  }
+
+  filtrarLlamados() {
+    this.llamadoPaginated = this.llamadoData.filter(llamado =>
+      llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    );
   }
 }
