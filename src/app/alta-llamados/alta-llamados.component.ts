@@ -54,18 +54,19 @@ export class AltaLlamadosComponent {
     if (form.valid) {
       const url = 'http://localhost:5000/api/Llamados';
       const requestBody = {
-        "activo": true,
-        "identificador": form.value.identificador,
-        "nombre": form.value.nombre,
-        "linkPlanillaPuntajes": form.value.linkPLanillaPuntajes,
-        "linkActa": form.value.linkActa,
-        "minutosEntrevista": form.value.minutosEntrevista,
-        "areaId": form.value.idArea,
-        "area": {
-          "id": 0,
-          "activo": true,
-          "nombre": "string"
-        }
+        id: 0,
+        activo: true,
+        identificador: form.value.identificador,
+        nombre: form.value.nombre,
+        linkPlanillaPuntajes: form.value.linkPLanillaPuntajes,
+        linkActa: form.value.linkActa,
+        minutosEntrevista: form.value.minutosEntrevista,
+        areaId: form.value.idArea,
+        area: null,
+        postulantes: [],
+        miembrosTribunal: [],
+        llamadoEstados: [],// todo estado por el que paso
+        ultimoEstado: null // estado actual 
       };
 
       this.buscarArea(form.value.idArea).subscribe(
@@ -91,4 +92,5 @@ export class AltaLlamadosComponent {
       );
     }
   }
+
 }

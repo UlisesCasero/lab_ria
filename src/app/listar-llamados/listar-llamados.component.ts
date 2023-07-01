@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
+
 
 @Component({
   selector: 'app-listar-llamados',
@@ -11,6 +14,12 @@ import { Location } from '@angular/common';
 export class ListarLlamadosComponent {
   llamadoData: any[] = []; 
   llamadoPaginated: any[] = [];
+  llamado: any;
+
+  estado: any;
+  estadoId: number = 0;
+  estadosPosibles: any[] = [];
+
 
   public error: String = '';
 
@@ -22,6 +31,7 @@ export class ListarLlamadosComponent {
 
   ngOnInit() {
     this.obtenerLlamados();
+    this.obtenerEstados();
   }
 
   altaLlamado() {
@@ -36,7 +46,10 @@ export class ListarLlamadosComponent {
       id: 0,
       filters: {
         activo: true,
-        nombre: ''
+        nombre: "",
+        identificador: "",
+        personaTribunalId: 0,
+        estadoId: 0
       },
       orders: ['']
     };
@@ -114,6 +127,104 @@ export class ListarLlamadosComponent {
       }
     );
   }
+  
+  obtenerEstados(){
+    const url = 'http://localhost:5000/api/LlamadosEstadosPosibles/Paged';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: true,
+        nombre: ""
+      },
+      orders: [ "" ]
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {          
+        this.estadosPosibles = response.list;
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
+    );
+  }
+
+  obtenerEstado(idEstado: number) {
+    const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${idEstado}`;
+
+    return this.http.get<any>(url).subscribe(
+      (response) => {
+        this.estado = response; // Asignar el resultado a la variable estado
+      },
+      (error) => {
+        console.log('Error al obtener el estado:', error);
+      }
+    );
+  }
+
+  // Modificar Estado del llamado
+  abrirVentanaAsignarEstadoLlamado(llamado: any) {
+    Swal.fire({
+      title: 'Asignar Estado',
+      html: '<select id="selectEstado" class="swal2-input"></select>',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Guardar',
+      didOpen: () => {
+        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
+        // Aquí agregamos las opciones al select en base a la lista de estadosPosibles cargada previamente.
+        const select = document.getElementById('selectEstado') as HTMLSelectElement;
+        this.estadosPosibles.forEach((opcion) => {
+          const option = document.createElement('option');
+          option.value = opcion.id; // Cargar la propiedad "nombre" del objeto como valor de la opción
+          option.text = opcion.nombre; // Cargar la propiedad "nombre" del objeto como texto de la opción
+          select.add(option);
+        });
+      },
+      preConfirm: () => {
+        const select = document.getElementById('selectEstado') as HTMLSelectElement;
+        const selectedOption = select.value;
+        const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
+        this.estado = estadoNumero;        
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.asignarEstadoLlamado(llamado);
+        console.log('Guardado');
+      }
+    });
+  }
+
+  asignarEstadoLlamado(llamado: any){    
+    const fechaHoraActual = new Date().toISOString();
+    const url = `http://localhost:5000/api/LlamadosEstados`;
+    const requestBody = {
+        "id": 0,
+        "activo": true,
+        "fechaHora": fechaHoraActual,
+        "usuarioTransicion": "",
+        "observacion": "",
+        "llamadoId": llamado.id,
+        "llamadoEstadoPosibleId": this.estado, // Conseguir el estado id
+    };
+
+    this.http.post<any>(url, requestBody).subscribe(
+      response => {
+        if (response.statusOk) {
+          console.log('Lo logró');
+        } else {
+          console.log('No lo logró');
+        }
+      },
+      error => {
+        console.log('Hubo un error');
+      }
+    );
+  }
+ // Termiona Modificar Estado del llamado
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {
