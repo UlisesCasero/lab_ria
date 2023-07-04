@@ -10,9 +10,9 @@ import Swal from 'sweetalert2';
   styleUrls: ['./listar-areas.component.scss']
 })
 export class ListarAreasComponent {
-  areaData: any[] = []; 
+  areas: any[] = [];
+  areaData: any[] = [];
   areaPaginated: any[] = [];
-
   public error: String = '';
 
   currentPage: number = 1;
@@ -20,23 +20,19 @@ export class ListarAreasComponent {
   totalItems: number = 0;
   searchTerm: string = '';
 
-  search() {
-        console.log('Término de búsqueda:', this.searchTerm);
-  }
-
-  constructor(private http: HttpClient, private router: Router, private location: Location) { }
+  constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
   ngOnInit() {
-    this.obtenerArea();
+    this.obtenerAreas();
   }
 
   altaAreas() {
     this.router.navigate(['alta-areas']);
   }
-  
-  obtenerArea() {
+
+  obtenerAreas() {
     const url = 'http://localhost:5000/api/Areas/Paged';
-    const Body = {
+    const body = {
       limit: -1,
       offset: 0,
       id: 0,
@@ -47,17 +43,18 @@ export class ListarAreasComponent {
       orders: ['']
     };
 
-    this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('Area:', response);   
-        this.areaData = response.list;
+    this.http.post<any>(url, body).subscribe(
+      (response) => {
+        console.log('Areas:', response);
+        this.areas = response.list;
         this.totalItems = response.totalCount;
+        this.areaData = this.areas;
         this.actualizarDatosPaginados();
       },
       (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
-      } 
+      }
     );
   }
 
@@ -66,20 +63,20 @@ export class ListarAreasComponent {
     const body = {
       id: area.id,
       activo: false,
-      nombre: area.nombre,      
+      nombre: area.nombre,
     };
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Área:', response);   
-        area = response; 
+      (response) => {
+        console.log('Área:', response);
+        area = response;
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'El área se elimino correctamente',
+          text: 'El área se eliminó correctamente',
           timer: 2000,
           timerProgressBar: true
-        });  
-        this.obtenerArea();
+        });
+        this.obtenerAreas();
       },
       (error) => {
         console.log('Error al eliminar el área:', error);
@@ -93,14 +90,14 @@ export class ListarAreasComponent {
     const body = {
       id: area.id,
       activo: area.activo,
-      nombre: area.nombre,      
+      nombre: area.nombre,
     };
 
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Área:', response);   
+      (response) => {
+        console.log('Área:', response);
         area = response;
-        this.router.navigate(['modificar-area', area.id]); 
+        this.router.navigate(['modificar-area', area.id]);
       },
       (error) => {
         console.log('Error al modificar el área:', error);
@@ -139,10 +136,16 @@ export class ListarAreasComponent {
   }
 
   filtrarLlamados() {
-    this.areaPaginated = this.areaData.filter(area =>
-      area.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    this.currentPage = 1;
+    if (this.searchTerm.trim() === '') {
+      this.areaData = [...this.areas];
+    } else {
+      const filteredData = this.areas.filter(area =>
+        area.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+      this.areaData = filteredData;
+    }
+    this.totalItems = this.areaData.length;
+    this.actualizarDatosPaginados();
   }
-  
 }
-

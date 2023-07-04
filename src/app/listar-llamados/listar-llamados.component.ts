@@ -2,9 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
-import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
-
 
 @Component({
   selector: 'app-listar-llamados',
@@ -12,7 +10,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./listar-llamados.component.scss']
 })
 export class ListarLlamadosComponent {
-  llamadoData: any[] = []; 
+  llamadoData: any[] = [];
   llamadoPaginated: any[] = [];
   llamado: any;
 
@@ -28,10 +26,6 @@ export class ListarLlamadosComponent {
   totalItems: number = 0;
   searchTerm: string = '';
 
-  search() {
-        console.log('Término de búsqueda:', this.searchTerm);
-  }
-  
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
@@ -42,7 +36,7 @@ export class ListarLlamadosComponent {
   altaLlamado() {
     this.router.navigate(['alta-llamado']);
   }
-  
+
   obtenerLlamados() {
     const url = 'http://localhost:5000/api/llamados/Paged';
     const Body = {
@@ -60,8 +54,8 @@ export class ListarLlamadosComponent {
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('obtenidos');   
+      (response) => {
+        console.log('obtenidos');
         this.llamadoData = response.list;
         this.totalItems = response.totalCount;
         this.actualizarDatosPaginados();
@@ -69,35 +63,35 @@ export class ListarLlamadosComponent {
       (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
-      } 
+      }
     );
   }
 
   eliminarLlamado(llamado: any) {
     const url = `http://localhost:5000/api/Llamados/${llamado.id}`;
     const body = {
-      "id": llamado.id,
-      "activo": false,
-      "identificador": llamado.identificador,
-      "nombre": llamado.nombre,
-      "linkPlanillaPuntajes": llamado.linkPlanillaPuntajes,
-      "linkActa": llamado.linkActa,
-      "minutosEntrevista": llamado.minutosEntrevista,
-      "areaId": llamado.areaId,
-      "area": {
-        "id": llamado.area.id,
-        "activo": llamado.area.activo,
-        "nombre": llamado.area.nombre
+      id: llamado.id,
+      activo: false,
+      identificador: llamado.identificador,
+      nombre: llamado.nombre,
+      linkPlanillaPuntajes: llamado.linkPlanillaPuntajes,
+      linkActa: llamado.linkActa,
+      minutosEntrevista: llamado.minutosEntrevista,
+      areaId: llamado.areaId,
+      area: {
+        id: llamado.area.id,
+        activo: llamado.area.activo,
+        nombre: llamado.area.nombre
       }
     };
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Área:', response);   
-        llamado = response;   
+      (response) => {
+        console.log('Llamado:', response);
+        llamado = response;
       },
       (error) => {
-        console.log('Error al eliminar el área:', error);
-        this.error = `Error al eliminar el área`;
+        console.log('Error al eliminar el llamado:', error);
+        this.error = `Error al eliminar el llamado`;
       }
     );
   }
@@ -105,26 +99,26 @@ export class ListarLlamadosComponent {
   modificarLlamado(llamado: any) {
     const url = `http://localhost:5000/api/Llamados/${llamado.id}`;
     const body = {
-      "id": llamado.id,
-      "activo": llamado.activo,
-      "identificador": llamado.identificador,
-      "nombre": llamado.nombre,
-      "linkPlanillaPuntajes": llamado.linkPlanillaPuntajes,
-      "linkActa": llamado.linkActa,
-      "minutosEntrevista": llamado.minutosEntrevista,
-      "areaId": llamado.areaId,
-      "area": {
-        "id": llamado.area.id,
-        "activo": llamado.area.activo,
-        "nombre": llamado.area.nombre
+      id: llamado.id,
+      activo: llamado.activo,
+      identificador: llamado.identificador,
+      nombre: llamado.nombre,
+      linkPlanillaPuntajes: llamado.linkPlanillaPuntajes,
+      linkActa: llamado.linkActa,
+      minutosEntrevista: llamado.minutosEntrevista,
+      areaId: llamado.areaId,
+      area: {
+        id: llamado.area.id,
+        activo: llamado.area.activo,
+        nombre: llamado.area.nombre
       }
     };
 
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Llamado:', response);   
+      (response) => {
+        console.log('Llamado:', response);
         llamado = response;
-        this.router.navigate(['modificar-llamado', llamado.id]); 
+        this.router.navigate(['modificar-llamado', llamado.id]);
       },
       (error) => {
         console.log('Error al modificar el Llamado:', error);
@@ -132,8 +126,8 @@ export class ListarLlamadosComponent {
       }
     );
   }
-  
-  obtenerEstados(){
+
+  obtenerEstados() {
     const url = 'http://localhost:5000/api/LlamadosEstadosPosibles/Paged';
     const Body = {
       limit: -1,
@@ -143,17 +137,17 @@ export class ListarLlamadosComponent {
         activo: true,
         nombre: ""
       },
-      orders: [ "" ]
+      orders: [""]
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {          
+      (response) => {
         this.estadosPosibles = response.list;
       },
       (error) => {
-        console.log('Error al obtener las áreas');
-        this.error = `Error al obtener las áreas`;
-      } 
+        console.log('Error al obtener los estados');
+        this.error = `Error al obtener los estados`;
+      }
     );
   }
 
@@ -179,21 +173,19 @@ export class ListarLlamadosComponent {
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Guardar',
       didOpen: () => {
-        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
-        // Aquí agregamos las opciones al select en base a la lista de estadosPosibles cargada previamente.
         const select = document.getElementById('selectEstado') as HTMLSelectElement;
         this.estadosPosibles.forEach((opcion) => {
           const option = document.createElement('option');
-          option.value = opcion.id; // Cargar la propiedad "nombre" del objeto como valor de la opción
-          option.text = opcion.nombre; // Cargar la propiedad "nombre" del objeto como texto de la opción
+          option.value = opcion.id;
+          option.text = opcion.nombre;
           select.add(option);
         });
       },
       preConfirm: () => {
         const select = document.getElementById('selectEstado') as HTMLSelectElement;
         const selectedOption = select.value;
-        const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
-        this.estado = estadoNumero;        
+        const estadoNumero = parseInt(selectedOption, 10);
+        this.estadoId = estadoNumero;
       }
     }).then((result) => {
       if (result.isConfirmed) {
@@ -203,25 +195,25 @@ export class ListarLlamadosComponent {
     });
   }
 
-  asignarEstadoLlamado(llamado: any){    
+  asignarEstadoLlamado(llamado: any) {
     const fechaHoraActual = new Date().toISOString();
     const url = `http://localhost:5000/api/LlamadosEstados`;
     const requestBody = {
-        "id": 0,
-        "activo": true,
-        "fechaHora": fechaHoraActual,
-        "usuarioTransicion": "",
-        "observacion": "",
-        "llamadoId": llamado.id,
-        "llamadoEstadoPosibleId": this.estado, // Conseguir el estado id
+      id: 0,
+      activo: true,
+      fechaHora: fechaHoraActual,
+      usuarioTransicion: "",
+      observacion: "",
+      llamadoId: llamado.id,
+      llamadoEstadoPosibleId: this.estadoId,
     };
 
     this.http.post<any>(url, requestBody).subscribe(
       response => {
         if (response.statusOk) {
-          console.log('Lo logró');
+          console.log('Éxito');
         } else {
-          console.log('No lo logró');
+          console.log('Error');
         }
       },
       error => {
@@ -229,7 +221,7 @@ export class ListarLlamadosComponent {
       }
     );
   }
- // Termiona Modificar Estado del llamado
+  // Finaliza Modificar Estado del llamado
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {
@@ -250,7 +242,7 @@ export class ListarLlamadosComponent {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.llamadoPaginated = this.llamadoData.slice(startIndex, endIndex);
-  }
+  }  
 
   getTotalItems(): number {
     return this.llamadoData.length;
@@ -261,8 +253,12 @@ export class ListarLlamadosComponent {
   }
 
   filtrarLlamados() {
-    this.llamadoPaginated = this.llamadoData.filter(llamado =>
-      llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.currentPage = 1;
+    const searchTerm = this.searchTerm.toLowerCase().trim(); // Convertir el término de búsqueda a minúsculas y eliminar espacios en blanco al principio y al final
+    const filteredData = this.llamadoData.filter(llamado =>
+      llamado.nombre.toLowerCase().includes(searchTerm)
     );
-  }
+    this.totalItems = filteredData.length;
+    this.llamadoPaginated = filteredData.slice(0, this.itemsPerPage);
+  }  
 }
