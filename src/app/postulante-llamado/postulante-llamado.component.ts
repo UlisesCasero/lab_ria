@@ -17,6 +17,7 @@ export class PostulanteLlamadoComponent {
 
   error: String = '';
   llamadoId: number = 0;
+  fechaHora: string = "";
   
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private location: Location) { }
 
@@ -67,14 +68,22 @@ export class PostulanteLlamadoComponent {
   asignarLlamado(persona: any){
     const url = `http://localhost:5000/api/Postulantes`;
     const requestBody = {
-      id: persona.id,
+      id: 0,
       activo: true,
-      fechaHoraEntrevista: "2023-07-05T04:26:19.321Z",
+      fechaHoraEntrevista: "2023-07-04T17:00:00.000Z",
       estudioMeritosRealizado: false,
       entrevistaRealizada: false,
       llamadoId: this.llamadoId,
       personaId: persona.id,
     };
+    console.log(
+      requestBody.activo,         
+      requestBody.fechaHoraEntrevista,
+      requestBody.estudioMeritosRealizado,
+      requestBody.entrevistaRealizada,
+      requestBody.llamadoId,
+      requestBody.personaId,
+      );
 
     this.http.post<any>(url, requestBody).subscribe(
       response => {
@@ -89,6 +98,38 @@ export class PostulanteLlamadoComponent {
       }
     );
   }
+
+
+//ESTAS HACIENDO LAS COSAS PARA PODER AGREGAR FECHA Y HORA DE LAS ENTREVISTAS 
+// DEBES SEGUIR CON ESTA FUNCION, SE DEBE ADAPTAR A LAS NECESIDADES PARA ESTO
+
+  abrirVentanaAsignarFechaHora(persona: any) {
+    Swal.fire({
+      title: 'Asignar Fecha y Hora',
+      html: '<input type="datetime-local" id="inputFechaHora" class="swal2-input">',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Guardar',
+      didOpen: () => {
+        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
+        // Aquí puedes realizar acciones adicionales si es necesario.
+      },
+      preConfirm: () => {
+        const inputFechaHora = document.getElementById('inputFechaHora') as HTMLInputElement;
+      const fechaHoraSeleccionada = inputFechaHora.value;
+
+      
+      const fechaHoraISO = new Date(fechaHoraSeleccionada).toISOString();
+      this.fechaHora = fechaHoraISO;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.asignarLlamado(persona);
+        console.log('Guardado');
+      }
+    });
+  }
+  
 
   filtrarPersonas() {
     this.personaPaginated = this.PersonaData.filter(persona =>

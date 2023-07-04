@@ -35,6 +35,7 @@ import { ModificarUsuarioComponent } from './modificar-usuario/modificar-usuario
 import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llamado.component';
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
+import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes-allamado.component';
 
 
 @NgModule({
@@ -69,6 +70,7 @@ import { ForgotPasswordComponent } from './forgot-password/forgot-password.compo
     PostulanteLlamadoComponent,
     RestorePasswordComponent,
     ForgotPasswordComponent,
+    PostulantesALlamadoComponent,
   ],
   imports: [
     HttpClientModule,
