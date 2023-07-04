@@ -26,6 +26,7 @@ export class ListarLlamadosComponent {
   totalItems: number = 0;
   searchTerm: string = '';
 
+
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
@@ -36,7 +37,7 @@ export class ListarLlamadosComponent {
   altaLlamado() {
     this.router.navigate(['alta-llamado']);
   }
-
+  
   obtenerLlamados() {
     const url = 'http://localhost:5000/api/llamados/Paged';
     const Body = {
@@ -44,7 +45,7 @@ export class ListarLlamadosComponent {
       offset: 0,
       id: 0,
       filters: {
-        activo: true,
+        activo: null,
         nombre: "",
         identificador: "",
         personaTribunalId: 0,
@@ -67,7 +68,7 @@ export class ListarLlamadosComponent {
     );
   }
 
-  eliminarLlamado(llamado: any) {
+  modificarEstado(estado: string,llamado: any) {
     const url = `http://localhost:5000/api/Llamados/${llamado.id}`;
     const body = {
       id: llamado.id,
@@ -84,10 +85,14 @@ export class ListarLlamadosComponent {
         nombre: llamado.area.nombre
       }
     };
+    if(estado == "activar"){
+      body.activo = true;
+    }
+    
     this.http.put<any>(url, body).subscribe(
-      (response) => {
-        console.log('Llamado:', response);
-        llamado = response;
+      (response) => {       
+        console.log('Área:', response);   
+        llamado = response;   
       },
       (error) => {
         console.log('Error al eliminar el llamado:', error);
@@ -164,6 +169,42 @@ export class ListarLlamadosComponent {
     );
   }
 
+
+  // Ver postulantes llamado
+  abrirVentanaVerPostulantes(llamado: any) {
+    Swal.fire({
+      title: 'Ver Postulantes',
+      html: 
+      '',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Guardar',
+      didOpen: () => {
+        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
+        // Aquí agregamos las opciones al select en base a la lista de estadosPosibles cargada previamente.
+        const select = document.getElementById('selectEstado') as HTMLSelectElement;
+        this.estadosPosibles.forEach((opcion) => {
+          const option = document.createElement('option');
+          option.value = opcion.id; // Cargar la propiedad "nombre" del objeto como valor de la opción
+          option.text = opcion.nombre; // Cargar la propiedad "nombre" del objeto como texto de la opción
+          select.add(option);
+        });
+      },
+      preConfirm: () => {
+        const select = document.getElementById('selectEstado') as HTMLSelectElement;
+        const selectedOption = select.value;
+        const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
+        this.estado = estadoNumero;        
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.asignarEstadoLlamado(llamado);
+        console.log('Guardado');
+        location.reload();
+      }
+    });
+  }
+
   // Modificar Estado del llamado
   abrirVentanaAsignarEstadoLlamado(llamado: any) {
     Swal.fire({
@@ -191,6 +232,7 @@ export class ListarLlamadosComponent {
       if (result.isConfirmed) {
         this.asignarEstadoLlamado(llamado);
         console.log('Guardado');
+        location.reload();
       }
     });
   }
@@ -222,6 +264,14 @@ export class ListarLlamadosComponent {
     );
   }
   // Finaliza Modificar Estado del llamado
+
+// Asignar Postulante
+
+asignarPostulante(llamadoId: number){
+  this.router.navigate(['agregar-postulante', llamadoId]);
+}
+
+//
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {
