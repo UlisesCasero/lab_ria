@@ -14,13 +14,13 @@ export class ListarTipoDeIntegrantesComponent {
   IntegrantesData: any[] = [];
   IntegrantesPaginated: any[] = [];
   public error: String = '';
-
+  filtroInactivos: boolean = false;
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
   searchTerm: string = '';
 
-  constructor(private http: HttpClient, private router: Router, private location: Location) {}
+  constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.obtenerTipoIntegrantes();
@@ -37,7 +37,7 @@ export class ListarTipoDeIntegrantesComponent {
       offset: 0,
       id: 0,
       filters: {
-        activo: true,
+        //activo: true,
         nombre: ''
       },
       orders: ['']
@@ -137,21 +137,100 @@ export class ListarTipoDeIntegrantesComponent {
 
   filtrarLlamados() {
     this.currentPage = 1;
-    if (this.searchTerm.trim() === '') {
-      this.IntegrantesData = [...this.Integrantes];
-    } else {
-      const filteredData = this.Integrantes.filter(integrante =>
-        integrante.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    const searchTerm = this.searchTerm.toLowerCase();
+
+    if (this.filtroInactivos) {
+      this.IntegrantesData = this.Integrantes.filter((integrante) =>
+        !integrante.activo && integrante.nombre.toLowerCase().includes(searchTerm)
       );
-      this.IntegrantesData = filteredData;
+    } else {
+      this.IntegrantesData = this.Integrantes.filter((integrante) =>
+        integrante.activo && integrante.nombre.toLowerCase().includes(searchTerm)
+      );
     }
+
     this.totalItems = this.IntegrantesData.length;
     this.actualizarDatosPaginados();
   }
-  
+
+
+
   isCoordinador(): boolean {
     const rolesString = sessionStorage.getItem('roles');
     const roles = rolesString ? JSON.parse(rolesString) : [];
     return roles.includes('COORDINADOR');
+  }
+
+  obtenerIntegrantesInactivos() {
+    const url = 'http://localhost:5000/api/TiposDeIntegrantes/Paged';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: false,
+        nombre: ''
+      },
+      orders: ['']
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {
+        console.log('Integrantes inactivos:', response);
+        this.IntegrantesData = response.list;
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
+      },
+      (error) => {
+        console.log('Error al obtener los integrantes inactivos');
+        this.error = `Error al obtener los integrantes inactivos`;
+      }
+    );
+  }
+
+  filtrarIntegrantes() {
+    const filtroActivosCheckbox = document.getElementById('filtro-activos') as HTMLInputElement;
+    const filtroActivos = filtroActivosCheckbox.checked;
+    this.currentPage = 1;
+    this.IntegrantesData = this.Integrantes.filter((integrante) =>
+      integrante.nombre.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      ((!this.filtroInactivos && !filtroActivos) || (this.filtroInactivos && !integrante.activo) || (filtroActivos && integrante.activo))
+    );
+    this.totalItems = this.IntegrantesData.length;
+    this.actualizarDatosPaginados();
+  }
+
+  isAdmin(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('ADMIN');
+  }
+
+  activiar(Integrantes: any) {
+    const url = `http://localhost:5000/api/TiposDeIntegrantes/${Integrantes.id}`;
+    const body = {
+      id: Integrantes.id,
+      activo: true,
+      nombre: Integrantes.nombre,
+    };
+  
+    this.http.put<any>(url, body).subscribe(
+      (response) => {
+        console.log('Integrante activada:', response);
+        Integrantes.activo = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El integrante se activado correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });
+        this.obtenerTipoIntegrantes();
+      },
+      (error) => {
+        console.log('Error al activar el integrante:', error);
+        this.error = 'Error al activar el integrante';
+      }
+    );
   }
 }

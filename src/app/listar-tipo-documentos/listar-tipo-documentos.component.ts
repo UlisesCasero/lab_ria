@@ -13,12 +13,13 @@ export class ListarTipoDocumentosComponent {
   Documentos: any[] = [];
   DocumentoData: any[] = [];
   DocumentoPaginated: any[] = [];
-  public error: String = '';
+  public error: string = '';
 
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
   searchTerm: string = '';
+  filtroActivos: boolean = false;
 
   constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
@@ -37,7 +38,7 @@ export class ListarTipoDocumentosComponent {
       offset: 0,
       id: 0,
       filters: {
-        activo: true,
+        //activo: this.filtroActivos,
         nombre: ''
       },
       orders: ['']
@@ -135,6 +136,30 @@ export class ListarTipoDocumentosComponent {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
   }
 
+  filtrarDocumentos() {
+    this.currentPage = 1;
+    const searchTerm = this.searchTerm.toLowerCase();
+
+    if (this.filtroActivos) {
+      this.DocumentoData = this.Documentos.filter(
+        (documento) =>
+          documento.activo && documento.nombre.toLowerCase().includes(searchTerm)
+      );
+    } else {
+      this.DocumentoData = this.Documentos.filter((documento) =>
+        documento.nombre.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    this.totalItems = this.DocumentoData.length;
+    this.actualizarDatosPaginados();
+  }
+
+  toggleFiltroActivos() {
+    this.filtroActivos = !this.filtroActivos;
+    this.filtrarDocumentos();
+  }
+
   filtrarLlamados() {
     this.currentPage = 1;
     if (this.searchTerm.trim() === '') {
@@ -147,17 +172,46 @@ export class ListarTipoDocumentosComponent {
     }
     this.totalItems = this.DocumentoData.length;
     this.actualizarDatosPaginados();
-  }  
+  }
+
   isAdmin(): boolean {
     const rolesString = sessionStorage.getItem('roles');
     const roles = rolesString ? JSON.parse(rolesString) : [];
     return roles.includes('ADMIN');
   }
-
+  
   isCoordinador(): boolean {
     const rolesString = sessionStorage.getItem('roles');
     const roles = rolesString ? JSON.parse(rolesString) : [];
     return roles.includes('COORDINADOR');
+  }
+
+  activiar(Documento: any) {
+    const url = `http://localhost:5000/api/TiposDeDocumentos/${Documento.id}`;
+    const body = {
+      id: Documento.id,
+      activo: true,
+      nombre: Documento.nombre,
+    };
+  
+    this.http.put<any>(url, body).subscribe(
+      (response) => {
+        console.log('Documento activado:', response);
+        Documento.activo = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El documento se activado correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });
+        this.obtenerTipoDocumentos();
+      },
+      (error) => {
+        console.log('Error al activar el documento:', error);
+        this.error = 'Error al activar el documento';
+      }
+    );
   }
   
 }

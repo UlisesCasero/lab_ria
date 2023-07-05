@@ -14,7 +14,7 @@ export class ListarLlamadosEstadosPosiblesComponent {
   LlamadosData: any[] = [];
   LlamadosPaginated: any[] = [];
   public error: String = '';
-
+  filtroActivos: boolean = false;
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
@@ -37,7 +37,7 @@ export class ListarLlamadosEstadosPosiblesComponent {
       offset: 0,
       id: 0,
       filters: {
-        activo: true,
+       // activo: true,
         nombre: ''
       },
       orders: ['']
@@ -153,5 +153,29 @@ export class ListarLlamadosEstadosPosiblesComponent {
     const rolesString = sessionStorage.getItem('roles');
     const roles = rolesString ? JSON.parse(rolesString) : [];
     return roles.includes('COORDINADOR');
+  }
+
+  toggleFiltroActivos() {
+    this.filtroActivos = !this.filtroActivos;
+    this.filtrarLlamadoss();
+  }
+
+  filtrarLlamadoss() {
+    this.currentPage = 1;
+    const searchTerm = this.searchTerm.toLowerCase();
+
+    if (this.filtroActivos) {
+      this.LlamadosData = this.Llamados.filter(
+        (llamado) =>
+          llamado.activo && llamado.nombre.toLowerCase().includes(searchTerm)
+      );
+    } else {
+      this.LlamadosData = this.Llamados.filter((llamado) =>
+        llamado.nombre.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    this.totalItems = this.LlamadosData.length;
+    this.actualizarDatosPaginados();
   }
 }

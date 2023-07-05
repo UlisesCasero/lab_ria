@@ -29,6 +29,9 @@ import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llam
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes-allamado.component';
+import { AltaResponsabilidadesComponent } from './alta-responsabilidades/alta-responsabilidades.component';
+import { ListarResponsabilidadesComponent } from './listar-responsabilidades/listar-responsabilidades.component';
+import { ModificarResponsabilidadesComponent } from './modificar-responsabilidades/modificar-responsabilidades.component';
 
 
 const routes: Routes = [
@@ -37,12 +40,22 @@ const routes: Routes = [
     component: AltaUsuarioComponent 
   },
   {
+    path: 'alta-responsabilidades', 
+    component: AltaResponsabilidadesComponent 
+  },
+  {
     path: 'alta-llamado', 
     component: AltaLlamadosComponent 
   },
   { 
     path: 'buscar-documento', 
     component: BuscarTipoDocumentoComponent 
+  }, { 
+    path: 'modificar-responsabilidades', 
+    component: ModificarResponsabilidadesComponent 
+  },{ 
+    path: 'modificar-responsabilidades/:id', 
+    component: ModificarResponsabilidadesComponent 
   },
   { 
     path: 'alta-documento', 
@@ -63,6 +76,10 @@ const routes: Routes = [
   { 
     path: 'alta-llamados-estados-posibles', 
     component: AltaLlamadosEstadosPosiblesComponent 
+  },
+  { 
+    path: 'listar-responsabilidades', 
+    component: ListarResponsabilidadesComponent 
   },
   { 
     path: 'buscar-areas', 
@@ -149,7 +166,7 @@ const routes: Routes = [
   {
     path: 'postulantes-a-llamado/:llamadoId', 
     component: PostulantesALlamadoComponent
-  }
+  },
 ];
 
 @NgModule({

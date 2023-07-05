@@ -6,17 +6,31 @@
           <button *ngIf="!isCoordinador()" class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaLlamados()">Agregar</button>
           <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar..." class="form-control campo-buscar"
             (keyup)="filtrarLlamados()">
+            <input class="form-check-input" type="checkbox" id="filtroActivos" [(ngModel)]="filtroActivos" (change)="toggleFiltroActivos()">
+          <label class="form-check-label" for="filtroActivos">Activos</label>
+  
           <div class="overflow-hidden">
             <table class="min-w-full text-left text-sm text-slate-300 font-light">
               <thead class="border-b font-medium dark:border-neutral-500">
                 <tr>
                   <th scope="col" class="px-6 py-4">Nombre Llamado</th>
+                  <th scope="col" class="px-6 py-4">Activo</th>
                   <th *ngIf="!isCoordinador()" scope="col" class="px-6 py-4">Acciones</th>
                 </tr>
               </thead>
               <tbody>
                 <tr class="border-b dark:border-neutral-500" *ngFor="let llamado of LlamadosPaginated">
                   <td class="whitespace-nowrap px-6 py-4">{{ llamado.nombre }}</td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <svg *ngIf="llamado.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <svg *ngIf="!llamado.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </td>       
                   <td *ngIf="!isCoordinador()" class="flex flex-row">
                     <div class="w-1/2">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"

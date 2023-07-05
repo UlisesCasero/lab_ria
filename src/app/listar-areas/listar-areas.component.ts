@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-listar-areas',
@@ -14,7 +15,7 @@ export class ListarAreasComponent {
   areaData: any[] = [];
   areaPaginated: any[] = [];
   public error: String = '';
-
+  filtroActivos: boolean = true;
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
@@ -37,7 +38,7 @@ export class ListarAreasComponent {
       offset: 0,
       id: 0,
       filters: {
-        activo: true,
+        //activo: true,
         nombre: ''
       },
       orders: ['']
@@ -147,5 +148,69 @@ export class ListarAreasComponent {
     }
     this.totalItems = this.areaData.length;
     this.actualizarDatosPaginados();
+  }
+
+  toggleFiltroActivos() {
+    this.filtroActivos = !this.filtroActivos;
+    this.filtrarAreas();
+  }
+
+  filtrarAreas() {
+    this.currentPage = 1;
+    const searchTerm = this.searchTerm.toLowerCase();
+
+    if (this.filtroActivos) {
+      this.areaData = this.areas.filter(
+        (areas) =>
+          areas.activo && areas.nombre.toLowerCase().includes(searchTerm)
+      );
+    } else {
+      this.areaData = this.areas.filter((areas) =>
+        areas.nombre.toLowerCase().includes(searchTerm)
+      );
+    }
+
+    this.totalItems = this.areaData.length;
+    this.actualizarDatosPaginados();
+  }
+
+  isAdmin(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('ADMIN');
+  }
+  
+  isCoordinador(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('COORDINADOR');
+  }
+
+  activiar(area: any) {
+    const url = `http://localhost:5000/api/Areas/${area.id}`;
+    const body = {
+      id: area.id,
+      activo: true,
+      nombre: area.nombre,
+    };
+  
+    this.http.put<any>(url, body).subscribe(
+      (response) => {
+        console.log('Area activaAda:', response);
+        area.activo = false;
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El area se activado correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });
+        this.obtenerAreas();
+      },
+      (error) => {
+        console.log('Error al activar el area:', error);
+        this.error = 'Error al activar el area';
+      }
+    );
   }
 }

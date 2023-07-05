@@ -39,6 +39,9 @@ import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes
 import { AuthService } from './auth.service';
 import { ProfileComponent } from './profile.component';
 import { User } from './user.model';
+import { AltaResponsabilidadesComponent } from './alta-responsabilidades/alta-responsabilidades.component';
+import { ListarResponsabilidadesComponent } from './listar-responsabilidades/listar-responsabilidades.component';
+import { ModificarResponsabilidadesComponent } from './modificar-responsabilidades/modificar-responsabilidades.component';
 
 @NgModule({
   declarations: [
@@ -74,6 +77,9 @@ import { User } from './user.model';
     RestorePasswordComponent,
     ForgotPasswordComponent,
     PostulantesALlamadoComponent,
+    AltaResponsabilidadesComponent,
+    ListarResponsabilidadesComponent,
+    ModificarResponsabilidadesComponent,
   ],
   imports: [
     HttpClientModule,
