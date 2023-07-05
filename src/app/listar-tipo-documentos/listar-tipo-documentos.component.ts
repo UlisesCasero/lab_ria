@@ -148,5 +148,16 @@ export class ListarTipoDocumentosComponent {
     this.totalItems = this.DocumentoData.length;
     this.actualizarDatosPaginados();
   }  
-   
+  isAdmin(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('ADMIN');
+  }
+
+  isCoordinador(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('COORDINADOR');
+  }
+  
 }

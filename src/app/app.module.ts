@@ -39,10 +39,13 @@ import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes
 import { ListarTiposDeIntegrantesComponent } from './listar-tipos-de-integrantes/listar-tipos-de-integrantes.component';
 import { AltaTipoDeIntegranteComponent } from './alta-tipo-de-integrante/alta-tipo-de-integrante.component';
 import { AsignarTribunalComponent } from './asignar-tribunal/asignar-tribunal.component';
-
+import { AuthService } from './auth.service';
+import { ProfileComponent } from './profile.component';
+import { User } from './user.model';
 
 @NgModule({
   declarations: [
+    ProfileComponent,
     AppComponent,    
     AltaTipoDocumentoComponent,
     ModificarTipoDocumentoComponent,
@@ -89,7 +92,8 @@ import { AsignarTribunalComponent } from './asignar-tribunal/asignar-tribunal.co
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
-    }
+    }, AuthService
+
   ],
   bootstrap: [AppComponent]
 })

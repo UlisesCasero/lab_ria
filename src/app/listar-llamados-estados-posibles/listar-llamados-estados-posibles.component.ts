@@ -148,4 +148,10 @@ export class ListarLlamadosEstadosPosiblesComponent {
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
   }
+  
+  isCoordinador(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('COORDINADOR');
+  }
 }

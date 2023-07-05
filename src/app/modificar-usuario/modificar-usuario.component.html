@@ -6,11 +6,17 @@
         <form (ngSubmit)="modificarUsuario(usuario)" #usuarioForm="ngForm">
           <div class="mt-2">
             <label for="documentoId" class="block mb-2 text-sm font-medium text-gray-700">Tipo De Documento:</label>
-            <select id="documentoId" name="documentoId" [(ngModel)]="documentoId" (ngModelChange)="onDocumentoChange($event)" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-              <option value="" disabled selected>Seleccionar tipo de documento</option>
-              <option *ngFor="let documento of documentos" [value]="documento.id">{{ documento.nombre }}</option>
-            </select>
+            <div class="scrollable-dropdown">
+              <select id="documentoId" name="documentoId" [(ngModel)]="documentoId" (ngModelChange)="onDocumentoChange($event)" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                <option value="" disabled selected>Seleccionar tipo de documento</option>
+                <ng-container *ngFor="let documento of documentos; let i = index;">
+                  <option [value]="documento.id" [hidden]="i > 4">{{ documento.nombre }}</option>
+                </ng-container>
+              </select>
+            </div>
           </div>
+          
+          
   
           <div *ngIf="documentoId" class="mt-2">
             <label for="documento" class="block text-sm font-medium leading-6 text-gray-900">Documento:</label>

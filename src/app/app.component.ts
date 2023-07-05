@@ -17,9 +17,9 @@ export class AppComponent implements AfterViewInit {
 
   search() {
     console.log('Término de búsqueda:', this.searchTerm);
-    
+
   }
-  constructor(private changeDetectorRef: ChangeDetectorRef, private authService: AuthService, private router: Router) {}
+  constructor(private changeDetectorRef: ChangeDetectorRef, private authService: AuthService, private router: Router) { }
 
   ngAfterViewInit() {
     initTE({ Dropdown, Ripple });
@@ -35,10 +35,26 @@ export class AppComponent implements AfterViewInit {
     return token !== null && token !== undefined;
   }
 
+  isAdmin(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('ADMIN');
+  }
+
+  isCoordinador(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('COORDINADOR');
+  }
+
+  isTribunal(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('TRIBUNAL');
+  }
+
   logout() {
-    // Eliminar el token de autenticación del sessionStorage
     sessionStorage.removeItem('token');
-    // Redireccionar al usuario a la página de inicio de sesión u otra página adecuada
     this.router.navigate(['/']);
   }
   redirectToLoginForm() {
