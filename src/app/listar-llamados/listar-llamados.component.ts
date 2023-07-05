@@ -46,6 +46,10 @@ export class ListarLlamadosComponent {
   listarPostulantes(llamadoId: number) {
     this.router.navigate(['postulantes-a-llamado', llamadoId]);
   }
+
+  agregarTribunal(llamadoId: number) {
+    this.router.navigate(['asignar-tribunal', llamadoId]);
+  }
   
   obtenerLlamados() {
     const url = 'http://localhost:5000/api/llamados/Paged';
@@ -265,15 +269,15 @@ export class ListarLlamadosComponent {
       }
     );
   }
- // Termiona Modificar Estado del llamado
+  // Termiona Modificar Estado del llamado
 
-// Asignar Postulante
+  // Asignar Postulante
 
-asignarPostulante(llamadoId: number){
-  this.router.navigate(['agregar-postulante', llamadoId]);
-}
+  asignarPostulante(llamadoId: number){
+    this.router.navigate(['agregar-postulante', llamadoId]);
+  }
 
-//
+  //
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {
