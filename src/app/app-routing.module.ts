@@ -147,7 +147,7 @@ const routes: Routes = [
     path: 'forgot-password', component: ForgotPasswordComponent
   },
   {
-    path: 'postulantes-a-llamado', 
+    path: 'postulantes-a-llamado/:llamadoId', 
     component: PostulantesALlamadoComponent
   }
 ];

@@ -12,8 +12,11 @@ import { NumberValueAccessor } from '@angular/forms';
   styleUrls: ['./postulantes-allamado.component.scss']
 })
 export class PostulantesALlamadoComponent {
-  PersonaData: any[] = []; 
-  personaPaginated: any[] = [];
+  registroData: any[] = [];
+  registrosPaginated: any[] = [];
+  lista: any[] = [];
+
+  llamadoId: number = 0;
 
   public error: String = '';
 
@@ -21,34 +24,45 @@ export class PostulantesALlamadoComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
   
-  constructor(private http: HttpClient, private router: Router, private location: Location) { }
+  constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    this.obtenerPersonas();
+    this.route.params.subscribe(params => {
+      this.llamadoId = params['llamadoId'];
+      console.log("El llamado recibido es: " + this.llamadoId);
+    });
+    this.obtenerPostulantes();
   }
 
   altaPersona() {
     this.router.navigate(['alta-persona']);
   }
-  
-  obtenerPersonas() {
-    const url = 'http://localhost:5000/api/Personas/Paged';
-    const Body = {
-      limit: -1,
-      offset: 0,
-      id: 0,
-      filters: {
-        activo: true,
-        nombre: ''
-      },
-      orders: ['']
-    };
 
-    this.http.post<any>(url, Body).subscribe(
+  obtenerPostulantes() {
+    const url = 'http://localhost:5000/api/Postulantes/Paged';
+    const todos = {
+      "limit": -1,
+      "offset": 0,
+      "id": 0,
+      "filters": {
+        "activo": null,
+        "nombre": ""
+      },
+      "orders": [""]
+    };
+    this.http.post<any>(url, todos).subscribe(
       (response) => {       
-        console.log('Persona:', response);   
-        this.PersonaData = response.list;
-        this.totalItems = response.totalCount;
+        let count = 0;  
+        this.lista =  response.list;
+        for (const registro of  this.lista) {
+          console.log(registro.llamadoId);
+          if(registro.llamadoId == this.llamadoId){
+            console.log("entra");
+            this.registroData.push(registro);
+            count++;
+          }
+        }
+        this.totalItems = count;
         this.actualizarDatosPaginados();
       },
       (error) => {
@@ -57,70 +71,30 @@ export class PostulantesALlamadoComponent {
       } 
     );
   }
-  
 
-  eliminarPersona(persona: any) {
-    const url = `http://localhost:5000/api/Personas/${persona.id}`;
-    const body = {      
-      "id": persona.id,
-      "activo": false,
-      "tipoDeDocumento": {
-        "id": persona.tipoDeDocumento.id,
-        "activo": true,
-        "nombre": persona.tipoDeDocumento.nombre
-      },
-      "documento": "string",
-      "primerNombre": persona.primerNombre,
-      "segundoNombre": persona.segundoNombre,
-      "primerApellido": persona.primerApellido,
-      "segundoApellido": persona.segundoApellido
-    }
-    this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Persona:', response);   
-        persona = response; 
-        Swal.fire({
-          icon: 'success',
-          title: 'Éxito',
-          text: 'El área se elimino correctamente',
-          timer: 2000,
-          timerProgressBar: true
-        });  
-        this.obtenerPersonas();
-      },
-      (error) => {
-        console.log('Error al eliminar la Persona:', error);
-        this.error = `Error al eliminar la Persona`;
-      }
-    );
-  }
-
-  modificarPersona(persona: any) {
-    const url = `http://localhost:5000/api/Personas/${persona.id}`;
-    const body = {
-      "id": persona.id,
-      "activo": persona.activo,
-      "tipoDeDocumento": {
-        "id": persona.tipoDeDocumento.id,
-        "activo": persona.tipoDeDocumento.activo,
-        "nombre": persona.tipoDeDocumento.nombre
-      },
-      "documento": persona.documento,
-      "primerNombre": persona.primerNombre,
-      "segundoNombre": persona.segundoNombre,
-      "primerApellido": persona.primerApellido,
-      "segundoApellido": persona.segundoApellido    
+  estadoPostulante(registro: any, nuevoEstado: string){
+    const url = `http://localhost:5000/api/Postulantes/${registro.id}`;
+    const requestBody = {
+      id: registro.id,
+      activo: false,
+      fechaHoraEntrevista: registro.fechaHoraEntrevista,
+      estudioMeritosRealizado: registro.estudioMeritosRealizado,
+      entrevistaRealizada: registro.entrevistaRealizada,
+      llamadoId: registro.llamadoId,
+      personaId: registro.persona.id,
     };
+    if(nuevoEstado == "activar"){
+      requestBody.activo = true;
+    }
 
-    this.http.put<any>(url, body).subscribe(
+    this.http.put<any>(url, requestBody).subscribe(
       (response) => {       
-        console.log('Persona:', response);   
-        persona = response;
-        this.router.navigate(['modificar-persona', persona.id]); 
+        console.log('Área:', response);   
+        location.reload();  
       },
       (error) => {
-        console.log('Error al modificar la Persona:', error);
-        this.error = `Error al modificar la Persona`;
+        console.log('Error al eliminar el área:', error);
+        this.error = `Error al eliminar el área`;
       }
     );
   }
@@ -143,11 +117,11 @@ export class PostulantesALlamadoComponent {
   actualizarDatosPaginados() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.personaPaginated = this.PersonaData.slice(startIndex, endIndex);
+    this.registrosPaginated = this.registroData.slice(startIndex, endIndex);
   }
 
   getTotalItems(): number {
-    return this.PersonaData.length;
+    return this.registroData.length;
   }
 
   getTotalPages(): number {
