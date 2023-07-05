@@ -1,41 +1,62 @@
-<div class="container mx-auto lg:max-w-2xl columns-1 bg-gray-600 p-4 my-8">
-  <div class="flex flex-col">
-    <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-      <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10"> 
-        <button class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaPersona()">Agregar</button>
-        <div class="overflow-hidden">
-          <table class="min-w-full text-left text-sm text-slate-300 font-light">
-            <thead class="border-b font-medium dark:border-neutral-500">
-              <tr>
-                <th scope="col" class="px-6 py-4">Nombre Persona</th>
-                <th scope="col" class="px-6 py-4">Priemer Apellido</th>                
-                <th scope="col" class="px-6 py-4">Añadir</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr class="border-b dark:border-neutral-500" *ngFor="let persona of personaPaginated">
-                <td class="whitespace-nowrap px-6 py-4">{{ persona.primerNombre }} </td>
-                <td class="whitespace-nowrap px-6 py-4">{{ persona.primerApellido }} </td>
-                <td class="whitespace-nowrap px-6 py-4">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"  style="cursor: pointer">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-                  </svg>                  
-                </td>
-              </tr>
-            </tbody>
-          </table>
+<div class="flex justify-center items-center h-screen bg-blue-900">
+  <div class="container mx-auto lg:max-w-2xl columns-1 bg-gray-600 p-4 my-8">
+    <div class="flex flex-col">
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10">
+          <div class="overflow-hidden">
+            <table class="min-w-full text-left text-sm text-slate-300 font-light">
+              <thead class="border-b font-medium dark:border-neutral-500">
+                <tr>
+                  <th scope="col" class="px-6 py-4">Nombre Persona</th>
+                  <th scope="col" class="px-6 py-4">Priemer Apellido</th>  
+                  <th scope="col" class="px-6 py-4">Activo</th>
+                  <th scope="col" class="px-6 py-4">dar de baja</th>
+                  <th scope="col" class="px-6 py-4">dar de alta</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr class="border-b dark:border-neutral-500" *ngFor="let registro of registrosPaginated">
+                  <td class="whitespace-nowrap px-6 py-4">{{ registro.persona.primerNombre }} </td>
+                  <td class="whitespace-nowrap px-6 py-4">{{ registro.persona.primerApellido }} </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <svg *ngIf="registro.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <svg *ngIf="!registro.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                  </td> 
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <div class="flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" class="w-6 h-6" (click)="estadoPostulante(registro, 'eliminar')" style="cursor: pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>  
+                    </div>
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <div class="flex items-center justify-center">
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" class="w-6 h-6" (click)="estadoPostulante(registro, 'activar')" style="cursor: pointer">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg> 
+                    </div>                 
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        <div class="flex justify-between items-center mt-4">
+          <button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaAnterior()"
+            [disabled]="currentPage === 1">Anterior</button>
+          <div>Página {{ currentPage }} de {{ getTotalItems() > 0 ? getTotalPages() : 1 }}
+            
+          </div>
+          <button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaSiguiente()"
+            [disabled]="currentPage === getTotalPages()">Siguiente</button>
         </div>
-      <div class="flex justify-between items-center mt-4">
-        <button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaAnterior()"
-          [disabled]="currentPage === 1">Anterior</button>
-        <div>Página {{ currentPage }} de {{ getTotalItems() > 0 ? getTotalPages() : 1 }}
-          
-        </div>
-        <button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaSiguiente()"
-          [disabled]="currentPage === getTotalPages()">Siguiente</button>
       </div>
     </div>
   </div>
 </div>
-
 

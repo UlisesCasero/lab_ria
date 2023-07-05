@@ -43,8 +43,8 @@ export class ListarLlamadosComponent {
     this.router.navigate(['alta-llamado']);
   }
 
-  postulantes() {
-    this.router.navigate(['postulantes-a-llamado']);
+  listarPostulantes(llamadoId: number) {
+    this.router.navigate(['postulantes-a-llamado', llamadoId]);
   }
   
   obtenerLlamados() {
@@ -77,7 +77,7 @@ export class ListarLlamadosComponent {
     );
   }
 
-  modificarEstado(estado: string,llamado: any) {
+  modificarEstado(nuevoEstado: string,llamado: any) {
     const url = `http://localhost:5000/api/Llamados/${llamado.id}`;
     const body = {
       "id": llamado.id,
@@ -94,7 +94,7 @@ export class ListarLlamadosComponent {
         "nombre": llamado.area.nombre
       }
     };
-    if(estado == "activar"){
+    if(nuevoEstado == "activar"){
       body.activo = true;
     }
     
@@ -177,42 +177,6 @@ export class ListarLlamadosComponent {
         console.log('Error al obtener el estado:', error);
       }
     );
-  }
-
-
-  // Ver postulantes llamado
-  abrirVentanaVerPostulantes(llamado: any) {
-    Swal.fire({
-      title: 'Ver Postulantes',
-      html: 
-      '',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Guardar',
-      didOpen: () => {
-        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
-        // Aquí agregamos las opciones al select en base a la lista de estadosPosibles cargada previamente.
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        this.estadosPosibles.forEach((opcion) => {
-          const option = document.createElement('option');
-          option.value = opcion.id; // Cargar la propiedad "nombre" del objeto como valor de la opción
-          option.text = opcion.nombre; // Cargar la propiedad "nombre" del objeto como texto de la opción
-          select.add(option);
-        });
-      },
-      preConfirm: () => {
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        const selectedOption = select.value;
-        const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
-        this.estado = estadoNumero;        
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.asignarEstadoLlamado(llamado);
-        console.log('Guardado');
-        location.reload();
-      }
-    });
   }
 
   // Modificar Estado del llamado
