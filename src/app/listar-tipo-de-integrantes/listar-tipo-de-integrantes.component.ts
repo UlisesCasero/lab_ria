@@ -72,7 +72,7 @@ export class ListarTipoDeIntegrantesComponent {
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'El documento se elimino correctamente',
+          text: 'El Tipo de Integrante se elimino correctamente',
           timer: 2000,
           timerProgressBar: true
         });
@@ -148,5 +148,10 @@ export class ListarTipoDeIntegrantesComponent {
     this.totalItems = this.IntegrantesData.length;
     this.actualizarDatosPaginados();
   }
-
+  
+  isCoordinador(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('COORDINADOR');
+  }
 }

@@ -39,7 +39,7 @@ export class AltaLlamadosComponent {
         this.areas = response.list;
       },
       (error) => {
-        console.log('Error al obtener los documents');
+        console.log('Error al obtener los documentos');
       } 
     );
   }
@@ -71,7 +71,7 @@ export class AltaLlamadosComponent {
 
       this.buscarArea(form.value.idArea).subscribe(
         (areaRespuesta) => {
-          requestBody.area = areaRespuesta; // Asigna el resultado de buscarArea al campo 'area' en requestBody
+          requestBody.area = areaRespuesta; 
   
           this.http.post<any>(url, requestBody).subscribe(
             response => {
