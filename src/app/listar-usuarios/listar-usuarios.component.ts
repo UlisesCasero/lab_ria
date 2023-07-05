@@ -14,7 +14,7 @@ export class ListarUsuariosComponent {
   usuarioPaginated: any[] = [];
   rolesUsuarios: any[] = [];
   filtroInactivo: boolean | undefined;
-  
+  public usuario: any;
   public error: String = '';
 
   currentPage: number = 1;
@@ -277,31 +277,36 @@ export class ListarUsuariosComponent {
   }
 
   modificarUsuario(usuario: any) {
-    const url = `http://localhost:5000/api/Personas/${usuario.id}`;
+    const url = `http://localhost:5000/api/Personas/${usuario.persona.id}`;
+   
     const body = {
-      id: usuario.id,
-      activo: usuario.activo,
+      id: usuario.persona.id,
+      activo: usuario.persona.activo,
       tipoDeDocumento: {
-        id: usuario.tipoDeDocumento.id,
-        activo: usuario.tipoDeDocumento.activo,
-        nombre: usuario.tipoDeDocumento.nombre
+        id: usuario.persona.tipoDeDocumento.id,
+        activo: usuario.persona.tipoDeDocumento.activo,
+        nombre: usuario.persona.tipoDeDocumento.nombre
       },
-      documento: usuario.documento,
-      primerNombre: usuario.primerNombre,
-      segundoNombre: usuario.segundoNombre,
-      primerApellido: usuario.primerApellido,
-      segundoApellido: usuario.segundoApellido
+      documento: usuario.persona.documento,
+      primerNombre: usuario.persona.primerNombre,
+      segundoNombre: usuario.persona.segundoNombre,
+      primerApellido: usuario.persona.primerApellido,
+      segundoApellido: usuario.persona.segundoApellido
     };
-
+  
+    
     this.http.put<any>(url, body).subscribe(
       (response) => {
-        console.log('Persona:', response);
-        usuario = response;
-        this.router.navigate(['modificar-usuario', usuario.id]);
+       
+        this.usuario = response;
+        this.router.navigate(['modificar-usuario', usuario.persona.id,  { usuario: JSON.stringify(usuario) }]);
+ console.log('Persona:', response);
       },
       (error) => {
         console.log('Error al modificar la Persona:', error);
         this.error = `Error al modificar la Persona`;
+        console.log('Detalles del error:', error.error);
+
       }
     );
   }
