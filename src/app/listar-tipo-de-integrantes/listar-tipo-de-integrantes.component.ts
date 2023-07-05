@@ -4,7 +4,6 @@ import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-listar-tipo-de-integrantes',
   templateUrl: './listar-tipo-de-integrantes.component.html',
@@ -12,7 +11,7 @@ import Swal from 'sweetalert2';
 })
 export class ListarTipoDeIntegrantesComponent {
   Integrantes: any[] = [];
-  IntegrantesData: any[] = []; 
+  IntegrantesData: any[] = [];
   IntegrantesPaginated: any[] = [];
   public error: String = '';
 
@@ -20,10 +19,6 @@ export class ListarTipoDeIntegrantesComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
   searchTerm: string = '';
-
-  search() {
-        console.log('Término de búsqueda:', this.searchTerm);
-  }
 
   constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
@@ -49,39 +44,38 @@ export class ListarTipoDeIntegrantesComponent {
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('Integrantes:', response);   
-        this.Integrantes = response.list;   
-        this.IntegrantesData = response.list;
+      (response) => {
+        console.log('Integrantes:', response);
+        this.Integrantes = response.list;
         this.totalItems = response.totalCount;
+        this.IntegrantesData = this.Integrantes;
         this.actualizarDatosPaginados();
       },
       (error) => {
         console.log('Error al obtener los integrantes');
         this.error = `Error al obtener los integrantes`;
-      } 
+      }
     );
   }
 
-  eliminarIntegrantes(Integrantes : any) {
+  eliminarIntegrantes(Integrantes: any) {
     const url = `http://localhost:5000/api/TiposDeIntegrantes/${Integrantes.id}`;
     const body = {
       id: Integrantes.id,
       activo: false,
-      nombre: Integrantes.nombre,      
+      nombre: Integrantes.nombre,
     };
-    this.http.put<any>(url,body).subscribe(
-      (response) => {       
-        console.log('Integrantes:', response);   
-        Integrantes = response;   
-        Integrantes = response;   
+    this.http.put<any>(url, body).subscribe(
+      (response) => {
+        console.log('Integrantes:', response);
+        Integrantes = response;
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
           text: 'El documento se elimino correctamente',
           timer: 2000,
           timerProgressBar: true
-        });  
+        });
         this.obtenerTipoIntegrantes();
       },
       (error) => {
@@ -96,14 +90,14 @@ export class ListarTipoDeIntegrantesComponent {
     const body = {
       id: Integrantes.id,
       activo: Integrantes.activo,
-      nombre: Integrantes.nombre,      
+      nombre: Integrantes.nombre,
     };
 
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Integrante:', response);   
+      (response) => {
+        console.log('Integrante:', response);
         Integrantes = response;
-        this.router.navigate(['modificar-tipo-de-integrantes', Integrantes.id]); 
+        this.router.navigate(['modificar-tipo-de-integrantes', Integrantes.id]);
       },
       (error) => {
         console.log('Error al modificar el integrante:', error);
@@ -130,11 +124,11 @@ export class ListarTipoDeIntegrantesComponent {
   actualizarDatosPaginados() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.IntegrantesPaginated = this.Integrantes.slice(startIndex, endIndex);
+    this.IntegrantesPaginated = this.IntegrantesData.slice(startIndex, endIndex);
   }
 
   getTotalItems(): number {
-    return this.Integrantes.length;
+    return this.IntegrantesData.length;
   }
 
   getTotalPages(): number {
@@ -142,9 +136,17 @@ export class ListarTipoDeIntegrantesComponent {
   }
 
   filtrarLlamados() {
-    this.IntegrantesPaginated = this.IntegrantesData.filter(Integrantes =>
-      Integrantes.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    this.currentPage = 1;
+    if (this.searchTerm.trim() === '') {
+      this.IntegrantesData = [...this.Integrantes];
+    } else {
+      const filteredData = this.Integrantes.filter(integrante =>
+        integrante.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+      this.IntegrantesData = filteredData;
+    }
+    this.totalItems = this.IntegrantesData.length;
+    this.actualizarDatosPaginados();
   }
-  
+
 }

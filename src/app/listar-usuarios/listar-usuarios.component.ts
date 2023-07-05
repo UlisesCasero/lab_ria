@@ -13,7 +13,8 @@ export class ListarUsuariosComponent {
   UsuarioData: any[] = [];
   usuarioPaginated: any[] = [];
   rolesUsuarios: any[] = [];
-
+  filtroInactivo: boolean | undefined;
+  
   public error: String = '';
 
   currentPage: number = 1;
@@ -25,7 +26,6 @@ export class ListarUsuariosComponent {
     console.log('Término de búsqueda:', this.searchTerm);
     this.filtrarLlamados();
   }
-
 
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
@@ -65,10 +65,11 @@ export class ListarUsuariosComponent {
 
   filtrarLlamados() {
     this.usuarioPaginated = this.UsuarioData.filter(usuario =>
-      usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+      usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
+      (this.filtroInactivo === undefined || usuario.activo === !this.filtroInactivo || !this.filtroInactivo)
     );
   }
-
+  
   cargarRoles(select: HTMLSelectElement) {
     this.http.get<string[]>('http://localhost:5000/api/Auth/Users/Roles').subscribe(
       response => {
@@ -131,7 +132,6 @@ export class ListarUsuariosComponent {
     );
   }
 
-
   abrirVentanaEliminarRoles(usuario: any) {
     Swal.fire({
       title: 'Eliminar Rol',
@@ -158,7 +158,7 @@ export class ListarUsuariosComponent {
 
     const requestBody = {
       limit: 10,
-      offset: 1,
+      offset: 0,
       filters: {
         activo: true
       },
@@ -203,6 +203,8 @@ export class ListarUsuariosComponent {
           console.log('Rol eliminado correctamente');
           this.obtenerUsuarios();
         } else {
+          this.obtenerUsuarios();
+          this.actualizarDatosPaginados();
           console.log('No se pudo eliminar el rol');
         }
       },
@@ -213,37 +215,63 @@ export class ListarUsuariosComponent {
   }
 
   eliminarUsuario(usuario: any) {
-    const url = `http://localhost:5000/api/Auth/${usuario.id}`;
+    const url = `http://localhost:5000/api/Auth/Users`;
     const body = {
       id: usuario.id,
-      activo: false,
-      tipoDeDocumento: {
-        id: usuario.tipoDeDocumento.id,
-        activo: true,
-        nombre: usuario.tipoDeDocumento.nombre
-      },
-      documento: "string",
-      primerNombre: usuario.primerNombre,
-      segundoNombre: usuario.segundoNombre,
-      primerApellido: usuario.primerApellido,
-      segundoApellido: usuario.segundoApellido
-    }
+      tipoDocumentoId: usuario.persona.tipoDeDocumento.id,
+      documento: usuario.persona.documento,
+      primerNombre: usuario.persona.primerNombre,
+      primerApellido: usuario.persona.primerApellido,
+      email: usuario.email,
+      activo: false
+    };
+
     this.http.put<any>(url, body).subscribe(
       (response) => {
-        console.log('Persona:', response);
-        usuario = response;
+        console.log('Usuario:', response);
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'El área se elimino correctamente',
+          text: 'El usuario se eliminó correctamente',
           timer: 2000,
           timerProgressBar: true
         });
         this.obtenerUsuarios();
       },
       (error) => {
-        console.log('Error al eliminar la Persona:', error);
-        this.error = `Error al eliminar la Persona`;
+        console.log('Error al eliminar el usuario:', error);
+        this.error = 'Error al eliminar el usuario';
+      }
+    );
+  }
+
+   activarUsuario(usuario: any) {
+    const url = `http://localhost:5000/api/Auth/Users`;
+    const body = {
+      id: usuario.id,
+      tipoDocumentoId: usuario.persona.tipoDeDocumento.id,
+      documento: usuario.persona.documento,
+      primerNombre: usuario.persona.primerNombre,
+      primerApellido: usuario.persona.primerApellido,
+      email: usuario.email,
+      activo: true
+    };
+    
+    this.http.put<any>(url, body).subscribe(
+      (response) => {
+        console.log('Usuario:', response);
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El usuario se activo correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });
+        this.obtenerUsuarios();
+      },
+      (error) => {
+        console.log('Error al eliminar el usuario:', error);
+        this.error = 'Error al eliminar el usuario';
       }
     );
   }

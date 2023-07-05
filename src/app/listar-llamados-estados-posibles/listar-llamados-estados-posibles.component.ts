@@ -11,9 +11,8 @@ import Swal from 'sweetalert2';
 })
 export class ListarLlamadosEstadosPosiblesComponent {
   Llamados: any[] = [];
-  LlamadosData: any[] = []; 
+  LlamadosData: any[] = [];
   LlamadosPaginated: any[] = [];
-  LlamadosFiltrados: any[] = []; 
   public error: String = '';
 
   currentPage: number = 1;
@@ -21,14 +20,10 @@ export class ListarLlamadosEstadosPosiblesComponent {
   totalItems: number = 0;
   searchTerm: string = '';
 
-  search() {
-        console.log('Término de búsqueda:', this.searchTerm);
-  }
-  constructor(private http: HttpClient, private router: Router, private location: Location) { }
+  constructor(private http: HttpClient, private router: Router, private location: Location) {}
 
   ngOnInit() {
     this.obtenerLlamadosEstadosPosibles();
-    this.LlamadosFiltrados = this.Llamados;
   }
 
   altaLlamados() {
@@ -49,38 +44,38 @@ export class ListarLlamadosEstadosPosiblesComponent {
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('Llamados:', response);   
-        this.Llamados = response.list;   
-        this.LlamadosData = response.list;
+      (response) => {
+        console.log('Llamados:', response);
+        this.Llamados = response.list;
         this.totalItems = response.totalCount;
+        this.LlamadosData = this.Llamados;
         this.actualizarDatosPaginados();
       },
       (error) => {
         console.log('Error al obtener los llamados');
         this.error = `Error al obtener los llamados`;
-      } 
+      }
     );
   }
 
-  eliminarLlamadosEstadosPosibles(Llamados : any) {
+  eliminarLlamadosEstadosPosibles(Llamados: any) {
     const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${Llamados.id}`;
     const body = {
       id: Llamados.id,
       activo: false,
-      nombre: Llamados.nombre,      
+      nombre: Llamados.nombre,
     };
-    this.http.put<any>(url,body).subscribe(
-      (response) => {       
-        console.log('Llamados:', response);   
-        Llamados = response;   
+    this.http.put<any>(url, body).subscribe(
+      (response) => {
+        console.log('Llamados:', response);
+        Llamados = response;
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'El llamado se elimino correctamente',
+          text: 'El llamado se eliminó correctamente',
           timer: 2000,
           timerProgressBar: true
-        });  
+        });
         this.obtenerLlamadosEstadosPosibles();
       },
       (error) => {
@@ -90,19 +85,19 @@ export class ListarLlamadosEstadosPosiblesComponent {
     );
   }
 
-  modificarLlamadosEstadosPosibles(Llamados : any){
+  modificarLlamadosEstadosPosibles(Llamados: any) {
     const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${Llamados.id}`;
     const body = {
       id: Llamados.id,
       activo: Llamados.activo,
-      nombre: Llamados.nombre,      
+      nombre: Llamados.nombre,
     };
 
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Llamado:', response);   
-        Llamados = response;   
-        this.router.navigate(['modificar-llamados-estados-posibles', Llamados.id]); 
+      (response) => {
+        console.log('Llamado:', response);
+        Llamados = response;
+        this.router.navigate(['modificar-llamados-estados-posibles', Llamados.id]);
       },
       (error) => {
         console.log('Error al obtener el llamado:', error);
@@ -112,13 +107,18 @@ export class ListarLlamadosEstadosPosiblesComponent {
   }
 
   filtrarLlamados() {
-    this.LlamadosPaginated = this.LlamadosData.filter(llamado =>
-      llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
-    );
+    this.currentPage = 1;
+    if (this.searchTerm.trim() === '') {
+      this.LlamadosData = [...this.Llamados];
+    } else {
+      const filteredData = this.Llamados.filter(Llamado =>
+        Llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+      this.LlamadosData = filteredData;
+    }
+    this.totalItems = this.LlamadosData.length;
+    this.actualizarDatosPaginados();
   }
-  
-  
-  
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {
@@ -134,16 +134,16 @@ export class ListarLlamadosEstadosPosiblesComponent {
       this.actualizarDatosPaginados();
     }
   }
+
   actualizarDatosPaginados() {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.LlamadosPaginated = this.Llamados.slice(startIndex, endIndex); // Use 'this.Documentos' instead of 'this.DocumentoData'
+    this.LlamadosPaginated = this.LlamadosData.slice(startIndex, endIndex);
   }
-  
 
   getTotalItems(): number {
-    return this.Llamados.length;
-  }  
+    return this.LlamadosData.length;
+  }
 
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
