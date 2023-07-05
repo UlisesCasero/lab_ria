@@ -36,10 +36,13 @@ import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llam
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes-allamado.component';
-
+import { AuthService } from './auth.service';
+import { ProfileComponent } from './profile.component';
+import { User } from './user.model';
 
 @NgModule({
   declarations: [
+    ProfileComponent,
     AppComponent,    
     AltaTipoDocumentoComponent,
     ModificarTipoDocumentoComponent,
@@ -83,7 +86,8 @@ import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptorService,
       multi: true
-    }
+    }, AuthService
+
   ],
   bootstrap: [AppComponent]
 })

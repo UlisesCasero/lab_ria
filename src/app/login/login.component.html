@@ -11,6 +11,9 @@
 										src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRGA7SHdzvgnFhv3dqEhIsaY26lR5gD5nCMAiI-1F2j47CpHbB_Q4-zaJmVT5MBVQyQ8A4&usqp=CAU"
 										alt="logo" />
 								</div>
+								<div *ngIf="errorMessage.length > 0" class="text-red-500">
+									{{ errorMessage }}
+								  </div>
 								<form (ngSubmit)="login(username, password)" #form="ngForm" class="max-w-md mx-auto">
 									<p class="mb-4">Ingrese sus datos</p>
 									<div class="relative mb-4" data-te-input-wrapper-init>

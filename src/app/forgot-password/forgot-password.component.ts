@@ -10,6 +10,7 @@ import { AuthService } from '../auth.service';
   styleUrls: ['./forgot-password.component.scss']
 })
 export class ForgotPasswordComponent {
+  successMessage: string | undefined;
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) { }
   errorMessage: string = '';
   email: string | undefined;
@@ -20,24 +21,19 @@ export class ForgotPasswordComponent {
       email: email
     };
     const url = `http://localhost:5000/api/Auth/ForgotPassword`;
-
     this.http.post<any>(url, requestBody)
-    .subscribe(
-      response => {
-        if (response.statusOk) {
-          // El restablecimiento de contraseña se realizó correctamente
-          // Aquí puedes redirigir al usuario a la página de confirmación o mostrar un mensaje de éxito
-        } else {
-          // Mostrar un mensaje de error al usuario
-          const errorMessage = response.statusMessage;
-          // Por ejemplo, puedes utilizar una variable en el componente para mostrar el mensaje en el template
-          this.errorMessage = errorMessage;
+      .subscribe(
+        response => {
+          if (response.status) {
+            this.successMessage = response.mensaje;
+          } else {
+            const errorMessage = response.mensaje;
+            this.errorMessage = errorMessage;
+          }
+        },
+        error => {
+          this.errorMessage = 'Ocurrió un error al restablecer la contraseña. Por favor, intenta nuevamente.';
         }
-      },
-      error => {
-        // Mostrar un mensaje de error genérico al usuario
-        this.errorMessage = 'Ocurrió un error al restablecer la contraseña. Por favor, intenta nuevamente.';
-      }
-    );  
+      );
   }
 }

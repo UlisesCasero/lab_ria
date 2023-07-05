@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
 import Swal from 'sweetalert2';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-listar-usuarios',
@@ -10,6 +11,7 @@ import Swal from 'sweetalert2';
   styleUrls: ['./listar-usuarios.component.scss']
 })
 export class ListarUsuariosComponent {
+  loggedInUserName: string = '';
   UsuarioData: any[] = [];
   usuarioPaginated: any[] = [];
   rolesUsuarios: any[] = [];
@@ -21,17 +23,20 @@ export class ListarUsuariosComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
   searchTerm: string = '';
+  constructor(private authService: AuthService, private http: HttpClient, private router: Router, private location: Location) { }
 
   search() {
     console.log('Término de búsqueda:', this.searchTerm);
     this.filtrarLlamados();
   }
 
-  constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
     this.obtenerUsuarios();
     this.actualizarDatosPaginados();
+    const email = sessionStorage.getItem('email');
+    console.log('Correo electrónico almacenado en sessionStorage:', email);
+
   }
 
   altaUsuario() {
@@ -52,7 +57,8 @@ export class ListarUsuariosComponent {
 
     this.http.post<any>(url, request).subscribe(
       (response) => {
-        this.UsuarioData = response.list;
+        const currentUserEmail = sessionStorage.getItem('email');
+        this.UsuarioData = response.list.filter((usuario: { email: string | null; }) => usuario.email !== currentUserEmail);
         this.totalItems = response.totalCount;
         this.actualizarDatosPaginados();
       },
@@ -69,7 +75,7 @@ export class ListarUsuariosComponent {
       (this.filtroInactivo === undefined || usuario.activo === !this.filtroInactivo || !this.filtroInactivo)
     );
   }
-  
+
   cargarRoles(select: HTMLSelectElement) {
     this.http.get<string[]>('http://localhost:5000/api/Auth/Users/Roles').subscribe(
       response => {
@@ -245,7 +251,7 @@ export class ListarUsuariosComponent {
     );
   }
 
-   activarUsuario(usuario: any) {
+  activarUsuario(usuario: any) {
     const url = `http://localhost:5000/api/Auth/Users`;
     const body = {
       id: usuario.id,
@@ -256,7 +262,7 @@ export class ListarUsuariosComponent {
       email: usuario.email,
       activo: true
     };
-    
+
     this.http.put<any>(url, body).subscribe(
       (response) => {
         console.log('Usuario:', response);
@@ -278,7 +284,7 @@ export class ListarUsuariosComponent {
 
   modificarUsuario(usuario: any) {
     const url = `http://localhost:5000/api/Personas/${usuario.persona.id}`;
-   
+
     const body = {
       id: usuario.persona.id,
       activo: usuario.persona.activo,
@@ -293,14 +299,14 @@ export class ListarUsuariosComponent {
       primerApellido: usuario.persona.primerApellido,
       segundoApellido: usuario.persona.segundoApellido
     };
-  
-    
+
+
     this.http.put<any>(url, body).subscribe(
       (response) => {
-       
+
         this.usuario = response;
-        this.router.navigate(['modificar-usuario', usuario.persona.id,  { usuario: JSON.stringify(usuario) }]);
- console.log('Persona:', response);
+        this.router.navigate(['modificar-usuario', usuario.persona.id, { usuario: JSON.stringify(usuario) }]);
+        console.log('Persona:', response);
       },
       (error) => {
         console.log('Error al modificar la Persona:', error);

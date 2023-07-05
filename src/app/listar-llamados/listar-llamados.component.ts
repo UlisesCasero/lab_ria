@@ -171,7 +171,7 @@ export class ListarLlamadosComponent {
 
     return this.http.get<any>(url).subscribe(
       (response) => {
-        this.estado = response; // Asignar el resultado a la variable estado
+        this.estado = response; 
       },
       (error) => {
         console.log('Error al obtener el estado:', error);
@@ -179,72 +179,66 @@ export class ListarLlamadosComponent {
     );
   }
 
-  // Modificar Estado del llamado
   abrirVentanaAsignarEstadoLlamado(llamado: any) {
-    Swal.fire({
-      title: 'Asignar Estado',
-      html: '<select id="selectEstado" class="swal2-input"></select>',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Guardar',
-      didOpen: () => {
-        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
-        // Aquí agregamos las opciones al select en base a la lista de estadosPosibles cargada previamente.
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        this.estadosPosibles.forEach((opcion) => {
-          const option = document.createElement('option');
-          option.value = opcion.id; // Cargar la propiedad "nombre" del objeto como valor de la opción
-          option.text = opcion.nombre; // Cargar la propiedad "nombre" del objeto como texto de la opción
-          select.add(option);
-        });
-      },
-      preConfirm: () => {
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        const selectedOption = select.value;
-        const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
-        this.estado = estadoNumero;        
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.asignarEstadoLlamado(llamado);
-        console.log('Guardado');
-        location.reload();
-      }
-    });
+    const rolesString = sessionStorage.getItem('roles'); // Obtener los roles del usuario como una cadena de texto
+  
+    if (rolesString) {
+      const userRoles = JSON.parse(rolesString);
+  
+      Swal.fire({
+        title: 'Asignar Estado',
+        html: '<select id="selectEstado" class="swal2-input"></select>',
+        showCancelButton: true,
+        cancelButtonText: 'Cancelar',
+        confirmButtonText: 'Guardar',
+        didOpen: () => {
+          const select = document.getElementById('selectEstado') as HTMLSelectElement;
+          if (userRoles.includes('ADMIN') && userRoles.includes('TRIBUNAL')) {
+            const filteredEstadosPosibles = this.estadosPosibles.filter(opcion => opcion.id === 1 || opcion.id === 2 || opcion.id === 3 || opcion.id === 4);
+            filteredEstadosPosibles.forEach(opcion => {
+              const option = document.createElement('option');
+              option.value = opcion.id.toString();
+              option.text = opcion.nombre;
+              select.add(option);
+            });
+          } else if (userRoles.includes('ADMIN')) {
+            const filteredEstadosPosibles = this.estadosPosibles.filter(opcion => opcion.id === 1 || opcion.id === 2);
+            filteredEstadosPosibles.forEach(opcion => {
+              const option = document.createElement('option');
+              option.value = opcion.id.toString();
+              option.text = opcion.nombre;
+              select.add(option);
+            });
+          } else if (userRoles.includes('TRIBUNAL')) {
+            // Agregar opciones 3 y 4 al select
+            const filteredEstadosPosibles = this.estadosPosibles.filter(opcion => opcion.id === 3 || opcion.id === 4);
+            filteredEstadosPosibles.forEach(opcion => {
+              const option = document.createElement('option');
+              option.value = opcion.id.toString();
+              option.text = opcion.nombre;
+              select.add(option);
+            });
+          }
+        },
+        preConfirm: () => {
+          const select = document.getElementById('selectEstado') as HTMLSelectElement;
+          const selectedOption = select.value;
+          const estadoNumero = parseInt(selectedOption, 10);
+          this.estadoId = estadoNumero;
+        }
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.asignarEstadoLlamado(llamado);
+          console.log('Guardado');
+          location.reload();
+        }
+      });
+    } else {
+      console.log('No se encontraron roles en sessionStorage');
+    }
   }
-
-  // Modificar Estado del llamado
-  abrirVentanaAsignarEstadoLlamado(llamado: any) {
-    Swal.fire({
-      title: 'Asignar Estado',
-      html: '<select id="selectEstado" class="swal2-input"></select>',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Guardar',
-      didOpen: () => {
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        this.estadosPosibles.forEach((opcion) => {
-          const option = document.createElement('option');
-          option.value = opcion.id;
-          option.text = opcion.nombre;
-          select.add(option);
-        });
-      },
-      preConfirm: () => {
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        const selectedOption = select.value;
-        const estadoNumero = parseInt(selectedOption, 10);
-        this.estadoId = estadoNumero;
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.asignarEstadoLlamado(llamado);
-        console.log('Guardado');
-        location.reload();
-      }
-    });
-  }
-
+  
+  
   asignarEstadoLlamado(llamado: any) {
     const fechaHoraActual = new Date().toISOString();
     const url = `http://localhost:5000/api/LlamadosEstados`;
