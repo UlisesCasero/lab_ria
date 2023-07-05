@@ -10,7 +10,7 @@ import { Location } from '@angular/common';
 })
 export class AltaLlamadosEstadosPosiblesComponent {
   public id: number = 0;
-public nombre: string = '';
+ public nombre: string = '';
   public activo: boolean = true;
   public error: String = '';
 

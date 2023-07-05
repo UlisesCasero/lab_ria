@@ -29,6 +29,9 @@ import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llam
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes-allamado.component';
+import { ListarTiposDeIntegrantesComponent } from './listar-tipos-de-integrantes/listar-tipos-de-integrantes.component';
+import { AltaTipoDeIntegranteComponent } from './alta-tipo-de-integrante/alta-tipo-de-integrante.component';
+import { AsignarTribunalComponent } from './asignar-tribunal/asignar-tribunal.component';
 
 
 const routes: Routes = [
@@ -149,6 +152,18 @@ const routes: Routes = [
   {
     path: 'postulantes-a-llamado/:llamadoId', 
     component: PostulantesALlamadoComponent
+  },
+  {
+    path: 'listar-tipos-de-integrantes', 
+    component: ListarTiposDeIntegrantesComponent
+  },
+  {
+    path: 'alta-tipo-integrante', 
+    component: AltaTipoDeIntegranteComponent
+  },
+  {
+    path: 'asignar-tribunal/:llamadoId', 
+    component: AsignarTribunalComponent
   }
 ];
 

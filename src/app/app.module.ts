@@ -36,6 +36,9 @@ import { PostulanteLlamadoComponent } from './postulante-llamado/postulante-llam
 import { RestorePasswordComponent } from './restore-password/restore-password.component';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes-allamado.component';
+import { ListarTiposDeIntegrantesComponent } from './listar-tipos-de-integrantes/listar-tipos-de-integrantes.component';
+import { AltaTipoDeIntegranteComponent } from './alta-tipo-de-integrante/alta-tipo-de-integrante.component';
+import { AsignarTribunalComponent } from './asignar-tribunal/asignar-tribunal.component';
 
 
 @NgModule({
@@ -71,6 +74,9 @@ import { PostulantesALlamadoComponent } from './postulantes-allamado/postulantes
     RestorePasswordComponent,
     ForgotPasswordComponent,
     PostulantesALlamadoComponent,
+    ListarTiposDeIntegrantesComponent,
+    AltaTipoDeIntegranteComponent,
+    AsignarTribunalComponent,
   ],
   imports: [
     HttpClientModule,

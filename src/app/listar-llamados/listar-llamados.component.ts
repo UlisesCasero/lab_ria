@@ -46,6 +46,10 @@ export class ListarLlamadosComponent {
   listarPostulantes(llamadoId: number) {
     this.router.navigate(['postulantes-a-llamado', llamadoId]);
   }
+
+  agregarTribunal(llamadoId: number) {
+    this.router.navigate(['asignar-tribunal', llamadoId]);
+  }
   
   obtenerLlamados() {
     const url = 'http://localhost:5000/api/llamados/Paged';
@@ -188,20 +192,18 @@ export class ListarLlamadosComponent {
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Guardar',
       didOpen: () => {
-        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
-        // Aquí agregamos las opciones al select en base a la lista de estadosPosibles cargada previamente.
         const select = document.getElementById('selectEstado') as HTMLSelectElement;
         this.estadosPosibles.forEach((opcion) => {
           const option = document.createElement('option');
-          option.value = opcion.id; // Cargar la propiedad "nombre" del objeto como valor de la opción
-          option.text = opcion.nombre; // Cargar la propiedad "nombre" del objeto como texto de la opción
+          option.value = opcion.id; 
+          option.text = opcion.nombre; 
           select.add(option);
         });
       },
       preConfirm: () => {
         const select = document.getElementById('selectEstado') as HTMLSelectElement;
         const selectedOption = select.value;
-        const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
+        const estadoNumero = parseInt(selectedOption, 10); 
         this.estado = estadoNumero;        
       }
     }).then((result) => {
@@ -212,38 +214,8 @@ export class ListarLlamadosComponent {
       }
     });
   }
+  // Termina
 
-  // Modificar Estado del llamado
-  abrirVentanaAsignarEstadoLlamado(llamado: any) {
-    Swal.fire({
-      title: 'Asignar Estado',
-      html: '<select id="selectEstado" class="swal2-input"></select>',
-      showCancelButton: true,
-      cancelButtonText: 'Cancelar',
-      confirmButtonText: 'Guardar',
-      didOpen: () => {
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        this.estadosPosibles.forEach((opcion) => {
-          const option = document.createElement('option');
-          option.value = opcion.id;
-          option.text = opcion.nombre;
-          select.add(option);
-        });
-      },
-      preConfirm: () => {
-        const select = document.getElementById('selectEstado') as HTMLSelectElement;
-        const selectedOption = select.value;
-        const estadoNumero = parseInt(selectedOption, 10);
-        this.estadoId = estadoNumero;
-      }
-    }).then((result) => {
-      if (result.isConfirmed) {
-        this.asignarEstadoLlamado(llamado);
-        console.log('Guardado');
-        location.reload();
-      }
-    });
-  }
 
   asignarEstadoLlamado(llamado: any) {
     const fechaHoraActual = new Date().toISOString();
@@ -271,15 +243,15 @@ export class ListarLlamadosComponent {
       }
     );
   }
- // Termiona Modificar Estado del llamado
+  // Termiona Modificar Estado del llamado
 
-// Asignar Postulante
+  // Asignar Postulante
 
-asignarPostulante(llamadoId: number){
-  this.router.navigate(['agregar-postulante', llamadoId]);
-}
+  asignarPostulante(llamadoId: number){
+    this.router.navigate(['agregar-postulante', llamadoId]);
+  }
 
-//
+  //
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {

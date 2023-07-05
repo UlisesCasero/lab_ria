@@ -82,11 +82,7 @@ export class ModificarLlamadoComponent {
         "linkActa": this.llamado.linkActa,
         "minutosEntrevista": this.llamado.minutosEntrevista,
         "areaId": this.llamado.areaId,
-        "area": {
-          "id": 0,
-            "activo": true,
-            "nombre": "string"
-        }       
+        "area": {}       
       };
       const url = `http://localhost:5000/api/Llamados/${this.llamado.id}`;
       this.buscarArea(this.llamado.areaId).subscribe(
