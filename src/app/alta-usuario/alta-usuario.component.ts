@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-alta-usuario',
@@ -12,9 +14,9 @@ export class AltaUsuarioComponent {
   tiposDocumentos: any[] = [];
   public error: String = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
-  ngOnInit(){
+  ngOnInit() {
     this.obtenerTipoDocumentos();
   }
 
@@ -32,17 +34,17 @@ export class AltaUsuarioComponent {
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('Entro');   
+      (response) => {
+        console.log('Entro');
         this.tiposDocumentos = response.list;
       },
       (error) => {
         console.log('Error al obtener los documents');
-      } 
+      }
     );
   }
-  
-  registrarUsuario(form: NgForm){
+
+  registrarUsuario(form: NgForm) {
     console.log(
       form.value.tipoDocumentoId,
       form.value.documento,
@@ -66,22 +68,28 @@ export class AltaUsuarioComponent {
         activo: true
       };
       const url = `http://localhost:5000/api/Auth/Register`;
-
       this.http.post<any>(url, requestBody)
-      .subscribe(
-        response => {
-          if (response.statusOk) {
-            console.log('Lo logro');
-          } else {
-            console.log('No lo logro');
+        .subscribe(
+          response => {
+            console.log('Lo logró');
+            Swal.fire({
+              icon: 'success',
+              title: 'Éxito',
+              text: 'El usuario se guardó correctamente',
+              timer: 2000,
+              timerProgressBar: true
+            }).then(() => {
+              this.router.navigate(['/listar-usuarios']);
+            });
+          },
+          error => {
+            console.log('Hubo un error');
           }
-        },
-        error => {
-          console.log('Hubo un error');
-        }
-      );  
+        );
     }
-
-
   }
+  cancelar() {
+    this.router.navigate(['/listar-usuarios']);
+  }
+  
 }

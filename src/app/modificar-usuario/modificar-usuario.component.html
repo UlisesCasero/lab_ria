@@ -2,19 +2,20 @@
     <div class="w-1/3 bg-gray-100 shadow-lg rounded-lg p-6">
         <h2 class="text-center text-2xl font-bold mb-6">Modificar Usuario</h2>
   
-      <div *ngIf="usuario">
-        <form (ngSubmit)="modificarUsuario(usuario)" #usuarioForm="ngForm">
-          <div class="mt-2">
-            <label for="documentoId" class="block mb-2 text-sm font-medium text-gray-700">Tipo De Documento:</label>
-            <div class="scrollable-dropdown">
-              <select id="documentoId" name="documentoId" [(ngModel)]="documentoId" (ngModelChange)="onDocumentoChange($event)" required class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-                <option value="" disabled selected>Seleccionar tipo de documento</option>
-                <ng-container *ngFor="let documento of documentos; let i = index;">
-                  <option [value]="documento.id" [hidden]="i > 4">{{ documento.nombre }}</option>
-                </ng-container>
-              </select>
+        <div *ngIf="usuario">
+          <form (ngSubmit)="modificarUsuario(usuario)" #usuarioForm="ngForm">
+            <div class="mt-2">
+              <label for="documentoId" class="block mb-2 text-sm font-medium text-gray-700">Tipo De Documento:</label>
+              <div class="scrollable-dropdown">
+                <select id="documentoId" name="documentoId" [(ngModel)]="documentoId" (ngModelChange)="onDocumentoChange($event)" required
+                  class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                  <option value="" disabled selected>Seleccionar tipo de documento</option>
+                  <ng-container *ngFor="let documento of documentos; let i = index;">
+                    <option [value]="documento.id" [hidden]="i > 4">{{ documento.nombre }}</option>
+                  </ng-container>
+                </select>
+              </div>
             </div>
-          </div>
           
           
   
