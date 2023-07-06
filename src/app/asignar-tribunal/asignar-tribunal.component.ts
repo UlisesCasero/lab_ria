@@ -21,9 +21,9 @@ export class AsignarTribunalComponent {
       this.llamadoId = params['llamadoId'];
       console.log("El llamado recibido es: " + this.llamadoId);
     });
-    this.obtenerUsuariosTribunal();
-    this.obtenerTiposIntegrantes();
     this.obtenerTribunal();
+    this.obtenerUsuariosTribunal();
+    this.obtenerTiposIntegrantes(); 
   } 
 
   listaUsuarios: any[] = [];
@@ -62,8 +62,11 @@ export class AsignarTribunalComponent {
           if(registro.roles.includes("TRIBUNAL")){
             console.log("Los roles en este registro son " + registro.roles);
             console.log("Nombre " + registro.persona.primerNombre);
-            this.usuariosTribunal.push(registro);
-            
+            const existe = registro.persona.documento;
+            const coincidencia = this.setTribunal.find(item => item.persona.documento === existe); 
+            if (!coincidencia) {
+             this.usuariosTribunal.push(registro);
+            }
           }
         }
         
@@ -141,15 +144,13 @@ export class AsignarTribunalComponent {
   }
 
   ordenarTribunal() {
-    // Ordenar el arreglo setTribunal utilizando una función de comparación personalizada
     this.setTribunal.sort((a, b) => {
-      // Comparar por orden de miembroTribunal y tipoDeIntegrante
+      
       if (a.orden < b.orden) {
         return -1;
       } else if (a.orden > b.orden) {
         return 1;
       } else {
-        // Si los orden son iguales, comparar por orden de tipoDeIntegrante
         return a.tipoDeIntegrante.orden - b.tipoDeIntegrante.orden;
       }
     });
