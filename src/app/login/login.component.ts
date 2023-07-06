@@ -38,7 +38,8 @@ export class LoginComponent {
             id: response.idUsuario,
             nombre: response.nombre,
             email: response.email,
-            roles: response.roles
+            roles: response.roles,
+            documento: response.documento
           };
 
           sessionStorage.setItem('token', token);
@@ -46,6 +47,7 @@ export class LoginComponent {
           sessionStorage.setItem('id', user.id);
           sessionStorage.setItem('roles', JSON.stringify(user.roles));
           console.log('rolesssguardadossss', user.roles);
+          sessionStorage.setItem('documento', user.documento);
           this.logueado = true;
           console.log(token);
           this.router.navigate(['/']);

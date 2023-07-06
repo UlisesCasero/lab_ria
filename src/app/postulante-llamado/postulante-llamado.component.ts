@@ -70,7 +70,7 @@ export class PostulanteLlamadoComponent {
     const requestBody = {
       id: 0,
       activo: true,
-      fechaHoraEntrevista: "2023-07-04T17:00:00.000Z",
+      fechaHoraEntrevista: this.fechaHora,
       estudioMeritosRealizado: false,
       entrevistaRealizada: false,
       llamadoId: this.llamadoId,

@@ -57,6 +57,7 @@ export class AppComponent implements AfterViewInit {
     sessionStorage.removeItem('token');
     this.router.navigate(['/']);
   }
+  
   redirectToLoginForm() {
     this.router.navigate(['/login-sesion']);
   }
@@ -64,6 +65,19 @@ export class AppComponent implements AfterViewInit {
   isRootRoute(): boolean {
     return this.router.url === '/';
   }
+
+  isUsuario(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('USER');
+  }
+
+  ngOnInit() {
+    //if (this.isUsuario()) {
+      
+    //}
+  }
+
 }
 @NgModule({
   imports: [

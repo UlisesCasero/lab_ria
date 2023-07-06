@@ -45,6 +45,7 @@ import { User } from './user.model';
 import { AltaResponsabilidadesComponent } from './alta-responsabilidades/alta-responsabilidades.component';
 import { ListarResponsabilidadesComponent } from './listar-responsabilidades/listar-responsabilidades.component';
 import { ModificarResponsabilidadesComponent } from './modificar-responsabilidades/modificar-responsabilidades.component';
+import { ListaLlamadosUsuarioComponent } from './lista-llamados-usuario/lista-llamados-usuario.component';
 
 @NgModule({
   declarations: [
@@ -86,6 +87,7 @@ import { ModificarResponsabilidadesComponent } from './modificar-responsabilidad
     AltaResponsabilidadesComponent,
     ListarResponsabilidadesComponent,
     ModificarResponsabilidadesComponent,
+    ListaLlamadosUsuarioComponent,
   ],
   imports: [
     HttpClientModule,

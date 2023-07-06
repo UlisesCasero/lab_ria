@@ -35,6 +35,7 @@ import { AsignarTribunalComponent } from './asignar-tribunal/asignar-tribunal.co
 import { AltaResponsabilidadesComponent } from './alta-responsabilidades/alta-responsabilidades.component';
 import { ListarResponsabilidadesComponent } from './listar-responsabilidades/listar-responsabilidades.component';
 import { ModificarResponsabilidadesComponent } from './modificar-responsabilidades/modificar-responsabilidades.component';
+import { ListaLlamadosUsuarioComponent } from './lista-llamados-usuario/lista-llamados-usuario.component';
 
 
 const routes: Routes = [
@@ -181,6 +182,10 @@ const routes: Routes = [
   {
     path: 'asignar-tribunal/:llamadoId', 
     component: AsignarTribunalComponent
+  },
+  {
+    path: 'lista-llamados-usuario', 
+    component: ListaLlamadosUsuarioComponent
   }
 ];
 
