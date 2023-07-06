@@ -19,6 +19,7 @@ export class AppComponent implements AfterViewInit {
     console.log('Término de búsqueda:', this.searchTerm);
 
   }
+  
   constructor(private changeDetectorRef: ChangeDetectorRef, private authService: AuthService, private router: Router) { }
 
   ngAfterViewInit() {
@@ -29,6 +30,9 @@ export class AppComponent implements AfterViewInit {
   @ViewChild(LoginComponent)
   loginComponent!: LoginComponent;
 
+  get loggedUserName(): string | null {
+    return sessionStorage.getItem('nombre');
+  }
 
   isLoggedIn(): boolean {
     const token = sessionStorage.getItem('token');

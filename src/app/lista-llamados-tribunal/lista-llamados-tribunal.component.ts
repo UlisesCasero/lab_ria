@@ -247,10 +247,6 @@ export class ListaLlamadosTribunalComponent {
     }
   }
 
-  cancelar() {
-    this.router.navigate(['/listar-usuarios']);
-  }
-
   asignarPostulante(llamadoId: number){
     this.router.navigate(['agregar-postulante', llamadoId]);
   }

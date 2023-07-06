@@ -45,6 +45,7 @@ export class LoginComponent {
           sessionStorage.setItem('token', token);
           sessionStorage.setItem('email', user.email);
           sessionStorage.setItem('id', user.id);
+          sessionStorage.setItem('nombre', user.nombre);
           sessionStorage.setItem('roles', JSON.stringify(user.roles));
           console.log('rolesssguardadossss', user.roles);
           sessionStorage.setItem('documento', user.documento);
