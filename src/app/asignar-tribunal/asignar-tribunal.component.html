@@ -1,42 +1,72 @@
 <div class="flex justify-center items-center h-screen bg-blue-900">
     <div class="container mx-auto lg:max-w-8xl columns-1 bg-gray-600 p-4 my-8" style="margin-top: 70px;">
-      <form #form="ngForm" (submit)="registrarMiembroTribunal(form)" class="max-w-md mx-auto grid grid-cols-2 gap-4">
-        <div class="mb-2">
-            <label for="personaId" class="block mb-2 text-sm font-medium  dark:border-neutral-500  text-slate-300 font-light">Seleccionar Miembro:</label>
-            <select id="personaId" name="personaId" [(ngModel)]="miembroNuevo" required
-              class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-              <option value="" disabled selected>Seleccionar</option>
-              <option *ngFor="let miembro of usuariosTribunal" [value]="miembro.persona.id">{{ miembro.persona.primerNombre }}</option>
-            </select>
-        </div>
-  
-        <div class="mb-2">
-            <label for="tipoDeIntegranteId" class="block mb-2 text-sm font-medium dark:border-neutral-500  text-slate-300 font-light">Seleccionar Miembro:</label>
-            <select id="tipoDeIntegranteId" name="tipoDeIntegranteId" [(ngModel)]="tipoIntegrante" required
-              class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
-              <option value="" disabled selected>Seleccionar</option>
-              <option *ngFor="let tipo of tiposIntegrantes" [value]="tipo.id">{{ tipo.nombre }}</option>
-            </select>
+        <form #form="ngForm" (submit)="registrarMiembroTribunal(form)" class="max-w-md mx-auto grid grid-cols-3 gap-4">
+            <div class="  mb-2">
+                <label for="personaId" class="block mb-2 text-sm font-medium  dark:border-neutral-500  text-slate-300 font-light">Seleccionar Miembro:</label>
+                <select id="personaId" name="personaId" [(ngModel)]="miembroNuevo" required
+                class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option *ngFor="let miembro of usuariosTribunal" [value]="miembro.persona.id">{{ miembro.persona.primerNombre }}</option>
+                </select>
+            </div>
+    
+            <div class="mb-2">
+                <label for="tipoDeIntegranteId" class="block mb-2 text-sm font-medium dark:border-neutral-500  text-slate-300 font-light">Seleccionar Miembro:</label>
+                <select id="tipoDeIntegranteId" name="tipoDeIntegranteId" [(ngModel)]="tipoIntegrante" required
+                class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option *ngFor="let tipo of tiposIntegrantes" [value]="tipo.id">{{ tipo.nombre }}</option>
+                </select>
+            </div>
+
+            <div class="mb-2">
+                <label for="tipoOrden" class="block mb-2 text-sm font-medium dark:border-neutral-500  text-slate-300 font-light">Seleccionar Miembro:</label>
+                <select id="tipoOrden" name="tipoOrden" [(ngModel)]="tipoOrden" required
+                class="w-full px-3 py-2 placeholder-gray-400 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
+                    <option value="" disabled selected>Seleccionar</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+            </div>
+
+            <button type="submit" class="col-span-3 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg">Registrar Miembro</button>
+        </form>
+
+        <div class="overflow-hidden">
+            <table class="min-w-full text-left text-sm text-slate-300 font-light">
+                <thead class="border-b font-medium dark:border-neutral-500">
+                <tr>
+                    <th scope="col" class="px-6 py-4">Titular</th>
+                    <th scope="col" class="px-6 py-4">1er Suplente</th>
+                    <th scope="col" class="px-6 py-4">2do Suplente</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <ng-container *ngFor="let miembroTribunal of setTribunal; let a = index">
+                        <tr class="border-b dark:border-neutral-500">
+                            <ng-container *ngFor="let miembroTribunal of setTribunal; let i = index">
+                                <td class="whitespace-nowrap px-6 py-4" *ngIf="miembroTribunal.orden === a && miembroTribunal.tipoDeIntegrante.orden === 1">
+                                    {{ miembroTribunal.persona.primerNombre }} (Titular)
+                                </td>
+                            </ng-container>
+                        
+                            <ng-container *ngFor="let miembroTribunal of setTribunal; let i = index">
+                                <td class="whitespace-nowrap px-6 py-4" *ngIf="miembroTribunal.orden === a && miembroTribunal.tipoDeIntegrante.orden === 2">           
+                                    {{ miembroTribunal.persona.primerNombre }} (Titular)
+                                </td>
+                            </ng-container>
+                        
+                            <ng-container *ngFor="let miembroTribunal of setTribunal; let i = index">
+                                <td class="whitespace-nowrap px-6 py-4" *ngIf="miembroTribunal.orden === a && miembroTribunal.tipoDeIntegrante.orden === 3">
+                                    {{ miembroTribunal.persona.primerNombre }} (2do Suplente)
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </ng-container>            
+                </tbody>
+            </table>
         </div>
 
-        <button type="submit" class="col-span-2 bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-4 rounded-lg">Registrar Miembro</button>
-      </form>
-      <div class="overflow-hidden">
-        <table class="min-w-full text-left text-sm text-slate-300 font-light">
-          <thead class="border-b font-medium dark:border-neutral-500">
-            <tr>
-              <th scope="col" class="px-6 py-4">Tribunal</th>
-              <th scope="col" class="px-6 py-4">Titular</th>          
-              <th scope="col" class="px-6 py-4">1er Suplete</th>
-              <th scope="col" class="px-6 py-4">2do Suplete</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr class="border-b dark:border-neutral-500" *ngFor="let miembroTribunal of setTribunal">
-                <td class="whitespace-nowrap px-6 py-4">Integrante {{ miembroTribunal.orden }}</td>
-                <td class="whitespace-nowrap px-6 py-4">{{ miembroTribunal.persona.primerNombre }}</td> 
-                
-            </tr>
-          </tbody>
-        </table>
-      </div>
+    </div>
+</div>

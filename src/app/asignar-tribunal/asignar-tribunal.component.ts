@@ -34,6 +34,7 @@ export class AsignarTribunalComponent {
   usuariosTribunal: any[] = [];
  
   setTribunal: any[] = [];
+  tipoOrden: number = 0;
   error: String = '';
   miembroNuevo: any;
 
@@ -120,7 +121,7 @@ export class AsignarTribunalComponent {
         const url = `http://localhost:5000/api/MiembrosTribunales`;
         const requestBody = {
           activo: true,
-          orden: this.tiposIntegrantes.find(tipoIntegrante => tipoIntegrante.id == form.value.tipoDeIntegranteId).orden,
+          orden: form.value.tipoOrden,
           renuncia: false,
           motivoRenuncia: "",
           llamadoId: this.llamadoId,
@@ -130,11 +131,27 @@ export class AsignarTribunalComponent {
         this.http.post<any>(url, requestBody).subscribe(
           response => {
             console.log("Lo logro");
+            this.ordenarTribunal();
             location.reload();
           },
           error => {
             console.log('Hubo un error');
           },
         );
+  }
+
+  ordenarTribunal() {
+    // Ordenar el arreglo setTribunal utilizando una función de comparación personalizada
+    this.setTribunal.sort((a, b) => {
+      // Comparar por orden de miembroTribunal y tipoDeIntegrante
+      if (a.orden < b.orden) {
+        return -1;
+      } else if (a.orden > b.orden) {
+        return 1;
+      } else {
+        // Si los orden son iguales, comparar por orden de tipoDeIntegrante
+        return a.tipoDeIntegrante.orden - b.tipoDeIntegrante.orden;
+      }
+    });
   }
 }
