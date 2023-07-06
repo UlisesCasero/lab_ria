@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Location } from '@angular/common';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-lista-llamados-tribunal',
@@ -35,6 +36,7 @@ export class ListaLlamadosTribunalComponent {
   ngOnInit() {
     //this.obtenerUsuario();
     this.obtenerLlamados();
+    this.obtenerEstados();
   }
 
   listarPostulantes(llamadoId: number) {
@@ -108,9 +110,142 @@ export class ListaLlamadosTribunalComponent {
     };
   }
 
+  asignarEstadoLlamado(llamado: any){    
+    const fechaHoraActual = new Date().toISOString();
+    const url = `http://localhost:5000/api/LlamadosEstados`;
+    const requestBody = {
+        "id": 0,
+        "activo": true,
+        "fechaHora": fechaHoraActual,
+        "usuarioTransicion": "",
+        "observacion": "",
+        "llamadoId": llamado.id,
+        "llamadoEstadoPosibleId": this.estado, 
+    };
+    this.http.post<any>(url, requestBody).subscribe(
+      response => {
+        if (response.statusOk) {
+          console.log('Lo logró');
+          location.reload(); 
+        } else {
+          location.reload(); 
+          console.log('No lo logró');
+        }
+      },
+      error => {
+        console.log('Hubo un error');
+      }
+    );
+  }
 
+  obtenerEstados(){
+    const url = 'http://localhost:5000/api/LlamadosEstadosPosibles/Paged';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: true,
+        nombre: ""
+      },
+      orders: [ "" ]
+    };
 
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {          
+        this.estadosPosibles = response.list;
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
+    );
+  }
 
+  obtenerEstado(idEstado: number) {
+    const url = `http://localhost:5000/api/LlamadosEstadosPosibles/${idEstado}`;
+
+    return this.http.get<any>(url).subscribe(
+      (response) => {
+        this.estado = response; 
+      },
+      (error) => {
+        console.log('Error al obtener el estado:', error);
+      }
+    );
+  }
+
+  abrirVentanaAsignarEstadoLlamado(llamado: any) {
+    const rolesString = sessionStorage.getItem('roles');
+  
+    if (rolesString) {
+      const userRoles = JSON.parse(rolesString);
+  
+      if (userRoles.includes('ADMIN')) {
+        Swal.fire({
+          title: 'Asignar Estado',
+          html: '<select id="selectEstado" class="swal2-input"></select>',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Guardar',
+          didOpen: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            this.estadosPosibles.forEach((opcion) => {
+              if (opcion.id === 1  || opcion.id === 4 || opcion.id === 5 ) {
+                const option = document.createElement('option');
+                option.value = opcion.id.toString();
+                option.text = opcion.nombre;
+                select.add(option);
+              }
+            });
+          },
+          preConfirm: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            const selectedOption = select.value;
+            const estadoNumero = parseInt(selectedOption, 10); 
+            this.estado = estadoNumero;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.asignarEstadoLlamado(llamado);
+            console.log('Guardado');
+          }
+        });
+      }else if(userRoles.includes('TRIBUNAL')) {
+        Swal.fire({
+          title: 'Asignar Estado',
+          html: '<select id="selectEstado" class="swal2-input"></select>',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Guardar',
+          didOpen: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            this.estadosPosibles.forEach((opcion) => {
+              if (opcion.id === 2 || opcion.id === 3) {
+                const option = document.createElement('option');
+                option.value = opcion.id.toString();
+                option.text = opcion.nombre;
+                select.add(option);
+              }
+            });
+          },
+          preConfirm: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            const selectedOption = select.value;
+            const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
+            this.estado = estadoNumero;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.asignarEstadoLlamado(llamado);
+            console.log('Guardado');
+          }
+        });
+      }
+    } else {
+      console.log('No se encontraron roles en sessionStorage');
+    }
+  }
 
   asignarPostulante(llamadoId: number){
     this.router.navigate(['agregar-postulante', llamadoId]);
