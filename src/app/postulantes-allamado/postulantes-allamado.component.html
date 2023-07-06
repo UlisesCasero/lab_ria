@@ -1,5 +1,5 @@
 <div class="flex justify-center items-center h-screen bg-blue-900">
-  <div class="container mx-auto lg:max-w-2xl columns-1 bg-gray-600 p-4 my-8">
+  <div class="container mx-auto lg:max-w-8xl columns-1 bg-gray-600 p-4 my-8" style="margin-top: 70px;">
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10">
@@ -10,6 +10,8 @@
                   <th scope="col" class="px-6 py-4">Nombre Persona</th>
                   <th scope="col" class="px-6 py-4">Priemer Apellido</th>  
                   <th scope="col" class="px-6 py-4">Activo</th>
+                  <th scope="col" class="px-6 py-4">Entrevista realizada</th>
+                  <th scope="col" class="px-6 py-4">Estudio de meritos realizada</th>
                   <th scope="col" class="px-6 py-4">dar de baja</th>
                   <th scope="col" class="px-6 py-4">dar de alta</th>
                 </tr>
@@ -27,7 +29,25 @@
                       stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
                       <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
                     </svg>
-                  </td> 
+                  </td>
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <svg *ngIf="!registro.entrevistaRealizada" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"  (click)="estadoPostulante(registro, 'entrevistaRealizada')" style="cursor: pointer">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    <svg *ngIf="registro.entrevistaRealizada" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </td>   
+                  <td class="whitespace-nowrap px-6 py-4">
+                    <svg *ngIf="!registro.estudioMeritosRealizado" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6"  (click)="estadoPostulante(registro, 'estudioMeritosRealizado')" style="cursor: pointer">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+                    </svg>
+                    <svg *ngIf="registro.estudioMeritosRealizado" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </td>             
                   <td class="whitespace-nowrap px-6 py-4">
                     <div class="flex items-center justify-center">
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6" class="w-6 h-6" (click)="estadoPostulante(registro, 'eliminar')" style="cursor: pointer">
@@ -56,6 +76,9 @@
             [disabled]="currentPage === getTotalPages()">Siguiente</button>
         </div>
       </div>
+    </div>
+    <div class="mt-6 flex justify-end">    
+      <button class="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400" (click)="cancelar()">Cancelar</button>
     </div>
   </div>
 </div>

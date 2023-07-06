@@ -76,7 +76,7 @@ export class PostulantesALlamadoComponent {
     const url = `http://localhost:5000/api/Postulantes/${registro.id}`;
     const requestBody = {
       id: registro.id,
-      activo: false,
+      activo: registro.activo,
       fechaHoraEntrevista: registro.fechaHoraEntrevista,
       estudioMeritosRealizado: registro.estudioMeritosRealizado,
       entrevistaRealizada: registro.entrevistaRealizada,
@@ -86,7 +86,15 @@ export class PostulantesALlamadoComponent {
     if(nuevoEstado == "activar"){
       requestBody.activo = true;
     }
-
+    else if(nuevoEstado == "eliminar"){
+      requestBody.activo = false;
+    }
+    else if(nuevoEstado == "estudioMeritosRealizado"){
+      requestBody.estudioMeritosRealizado = true;
+    }
+    else if(nuevoEstado == "entrevistaRealizada"){
+      requestBody.entrevistaRealizada = true;
+    }
     this.http.put<any>(url, requestBody).subscribe(
       (response) => {       
         console.log('Área:', response);   
@@ -97,6 +105,10 @@ export class PostulantesALlamadoComponent {
         this.error = `Error al eliminar el área`;
       }
     );
+  }
+
+  cancelar() {
+    this.router.navigate(['/lista-llamados-tribunal']);
   }
 
   irPaginaAnterior() {
