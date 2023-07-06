@@ -21,9 +21,9 @@ export class AsignarTribunalComponent {
       this.llamadoId = params['llamadoId'];
       console.log("El llamado recibido es: " + this.llamadoId);
     });
-    this.obtenerUsuariosTribunal();
-    this.obtenerTiposIntegrantes();
     this.obtenerTribunal();
+    this.obtenerUsuariosTribunal();
+    this.obtenerTiposIntegrantes(); 
   } 
 
   listaUsuarios: any[] = [];
@@ -34,6 +34,7 @@ export class AsignarTribunalComponent {
   usuariosTribunal: any[] = [];
  
   setTribunal: any[] = [];
+  tipoOrden: number = 0;
   error: String = '';
   miembroNuevo: any;
 
@@ -61,8 +62,11 @@ export class AsignarTribunalComponent {
           if(registro.roles.includes("TRIBUNAL")){
             console.log("Los roles en este registro son " + registro.roles);
             console.log("Nombre " + registro.persona.primerNombre);
-            this.usuariosTribunal.push(registro);
-            
+            const existe = registro.persona.documento;
+            const coincidencia = this.setTribunal.find(item => item.persona.documento === existe); 
+            if (!coincidencia) {
+             this.usuariosTribunal.push(registro);
+            }
           }
         }
         
@@ -120,7 +124,7 @@ export class AsignarTribunalComponent {
         const url = `http://localhost:5000/api/MiembrosTribunales`;
         const requestBody = {
           activo: true,
-          orden: this.tiposIntegrantes.find(tipoIntegrante => tipoIntegrante.id == form.value.tipoDeIntegranteId).orden,
+          orden: form.value.tipoOrden,
           renuncia: false,
           motivoRenuncia: "",
           llamadoId: this.llamadoId,
@@ -130,11 +134,25 @@ export class AsignarTribunalComponent {
         this.http.post<any>(url, requestBody).subscribe(
           response => {
             console.log("Lo logro");
+            this.ordenarTribunal();
             location.reload();
           },
           error => {
             console.log('Hubo un error');
           },
         );
+  }
+
+  ordenarTribunal() {
+    this.setTribunal.sort((a, b) => {
+      
+      if (a.orden < b.orden) {
+        return -1;
+      } else if (a.orden > b.orden) {
+        return 1;
+      } else {
+        return a.tipoDeIntegrante.orden - b.tipoDeIntegrante.orden;
+      }
+    });
   }
 }
