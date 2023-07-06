@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
+
 @Component({
   selector: 'app-modificar-responsabilidades',
   templateUrl: './modificar-responsabilidades.component.html',
@@ -15,7 +17,7 @@ export class ModificarResponsabilidadesComponent {
   public error: String = '';
   public area: any = [];
 
-  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
   ngOnInit() {
     this.obtenerAreas();
@@ -70,45 +72,52 @@ export class ModificarResponsabilidadesComponent {
   }
 
 
-  modificarRes(){
+  modificarRes() {
     console.log(this.res.id);     
-      const body = {
-        "id": this.res.id,
+    const body = {
+      "id": this.res.id,
+      "activo": true,
+      "nombre": this.res.nombre,
+      "descripcion": this.res.descripcion,
+      "areaId": this.res.areaId,
+      "area": {
+        "id": 0,
         "activo": true,
-        "nombre": this.res.nombre,
-        "descripcion": this.res.descripcion,
-        "areaId": this.res.areaId,
-        "area": {
-          "id": 0,
-            "activo": true,
-            "nombre": "string"
-        }       
-      };
-      const url = `http://localhost:5000/api/Responsabilidades/${this.res.id}`;
-      this.buscarArea(this.res.areaId).subscribe(
-        (areaRespuesta) => {
-          body.area = areaRespuesta; 
-
-          this.http.put<any>(url, body).subscribe(
-            response => {
-              if (response.statusOk) {
-                console.log('Lo logró');
-              } else {
-                console.log('No lo logró');
-              }
-            },
-            error => {
-              console.log('Hubo un error');
-            }
-          );
-        },
-        (error) => {
-          console.log('Error al obtener el área:', error);
-        }
-      );
+        "nombre": "string"
+      }       
+    };
+    const url = `http://localhost:5000/api/Responsabilidades/${this.res.id}`;
+    this.buscarArea(this.res.areaId).subscribe(
+      (areaRespuesta) => {
+        body.area = areaRespuesta; 
+  
+        this.http.put<any>(url, body).subscribe(
+          (response) => {       
+            console.log('Responsabilidad:', response);   
+            this.res = response;  
+            Swal.fire({
+              icon: 'success',
+              title: 'Éxito',
+              text: 'La responsabiidad se modificó correctamente',
+              timer: 2000,
+              timerProgressBar: true
+            });
+            this.location.back(); 
+          },
+          (error) => {
+            console.log('Error al obtener el área:', error);
+          }
+        );
+      },
+      (error) => {
+        console.log('Error al obtener el área:', error);
+      }
+    );
   }
   
+  
   cancelar() {
-    this.location.back();
+    this.router.navigate(['/listar-responsabilidades']);
   }
+  
 }

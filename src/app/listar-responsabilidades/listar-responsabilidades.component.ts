@@ -69,6 +69,7 @@ export class ListarResponsabilidadesComponent {
       "id": res.id,
       "activo": res.activo,
       "nombre": res.nombre,
+      "descripcion": res.descripcion,
       "areaId": res.areaId,
       "area": {
         "id": res.area.id,

@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-areas',
@@ -14,20 +17,10 @@ export class AltaAreasComponent {
   public activo: boolean = false;
   public error: string = '';
 
-  constructor(private http: HttpClient, private location: Location) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
   altaAreas(nombre: string) {
-    if (!nombre) {
-      Swal.fire({
-        icon: 'error',
-        title: 'Error',
-        text: 'El nombre del área no puede estar vacío',
-        timer: 2000,
-        timerProgressBar: true
-      });
-      return; 
-    }
-  
+   
     const url = `http://localhost:5000/api/Areas`;
     const area = {
       nombre: nombre,
@@ -54,8 +47,7 @@ export class AltaAreasComponent {
   }
 
   cancelar() {
-    this.location.back();
+    this.router.navigate(['/listar-areas']);
   }
-  
   
 }

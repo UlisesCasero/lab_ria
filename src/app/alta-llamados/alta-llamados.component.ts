@@ -2,6 +2,9 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { ActivatedRoute } from '@angular/router';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-llamados',
@@ -27,7 +30,7 @@ export class AltaLlamadosComponent {
   Ids: any[] = [];
   setTribunal: any[] = [];
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
   obtenerAreas() {
     const url = 'http://localhost:5000/api/Areas/Paged';
@@ -247,5 +250,7 @@ export class AltaLlamadosComponent {
       
     }
   }
-
+  cancelar() {
+    this.router.navigate(['/listar-llamados']);
+  }
 }

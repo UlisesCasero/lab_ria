@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-llamados-estados-posibles',
@@ -14,7 +17,7 @@ export class AltaLlamadosEstadosPosiblesComponent {
   public activo: boolean = true;
   public error: String = '';
 
-  constructor(private http: HttpClient, private location: Location) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
   altaLlamadosEstadosPosibles(nombre: string) {
   
@@ -58,7 +61,6 @@ export class AltaLlamadosEstadosPosiblesComponent {
   }
 
   cancelar() {
-    this.location.back();
+    this.router.navigate(['/listar-llamados-estados-posibles']);
   }
-  
 }

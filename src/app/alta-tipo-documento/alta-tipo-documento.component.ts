@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { ActivatedRoute } from '@angular/router';
 import Swal from 'sweetalert2';
 import { Location } from '@angular/common';
+import { NgForm } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-tipo-documento',
@@ -14,20 +17,10 @@ export class AltaTipoDocumentoComponent {
   public activo: boolean = true;
   public error: String = '';
 
-  constructor(private http: HttpClient, private location: Location) { }
+  constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
   altaTipoDocumento(nombre: String){
 
-      if (!nombre) {
-        Swal.fire({
-          icon: 'error',
-          title: 'Error',
-          text: 'El nombre del tipo de documento no puede estar vacío',
-          timer: 2000,
-          timerProgressBar: true
-        });
-        return;
-      }
     const url = `http://localhost:5000/api/TiposDeDocumentos`;
     const nom = { nombre: nombre , activo: true};
     this.http.post<any>(url, nom).subscribe(
@@ -48,7 +41,8 @@ export class AltaTipoDocumentoComponent {
     );
   }
 
-    cancelar() {
-    this.location.back();
+  cancelar() {
+    this.router.navigate(['/listar-documentos']);
   }
+  
 }

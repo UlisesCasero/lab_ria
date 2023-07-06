@@ -184,66 +184,79 @@ export class ListarLlamadosComponent {
   }
 
   abrirVentanaAsignarEstadoLlamado(llamado: any) {
-    const rolesString = sessionStorage.getItem('roles'); // Obtener los roles del usuario como una cadena de texto
+    const rolesString = sessionStorage.getItem('roles');
   
     if (rolesString) {
       const userRoles = JSON.parse(rolesString);
   
-      Swal.fire({
-        title: 'Asignar Estado',
-        html: '<select id="selectEstado" class="swal2-input"></select>',
-        showCancelButton: true,
-        cancelButtonText: 'Cancelar',
-        confirmButtonText: 'Guardar',
-        didOpen: () => {
-          const select = document.getElementById('selectEstado') as HTMLSelectElement;
-          if (userRoles.includes('ADMIN') && userRoles.includes('TRIBUNAL')) {
-            const filteredEstadosPosibles = this.estadosPosibles.filter(opcion => opcion.id === 1 || opcion.id === 2 || opcion.id === 3 || opcion.id === 4);
-            filteredEstadosPosibles.forEach(opcion => {
-              const option = document.createElement('option');
-              option.value = opcion.id.toString();
-              option.text = opcion.nombre;
-              select.add(option);
+      if (userRoles.includes('ADMIN')) {
+        Swal.fire({
+          title: 'Asignar Estado',
+          html: '<select id="selectEstado" class="swal2-input"></select>',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Guardar',
+          didOpen: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            this.estadosPosibles.forEach((opcion) => {
+              if (opcion.id === 1  || opcion.id === 4 || opcion.id === 5 ) {
+                const option = document.createElement('option');
+                option.value = opcion.id.toString();
+                option.text = opcion.nombre;
+                select.add(option);
+              }
             });
-          } else if (userRoles.includes('ADMIN')) {
-            const filteredEstadosPosibles = this.estadosPosibles.filter(opcion => opcion.id === 1 || opcion.id === 2);
-            filteredEstadosPosibles.forEach(opcion => {
-              const option = document.createElement('option');
-              option.value = opcion.id.toString();
-              option.text = opcion.nombre;
-              select.add(option);
-            });
-          } else if (userRoles.includes('TRIBUNAL')) {
-            // Agregar opciones 3 y 4 al select
-            const filteredEstadosPosibles = this.estadosPosibles.filter(opcion => opcion.id === 3 || opcion.id === 4);
-            filteredEstadosPosibles.forEach(opcion => {
-              const option = document.createElement('option');
-              option.value = opcion.id.toString();
-              option.text = opcion.nombre;
-              select.add(option);
-            });
+          },
+          preConfirm: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            const selectedOption = select.value;
+            const estadoNumero = parseInt(selectedOption, 10); 
+            this.estado = estadoNumero;
           }
-        },
-        preConfirm: () => {
-          const select = document.getElementById('selectEstado') as HTMLSelectElement;
-          const selectedOption = select.value;
-          const estadoNumero = parseInt(selectedOption, 10);
-          this.estadoId = estadoNumero;
-        }
-      }).then((result) => {
-        if (result.isConfirmed) {
-          this.asignarEstadoLlamado(llamado);
-          console.log('Guardado');
-          location.reload();
-        }
-      });
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.asignarEstadoLlamado(llamado);
+            console.log('Guardado');
+          }
+        });
+      }else if(userRoles.includes('TRIBUNAL')) {
+        Swal.fire({
+          title: 'Asignar Estado',
+          html: '<select id="selectEstado" class="swal2-input"></select>',
+          showCancelButton: true,
+          cancelButtonText: 'Cancelar',
+          confirmButtonText: 'Guardar',
+          didOpen: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            this.estadosPosibles.forEach((opcion) => {
+              if (opcion.id === 2 || opcion.id === 3) {
+                const option = document.createElement('option');
+                option.value = opcion.id.toString();
+                option.text = opcion.nombre;
+                select.add(option);
+              }
+            });
+          },
+          preConfirm: () => {
+            const select = document.getElementById('selectEstado') as HTMLSelectElement;
+            const selectedOption = select.value;
+            const estadoNumero = parseInt(selectedOption, 10); // Convertir la cadena de texto a número
+            this.estado = estadoNumero;
+          }
+        }).then((result) => {
+          if (result.isConfirmed) {
+            this.asignarEstadoLlamado(llamado);
+            console.log('Guardado');
+          }
+        });
+      }
     } else {
       console.log('No se encontraron roles en sessionStorage');
     }
   }
   
   
-  asignarEstadoLlamado(llamado: any) {
+  asignarEstadoLlamado(llamado: any){    
     const fechaHoraActual = new Date().toISOString();
     const url = `http://localhost:5000/api/LlamadosEstados`;
     const requestBody = {
@@ -253,14 +266,15 @@ export class ListarLlamadosComponent {
         "usuarioTransicion": "",
         "observacion": "",
         "llamadoId": llamado.id,
-        "llamadoEstadoPosibleId": this.estado, // Conseguir el estado id
+        "llamadoEstadoPosibleId": this.estado, 
     };
-
     this.http.post<any>(url, requestBody).subscribe(
       response => {
         if (response.statusOk) {
           console.log('Lo logró');
+          location.reload(); 
         } else {
+          location.reload(); 
           console.log('No lo logró');
         }
       },
@@ -269,15 +283,10 @@ export class ListarLlamadosComponent {
       }
     );
   }
-  // Termiona Modificar Estado del llamado
-
-  // Asignar Postulante
 
   asignarPostulante(llamadoId: number){
     this.router.navigate(['agregar-postulante', llamadoId]);
   }
-
-  //
 
   irPaginaAnterior() {
     if (this.currentPage > 1) {
