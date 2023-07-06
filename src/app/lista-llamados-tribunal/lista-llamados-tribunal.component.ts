@@ -14,14 +14,14 @@ export class ListaLlamadosTribunalComponent {
   llamadoPaginated: any[] = [];
   llamado: any;
   persona: any;
-  id: number = 7;
+  id= sessionStorage.getItem('id');
 
   estado: any;
   estadoId: number = 0;
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = "503233971";
+  docuemento: string = sessionStorage.getItem('documento') || '';
 
   public error: String = '';
 
@@ -42,7 +42,7 @@ export class ListaLlamadosTribunalComponent {
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/2`; //cambiar por user.id
+    const url = `http://localhost:5000/api/Personas/${this.id}`; //cambiar por user.id
     this.http.get<any>(url).subscribe(
       (response) => {       
         this.persona = response;

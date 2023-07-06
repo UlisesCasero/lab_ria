@@ -16,11 +16,12 @@ export class LoginComponent {
   password: string = '';
   public logueado: boolean = false;
   public user: any;
+  public documento: string = '';
 
   constructor(private http: HttpClient, private router: Router, private authService: AuthService) {}
 
   ngOnInit(): void {
-    console.log('Usuario en sesiónnnnnnnn:', this.user);
+
   }
 
   login(username: string, password: string) {
@@ -32,6 +33,9 @@ export class LoginComponent {
 
     this.http.post<any>(url, requestBody).subscribe(
       response => {
+       // let numero: response.persona.id;
+        //let cadena: string = numero.toString();
+       // console.log(cadena); // "42"
         if (response.statusOk) {
           const token = response.token;
           const user: User = {
@@ -39,7 +43,8 @@ export class LoginComponent {
             nombre: response.nombre,
             email: response.email,
             roles: response.roles,
-            documento: response.documento
+            documento: response.documento,
+            tipoDeDocumento: response.tipoDocumento.id
           };
 
           sessionStorage.setItem('token', token);
@@ -49,6 +54,9 @@ export class LoginComponent {
           sessionStorage.setItem('roles', JSON.stringify(user.roles));
           console.log('rolesssguardadossss', user.roles);
           sessionStorage.setItem('documento', user.documento);
+         sessionStorage.setItem('tipoDocumento', user.tipoDeDocumento);
+         console.log('Usuario en sesiónnnnnnnn:', user.documento);
+         console.log('Usuario en tipo:', user.tipoDeDocumento);
           this.logueado = true;
           console.log(token);
           this.router.navigate(['/']);

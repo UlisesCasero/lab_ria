@@ -14,15 +14,14 @@ export class ListaLlamadosUsuarioComponent {
   llamadoPaginated: any[] = [];
   llamado: any;
   persona: any;
-  id: number = 2;
-
+  id: number=14;
   estado: any;
   estadoId: number = 0;
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = "50324499";
-
+ docuemento = sessionStorage.getItem('documento');
+ tipoDocumento = sessionStorage.getItem('tipoDeDocumento');
   public error: String = '';
 
   currentPage: number = 1;
@@ -33,15 +32,19 @@ export class ListaLlamadosUsuarioComponent {
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    //this.obtenerUsuario();
+    this.obtenerUsuario();
     this.obtenerLlamados();
+   // console.log('docc', this.docuemento);
+   // console.log('docc', this.id);
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/2`; //cambiar por user.id
+    const url = `http://localhost:5000/api/Personas/${this.tipoDocumento}/${this.docuemento}`; //cambiar por user.id
     this.http.get<any>(url).subscribe(
       (response) => {       
+        console.log('response');
         this.persona = response;
+        console.log('persona', this.persona.primerNombre);
       },
       (error) => {
         console.log('Error al obtener las áreas');
