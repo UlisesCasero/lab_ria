@@ -22,7 +22,7 @@ export class ListaLlamadosTribunalComponent {
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = sessionStorage.getItem('documento') || '';
+  docuemento: string = "503233971";//sessionStorage.getItem('documento') || '';
 
   public error: String = '';
 
@@ -43,11 +43,11 @@ export class ListaLlamadosTribunalComponent {
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/5`; 
+    const url = `http://localhost:5000/api/Personas/7`; 
     console.log('response');
     this.http.get<any>(url).subscribe(
       (response) => {       
-        debugger
+        
         this.obtenerLlamados();
         console.log('response');
         this.persona = response;
@@ -113,6 +113,9 @@ export class ListaLlamadosTribunalComponent {
       persona: {}
     };
   }
+
+  // TENGO QUE REALIZAR LA FUNCION PARA QUE SOLO DEJE TRANCICIONAR DE 
+  //ESTADO UNA VEZ QUE TODOS LOS USUARIOS FUERON ENTREVISTADOS O PARA EL OTRO CASO DE QUE TODOS TUVIERAN SU ESTUDIO DE MERITOS
 
   asignarEstadoLlamado(llamado: any){    
     const fechaHoraActual = new Date().toISOString();
