@@ -22,6 +22,7 @@ export class AsignarTribunalComponent {
       this.llamadoId = params['llamadoId'];
       console.log("El llamado recibido es: " + this.llamadoId);
     });
+    
     this.obtenerTribunal();
     this.obtenerUsuariosTribunal();
     this.obtenerTiposIntegrantes();
@@ -39,66 +40,13 @@ export class AsignarTribunalComponent {
   error: String = '';
   miembroNuevo: any;
 
+  
+
   // Tipos integrantes
   tiposIntegrantes: any[] = [];
   tipoIntegrante: any;
-
-  obtenerUsuariosTribunal() {
-    console.log("obtien usuarios");
-    const url = `http://localhost:5000/api/Auth/Users`;
-    const requestBody = {
-      limit: 22,
-      offset: 0,
-      id: 0,
-      filters: {},
-      orders: [""]
-    };
-    console.log("obtien request body");
-    this.http.post<any>(url, requestBody).subscribe(
-      (response) => {
-        console.log("obtien response");
-        this.listaUsuarios = response.list;
-        console.log(this.listaUsuarios.length);
-        for (const registro of this.listaUsuarios) {
-          if (registro.roles.includes("TRIBUNAL")) {
-            console.log("Los roles en este registro son " + registro.roles);
-            console.log("Nombre " + registro.persona.primerNombre);
-            const existe = registro.persona.documento;
-            const coincidencia = this.setTribunal.find(item => item.persona.documento === existe);
-            if (!coincidencia) {
-              this.usuariosTribunal.push(registro);
-            }
-          }
-        }
-
-      },
-      (error) => {
-        console.log('Error al obtener los usuarios:', error);
-        this.error = 'Error al obtener los usuarios';
-      }
-    );
-  }
-
-  obtenerTiposIntegrantes() {
-    console.log("obtien integrantes");
-    const url = `http://localhost:5000/api/TiposDeIntegrantes/Paged`;
-    const requestBody = {
-      "limit": 22,
-      "offset": 0,
-      "filters": {},
-      "orders": ['']
-    };
-    console.log("obtien request body");
-    this.http.post<any>(url, requestBody).subscribe(
-      (response) => {
-        this.tiposIntegrantes = response.list;
-      },
-      (error) => {
-        console.log('Error al obtener los usuarios:', error);
-        this.error = 'Error al obtener los usuarios';
-      }
-    );
-  }
+  maxIntegrantes: number = 0;
+  cantActualMimebros: number = 0;
 
   obtenerTribunal() {
     const url = `http://localhost:5000/api/Llamados/${this.llamadoId}`;
@@ -114,13 +62,66 @@ export class AsignarTribunalComponent {
 
   }
 
+  obtenerUsuariosTribunal() {
+    console.log("obtien usuarios");
+    const url = `http://localhost:5000/api/Auth/Users`;
+    const requestBody = {
+      limit: 22,
+      offset: 0,
+      id: 0,
+      filters: {},
+      orders: [""]
+    };
+    //console.log("obtien request body");
+    this.http.post<any>(url, requestBody).subscribe(
+      (response) => {
+        //console.log("obtien response");
+        this.listaUsuarios = response.list;
+        //console.log(this.listaUsuarios.length);
+        this.obtenerTribunal();
+        for (const registro of this.listaUsuarios) {
+          if (registro.roles.includes("TRIBUNAL")) {         
+            //console.log("Los roles en este registro son " + registro.roles);
+            //console.log("Nombre " + registro.persona.primerNombre);
+            const documento = registro.persona.documento;
+            const coincidencia = this.setTribunal.find(item => item.persona.documento == documento);
+            if (!coincidencia) {
+              this.usuariosTribunal.push(registro);
+            }
+          }
+        }
 
+      },
+      (error) => {
+        //console.log('Error al obtener los usuarios:', error);
+        this.error = 'Error al obtener los usuarios';
+      }
+    );
+  }
+
+  obtenerTiposIntegrantes() {
+    console.log("obtien integrantes");
+    const url = `http://localhost:5000/api/TiposDeIntegrantes/Paged`;
+    const requestBody = {
+      "limit": 22,
+      "offset": 0,
+      "filters": {},
+      "orders": ['']
+    };
+    //console.log("obtien request body");
+    this.http.post<any>(url, requestBody).subscribe(
+      (response) => {
+        this.tiposIntegrantes = response.list;
+        this.maxIntegrantes = this.tiposIntegrantes.length * 3;
+      },
+      (error) => {
+        //console.log('Error al obtener los usuarios:', error);
+        this.error = 'Error al obtener los usuarios';
+      }
+    );
+  }
 
   registrarMiembroTribunal(form: NgForm) {
-   // console.log("PERSONAID: " + form.value.personaId)
-   // console.log("TIPODEINTEGRANTEID: " + form.value.tipoDeIntegranteId)
-  //  console.log("LLAMADOID: " + this.llamadoId)
-   // console.log("EL ORDEN ES: " + this.tiposIntegrantes.find(tipoIntegrante => tipoIntegrante.id == form.value.tipoDeIntegranteId).orden)
     if (form.invalid || !form.value.tipoDeIntegranteId) {
       Swal.fire({
         icon: 'error',
@@ -131,6 +132,18 @@ export class AsignarTribunalComponent {
       });
       return;
     }
+    this.cantActualMimebros = this.setTribunal.length;
+    if (this.cantActualMimebros == this.maxIntegrantes) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Maximo de integrantes alcanzado',
+        timer: 2000,
+        timerProgressBar: true
+      });
+      return;
+    }
+    
     const url = `http://localhost:5000/api/MiembrosTribunales`;
     const requestBody = {
       activo: true,
@@ -143,8 +156,9 @@ export class AsignarTribunalComponent {
     };
     this.http.post<any>(url, requestBody).subscribe(
       response => {
-        console.log("Lo logro");
-        this.ordenarTribunal();
+        this.obtenerUsuariosTribunal();
+        this.ordenarTribunal();       
+        this.cantActualMimebros++;
         location.reload();
       },
       error => {
