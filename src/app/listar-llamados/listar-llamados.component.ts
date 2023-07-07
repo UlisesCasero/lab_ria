@@ -5,7 +5,6 @@ import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
 
-
 @Component({
   selector: 'app-listar-llamados',
   templateUrl: './listar-llamados.component.html',
@@ -15,11 +14,12 @@ export class ListarLlamadosComponent {
   llamadoData: any[] = []; 
   llamadoPaginated: any[] = [];
   llamado: any;
+  llamadoDataOriginal: any[] = [];
 
   estado: any;
   estadoId: number = 0;
   estadosPosibles: any[] = [];
-
+  estadoSeleccionado: string = 'todos'; 
 
   public error: String = '';
 
@@ -33,6 +33,8 @@ export class ListarLlamadosComponent {
   }
   
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
+
+  
 
   ngOnInit() {
     this.obtenerLlamados();
@@ -71,6 +73,8 @@ export class ListarLlamadosComponent {
       (response) => {       
         console.log('obtenidos');   
         this.llamadoData = response.list;
+this.llamadoDataOriginal = response.list;
+
         this.totalItems = response.totalCount;
         this.actualizarDatosPaginados();
       },
@@ -308,6 +312,7 @@ export class ListarLlamadosComponent {
     const endIndex = startIndex + this.itemsPerPage;
     this.llamadoPaginated = this.llamadoData.slice(startIndex, endIndex);
   }
+  
 
   getTotalItems(): number {
     return this.llamadoData.length;
@@ -318,8 +323,100 @@ export class ListarLlamadosComponent {
   }
 
   filtrarLlamados() {
-    this.llamadoPaginated = this.llamadoData.filter(llamado =>
-      llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+    this.currentPage = 1;
+    if (this.searchTerm.trim() === '') {
+      this.llamadoData = [...this.llamadoDataOriginal];
+    } else {
+      const filteredData = this.llamadoDataOriginal.filter(llamado =>
+        llamado.nombre.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+      this.llamadoData = filteredData;
+    }
+    this.totalItems = this.llamadoData.length;
+    this.actualizarDatosPaginados();
+  }
+
+  seleccionarOpcion(event: any): void {
+    const opcionSeleccionada = event.target.value;
+  
+    switch (opcionSeleccionada) {
+      case 'activos':
+        this.LlamadosActivos();
+        break;
+      case 'inactivos':
+       this.LlamadosInactivos();
+        break;
+        case 'todos':
+          this.obtenerLlamados();
+          break;
+      default:
+        // Lógica para mostrar todos los llamados
+        console.log('Mostrando todos los llamados...');
+        break;
+    }
+  }
+
+ LlamadosActivos() {
+    const url = 'http://localhost:5000/api/llamados/Paged';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: true,
+        nombre: "",
+        identificador: "",
+        personaTribunalId: 0,
+        estadoId: 0
+      },
+      orders: ['']
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {       
+        console.log('obtenidos');   
+        this.llamadoData = response.list;
+this.llamadoDataOriginal = response.list;
+
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
+    );
+  }
+
+  LlamadosInactivos() {
+    const url = 'http://localhost:5000/api/llamados/Paged';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: false,
+        nombre: "",
+        identificador: "",
+        personaTribunalId: 0,
+        estadoId: 0
+      },
+      orders: ['']
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {       
+        console.log('obtenidos');   
+        this.llamadoData = response.list;
+this.llamadoDataOriginal = response.list;
+
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
     );
   }
 }

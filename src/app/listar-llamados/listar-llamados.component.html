@@ -4,9 +4,15 @@
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10">
             <button class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaLlamado()">Agregar</button>
-            <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar..." class="form-control campo-buscar" (keyup)="filtrarLlamados()">
-          <div class="overflow-hidden">
-            <table class="min-w-full text-left text-sm text-slate-300 font-light">
+            <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar..." class="form-control campo-buscar" (keyup)="filtrarLlamados()">  
+            <select id="opciones" (change)="seleccionarOpcion($event)" >
+              <option value="todos">Todos</option>
+              <option value="activos">Activos</option>
+              <option value="inactivos">Inactivos</option>
+            </select>
+            <div class="overflow-hidden">
+                  
+              <table class="min-w-full text-left text-sm text-slate-300 font-light">
               <thead class="border-b font-medium dark:border-neutral-500">
                 <tr>
                   <th scope="col" class="px-6 py-4">Nombre Llamado</th>
@@ -23,6 +29,7 @@
               </thead>
               <tbody>
                 <tr class="border-b dark:border-neutral-500" *ngFor="let llamado of llamadoPaginated">
+                  
                   <td class="whitespace-nowrap px-6 py-4">{{ llamado.nombre }}</td>  
                   <td class="whitespace-nowrap px-6 py-4">
                     <svg *ngIf="llamado.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
@@ -79,9 +86,14 @@
                       </svg>
                     </div>
                   </td>
-                </tr>
+                </tr> <div class="overflow-hidden">
+                 
+                    </div>
               </tbody>
-            </table>
+            </table> 
+             
+            
+                 
           </div>
           <div class="flex justify-between items-center mt-4">
             <button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaAnterior()"

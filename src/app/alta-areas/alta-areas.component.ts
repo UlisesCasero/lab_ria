@@ -40,8 +40,13 @@ export class AltaAreasComponent {
         this.location.back();
       },
       (error) => {
-        console.log('Error al crear el área:', error);
-        this.error = 'Error al crear el área';
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text:error,
+          timer: 2000,
+          timerProgressBar: true
+        });
       }
     );
   }

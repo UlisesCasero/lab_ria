@@ -1,8 +1,9 @@
-import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
+import { Location } from '@angular/common';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
-import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-alta-usuario',
@@ -14,7 +15,7 @@ export class AltaUsuarioComponent {
   tiposDocumentos: any[] = [];
   public error: String = '';
 
-  constructor(private http: HttpClient, private router: Router) { }
+  constructor(private http: HttpClient, private router: Router,  private location: Location) { }
 
   ngOnInit() {
     this.obtenerTipoDocumentos();
@@ -68,28 +69,31 @@ export class AltaUsuarioComponent {
         activo: true
       };
       const url = `http://localhost:5000/api/Auth/Register`;
-      this.http.post<any>(url, requestBody)
-        .subscribe(
-          response => {
-            console.log('Lo logró');
-            Swal.fire({
-              icon: 'success',
-              title: 'Éxito',
-              text: 'El usuario se guardó correctamente',
-              timer: 2000,
-              timerProgressBar: true
-            }).then(() => {
-              this.router.navigate(['/listar-usuarios']);
-            });
-          },
-          error => {
-            console.log('Hubo un error');
-          }
-        );
+      this.http.post<any>(url, requestBody).subscribe(
+        (response) => {
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'El Usuario se creó correctamente',
+            timer: 2000,
+            timerProgressBar: true
+          });
+           this.location.back();
+        },
+        (error) => {
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error,
+            timer: 2000,
+            timerProgressBar: true
+          });
+        }
+      )
     }
   }
   cancelar() {
     this.router.navigate(['/listar-usuarios']);
   }
-  
+
 }

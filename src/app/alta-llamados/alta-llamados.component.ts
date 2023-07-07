@@ -192,9 +192,23 @@ export class AltaLlamadosComponent {
               console.log("NO LLEGA HASTA ACAAAAAAAAAA");
               this.asignarTribunal(this.llamado);
               console.log("Y TAMPOOCO LLEGA HASTA ACAAAAAAAAAA");
+              Swal.fire({
+                icon: 'success',
+                title: 'Éxito',
+                text: 'El llamado se registro correctamente',
+                timer: 2000,
+                timerProgressBar: true
+              });
+              this.location.back();
             },
             error => {
-              console.log('Hubo un error');
+              Swal.fire({
+                icon: 'error',
+                title: error,
+                text:error,
+                timer: 2000,
+                timerProgressBar: true
+              });
             }
           );
         },
