@@ -2,7 +2,7 @@ import { NgFor } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-asignar-tribunal',
@@ -11,7 +11,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AsignarTribunalComponent {
   
-  constructor(private route: ActivatedRoute, private http: HttpClient) { }
+  constructor( private router: Router,private route: ActivatedRoute, private http: HttpClient) { }
   
   llamadoId: number = 0;
   llamado: any;
@@ -82,7 +82,7 @@ export class AsignarTribunalComponent {
     console.log("obtien integrantes");
     const url = `http://localhost:5000/api/TiposDeIntegrantes/Paged`;
     const requestBody = {
-      "limit": -1,
+      "limit": 22,
       "offset": 0,
       "filters": {},
       "orders": ['']
@@ -154,5 +154,8 @@ export class AsignarTribunalComponent {
         return a.tipoDeIntegrante.orden - b.tipoDeIntegrante.orden;
       }
     });
+  }
+  cancelar() {
+    this.router.navigate(['/listar-llamados']);
   }
 }

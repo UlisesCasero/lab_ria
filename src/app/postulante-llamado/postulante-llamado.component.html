@@ -31,9 +31,7 @@
                                 <td>
                                     <button class="btn" (click)="abrirVentanaAsignarFechaHora(persona)">Asignar</button>
                                 </td>
-                                <td>
-                                    <button class="btn" >Quitar</button>
-                                </td>
+                               
                             </div>
                         </tr>
                     </tbody>
@@ -46,7 +44,13 @@
               <button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaSiguiente()"
                 [disabled]="currentPage === getTotalPages()">Siguiente</button>
             </div>
+            <div class="mt-6 flex justify-end">
+            
+              <button class="rounded-md bg-teal-400 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-teal-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-teal-400" (click)="cancelar()">Volver</button>
+            
+            </div>    
           </div>
+          
         </div>
       </div>
     </div>

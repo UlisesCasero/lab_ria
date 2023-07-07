@@ -14,14 +14,16 @@ export class ListaLlamadosUsuarioComponent {
   llamadoPaginated: any[] = [];
   llamado: any;
   persona: any;
-  id: number=14;
+  id = sessionStorage.getItem('id');
+
   estado: any;
   estadoId: number = 0;
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
- docuemento = sessionStorage.getItem('documento');
- tipoDocumento = sessionStorage.getItem('tipoDeDocumento');
+  docuemento = sessionStorage.getItem('documento');
+  tipoDeDocumento = sessionStorage.getItem('tipoDeDocumento');
+
   public error: String = '';
 
   currentPage: number = 1;
@@ -33,25 +35,22 @@ export class ListaLlamadosUsuarioComponent {
 
   ngOnInit() {
     this.obtenerUsuario();
-    this.obtenerLlamados();
-   // console.log('docc', this.docuemento);
-   // console.log('docc', this.id);
+    
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/${this.tipoDocumento}/${this.docuemento}`; //cambiar por user.id
-    this.http.get<any>(url).subscribe(
-      (response) => {       
-        console.log('response');
-        this.persona = response;
-        console.log('persona', this.persona.primerNombre);
+    const url = `http://localhost:5000/api/Personas/1/${this.docuemento}`; //cambiar por user.id
+    this.http.get<any>(url).subscribe({
+      next: (data) => {
+        debugger
+        this.obtenerLlamados();       
+        this.persona = data;
       },
-      (error) => {
+      error: (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
-      } 
-    );
-    
+      }
+    })
   }
 
   obtenerLlamados() {
@@ -71,7 +70,8 @@ export class ListaLlamadosUsuarioComponent {
     };    
 
     this.http.post<any>(url, requestBody).subscribe(
-      (response) => {       
+      (response) => {  
+        debugger     
         console.log('obtenidos');
        //obtener documento del usuario de sesion   
         this.listaCompleta = response.list;

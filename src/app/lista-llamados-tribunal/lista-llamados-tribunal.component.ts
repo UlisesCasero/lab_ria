@@ -34,8 +34,7 @@ export class ListaLlamadosTribunalComponent {
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    //this.obtenerUsuario();
-    this.obtenerLlamados();
+    this.obtenerUsuario();
     this.obtenerEstados();
   }
 
@@ -44,10 +43,15 @@ export class ListaLlamadosTribunalComponent {
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/${this.id}`; //cambiar por user.id
+    const url = `http://localhost:5000/api/Personas/5`; 
+    console.log('response');
     this.http.get<any>(url).subscribe(
       (response) => {       
+        debugger
+        this.obtenerLlamados();
+        console.log('response');
         this.persona = response;
+        console.log('persona', this.persona.primerNombre);
       },
       (error) => {
         console.log('Error al obtener las áreas');
