@@ -166,5 +166,9 @@ export class PostulanteLlamadoComponent {
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
   }
+
+  cancelar() {
+    this.router.navigate(['/listar-llamados']);
+  }
   
 }

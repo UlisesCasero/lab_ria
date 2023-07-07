@@ -14,14 +14,15 @@ export class ListaLlamadosUsuarioComponent {
   llamadoPaginated: any[] = [];
   llamado: any;
   persona: any;
-  id: number = 2;
+  id = sessionStorage.getItem('id');
 
   estado: any;
   estadoId: number = 0;
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = "50324499";
+  docuemento = sessionStorage.getItem('documento');
+  tipoDeDocumento = sessionStorage.getItem('tipoDeDocumento');
 
   public error: String = '';
 
@@ -33,22 +34,23 @@ export class ListaLlamadosUsuarioComponent {
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    //this.obtenerUsuario();
-    this.obtenerLlamados();
+    this.obtenerUsuario();
+    
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/2`; //cambiar por user.id
-    this.http.get<any>(url).subscribe(
-      (response) => {       
-        this.persona = response;
+    const url = `http://localhost:5000/api/Personas/1/${this.docuemento}`; //cambiar por user.id
+    this.http.get<any>(url).subscribe({
+      next: (data) => {
+        debugger
+        this.obtenerLlamados();       
+        this.persona = data;
       },
-      (error) => {
+      error: (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
-      } 
-    );
-    
+      }
+    })
   }
 
   obtenerLlamados() {
@@ -68,7 +70,8 @@ export class ListaLlamadosUsuarioComponent {
     };    
 
     this.http.post<any>(url, requestBody).subscribe(
-      (response) => {       
+      (response) => {  
+        debugger     
         console.log('obtenidos');
        //obtener documento del usuario de sesion   
         this.listaCompleta = response.list;

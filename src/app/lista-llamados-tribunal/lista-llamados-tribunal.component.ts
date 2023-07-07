@@ -15,14 +15,14 @@ export class ListaLlamadosTribunalComponent {
   llamadoPaginated: any[] = [];
   llamado: any;
   persona: any;
-  id: number = 7;
+  id= sessionStorage.getItem('id');
 
   estado: any;
   estadoId: number = 0;
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = "503233971";
+  docuemento: string = sessionStorage.getItem('documento') || '';
 
   public error: String = '';
 
@@ -34,8 +34,7 @@ export class ListaLlamadosTribunalComponent {
   constructor(private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
-    //this.obtenerUsuario();
-    this.obtenerLlamados();
+    this.obtenerUsuario();
     this.obtenerEstados();
   }
 
@@ -44,10 +43,15 @@ export class ListaLlamadosTribunalComponent {
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/2`; //cambiar por user.id
+    const url = `http://localhost:5000/api/Personas/5`; 
+    console.log('response');
     this.http.get<any>(url).subscribe(
       (response) => {       
+        debugger
+        this.obtenerLlamados();
+        console.log('response');
         this.persona = response;
+        console.log('persona', this.persona.primerNombre);
       },
       (error) => {
         console.log('Error al obtener las áreas');

@@ -110,7 +110,9 @@ export class PostulantesALlamadoComponent {
   cancelar() {
     this.router.navigate(['/lista-llamados-tribunal']);
   }
-
+  cancelar2() {
+    this.router.navigate(['/listar-llamados']);
+  }
   irPaginaAnterior() {
     if (this.currentPage > 1) {
       this.currentPage--;
@@ -138,5 +140,22 @@ export class PostulantesALlamadoComponent {
 
   getTotalPages(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
+  }
+
+  isTribunal(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('TRIBUNAL');
+  }
+
+  isAdmin(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('ADMIN');
+  }
+
+  isLoggedIn(): boolean {
+    const token = sessionStorage.getItem('token');
+    return token !== null && token !== undefined;
   }
 }

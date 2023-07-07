@@ -4,5 +4,6 @@ export interface User {
     email: string;
     roles: string[];
     documento: string;
+    tipoDeDocumento: string;
   }
   
