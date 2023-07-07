@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
@@ -23,7 +23,7 @@ export class PostulantesALlamadoComponent {
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
-  
+
   constructor(private route: ActivatedRoute, private http: HttpClient, private router: Router, private location: Location) { }
 
   ngOnInit() {
@@ -33,7 +33,7 @@ export class PostulantesALlamadoComponent {
     });
     this.obtenerPostulantes();
   }
-
+ 
   altaPersona() {
     this.router.navigate(['alta-persona']);
   }
@@ -51,28 +51,40 @@ export class PostulantesALlamadoComponent {
       "orders": [""]
     };
     this.http.post<any>(url, todos).subscribe(
-      (response) => {       
-        let count = 0;  
-        this.lista =  response.list;
-        for (const registro of  this.lista) {
+      (response) => {
+        let count = 0;
+        this.lista = response.list;
+        for (const registro of this.lista) {
           console.log(registro.llamadoId);
-          if(registro.llamadoId == this.llamadoId){
+          if (registro.llamadoId == this.llamadoId) {
             console.log("entra");
             this.registroData.push(registro);
             count++;
           }
         }
+
         this.totalItems = count;
         this.actualizarDatosPaginados();
+        const todosEnTrue = this.verificarEstado();
+        if (todosEnTrue) {
+          console.log("Todos los postulantes están en true");
+        } else {
+          console.log(" funcion postulante en false");
+        }
       },
       (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
-      } 
+      }
     );
   }
 
-  estadoPostulante(registro: any, nuevoEstado: string){
+  verificarEstado(): boolean {
+    return this.registroData.every((registro: any) => registro.estudioMeritosRealizado);
+  }
+
+
+  estadoPostulante(registro: any, nuevoEstado: string) {
     const url = `http://localhost:5000/api/Postulantes/${registro.id}`;
     const requestBody = {
       id: registro.id,
@@ -83,22 +95,24 @@ export class PostulantesALlamadoComponent {
       llamadoId: registro.llamadoId,
       personaId: registro.persona.id,
     };
-    if(nuevoEstado == "activar"){
+    const estadoCompleto = this.verificarEstadoCompleto(this.registroData, nuevoEstado);
+    console.log("Estado completo:", estadoCompleto);
+    if (nuevoEstado == "activar") {
       requestBody.activo = true;
     }
-    else if(nuevoEstado == "eliminar"){
+    else if (nuevoEstado == "eliminar") {
       requestBody.activo = false;
     }
-    else if(nuevoEstado == "estudioMeritosRealizado"){
+    else if (nuevoEstado == "estudioMeritosRealizado") {
       requestBody.estudioMeritosRealizado = true;
     }
-    else if(nuevoEstado == "entrevistaRealizada"){
+    else if (nuevoEstado == "entrevistaRealizada") {
       requestBody.entrevistaRealizada = true;
     }
     this.http.put<any>(url, requestBody).subscribe(
-      (response) => {       
-        console.log('Área:', response);   
-        location.reload();  
+      (response) => {
+        console.log('Área:', response);
+        location.reload();
       },
       (error) => {
         console.log('Error al eliminar el área:', error);
@@ -126,6 +140,20 @@ export class PostulantesALlamadoComponent {
       this.currentPage++;
       this.actualizarDatosPaginados();
     }
+  }
+  verificarEstadoCompleto(registros: any[], nuevoEstado: string): boolean {
+    return registros.every(registro => {
+      if (nuevoEstado === "activar") {
+        return registro.activo;
+      } else if (nuevoEstado === "eliminar") {
+        return !registro.activo;
+      } else if (nuevoEstado === "estudioMeritosRealizado") {
+        return registro.estudioMeritosRealizado;
+      } else if (nuevoEstado === "entrevistaRealizada") {
+        return registro.entrevistaRealizada;
+      }
+      return false;
+    });
   }
 
   actualizarDatosPaginados() {

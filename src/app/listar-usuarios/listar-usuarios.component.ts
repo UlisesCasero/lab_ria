@@ -15,15 +15,19 @@ export class ListarUsuariosComponent {
   UsuarioData: any[] = [];
   usuarioPaginated: any[] = [];
   rolesUsuarios: any[] = [];
-  filtroInactivo: boolean | undefined;
+  filtroInactivo: boolean = false;
   public usuario: any;
   public error: String = '';
+  registrosPaginated: any[] = [];
+  lista: any[] = [];
 
+  llamadoId: number = 0;
   currentPage: number = 1;
   itemsPerPage: number = 5;
   totalItems: number = 0;
   searchTerm: string = '';
   usuarioDataOriginal: any[] = [];
+  registroData: any;
   constructor(private authService: AuthService, private http: HttpClient, private router: Router, private location: Location) { }
 
   search() {
@@ -185,11 +189,29 @@ this.usuarioDataOriginal = response.list;
     );
   }
   filtrarLlamados() {
-    this.usuarioPaginated = this.UsuarioData.filter(usuario =>
-      usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase()) &&
-      (this.filtroInactivo === undefined || usuario.activo === !this.filtroInactivo || !this.filtroInactivo)
-    );
+    let filteredData = this.UsuarioData;
+  
+    if (this.searchTerm.trim() !== '') {
+      filteredData = filteredData.filter(usuario =>
+        usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+      );
+    }
+  
+    if (this.filtroInactivo) {
+      filteredData = filteredData.filter(usuario => usuario.activo);
+    }
+  
+    this.totalItems = filteredData.length;
+    this.currentPage = 1;
+    this.usuarioPaginated = this.paginarDatos(filteredData);
   }
+  
+  paginarDatos(data: any[]): any[] {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    return data.slice(startIndex, endIndex);
+  }
+  
 
   cargarRoles(select: HTMLSelectElement) {
     this.http.get<string[]>('http://localhost:5000/api/Auth/Users/Roles').subscribe(
