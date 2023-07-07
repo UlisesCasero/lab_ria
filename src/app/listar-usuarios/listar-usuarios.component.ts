@@ -23,6 +23,7 @@ export class ListarUsuariosComponent {
   itemsPerPage: number = 5;
   totalItems: number = 0;
   searchTerm: string = '';
+  usuarioDataOriginal: any[] = [];
   constructor(private authService: AuthService, private http: HttpClient, private router: Router, private location: Location) { }
 
   search() {
@@ -69,6 +70,120 @@ export class ListarUsuariosComponent {
     );
   }
 
+  seleccionarOpcion(event: any): void {
+    const opcionSeleccionada = event.target.value;
+  
+    switch (opcionSeleccionada) {
+      case 'activos':
+        this.usuariosActivos();
+        break;
+      case 'inactivos':
+       this.usuariosInactivos();
+        break;
+        case 'todos':
+          this.usuarios();
+          break;
+      default:
+        // Lógica para mostrar todos los llamados
+        console.log('Mostrando todos los llamados...');
+        break;
+    }
+  }
+ usuariosActivos() {
+    const url = 'http://localhost:5000/api/Auth/Users';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: true,
+        nombre: "",
+        identificador: "",
+        personaTribunalId: 0,
+        estadoId: 0
+      },
+      orders: ['']
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {       
+        console.log('obtenidos');   
+        this.UsuarioData = response.list;
+this.usuarioDataOriginal = response.list;
+
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
+    );
+  }
+
+  usuariosInactivos() {
+    const url = 'http://localhost:5000/api/Auth/Users';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: false,
+        nombre: "",
+        identificador: "",
+        personaTribunalId: 0,
+        estadoId: 0
+      },
+      orders: ['']
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {       
+        console.log('obtenidos');   
+        this.UsuarioData = response.list;
+this.usuarioDataOriginal = response.list;
+
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
+    );
+  }
+
+  usuarios(){
+    const url = 'http://localhost:5000/api/Auth/Users';
+    const Body = {
+      limit: -1,
+      offset: 0,
+      id: 0,
+      filters: {
+        activo: null,
+        nombre: "",
+        identificador: "",
+        personaTribunalId: 0,
+        estadoId: 0
+      },
+      orders: ['']
+    };
+
+    this.http.post<any>(url, Body).subscribe(
+      (response) => {       
+        console.log('obtenidos');   
+        this.UsuarioData = response.list;
+this.usuarioDataOriginal = response.list;
+
+        this.totalItems = response.totalCount;
+        this.actualizarDatosPaginados();
+      },
+      (error) => {
+        console.log('Error al obtener las áreas');
+        this.error = `Error al obtener las áreas`;
+      } 
+    );
+  }
   filtrarLlamados() {
     this.usuarioPaginated = this.UsuarioData.filter(usuario =>
       usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase()) &&

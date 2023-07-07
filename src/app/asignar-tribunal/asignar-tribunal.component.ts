@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-asignar-tribunal',
@@ -10,12 +11,12 @@ import { ActivatedRoute, Router } from '@angular/router';
   styleUrls: ['./asignar-tribunal.component.scss']
 })
 export class AsignarTribunalComponent {
-  
-  constructor( private router: Router,private route: ActivatedRoute, private http: HttpClient) { }
-  
+
+  constructor(private router: Router, private route: ActivatedRoute, private http: HttpClient) { }
+
   llamadoId: number = 0;
   llamado: any;
-  
+
   ngOnInit() {
     this.route.params.subscribe(params => {
       this.llamadoId = params['llamadoId'];
@@ -23,16 +24,16 @@ export class AsignarTribunalComponent {
     });
     this.obtenerTribunal();
     this.obtenerUsuariosTribunal();
-    this.obtenerTiposIntegrantes(); 
-  } 
+    this.obtenerTiposIntegrantes();
+  }
 
   listaUsuarios: any[] = [];
-  
+
   tribunalMiembro: any
   tribunal: number = 0;
-  
+
   usuariosTribunal: any[] = [];
- 
+
   setTribunal: any[] = [];
   tipoOrden: number = 0;
   error: String = '';
@@ -46,30 +47,30 @@ export class AsignarTribunalComponent {
     console.log("obtien usuarios");
     const url = `http://localhost:5000/api/Auth/Users`;
     const requestBody = {
-        limit: 22,
-        offset: 0,
-        id: 0,
-        filters: {},
-        orders: [""]
+      limit: 22,
+      offset: 0,
+      id: 0,
+      filters: {},
+      orders: [""]
     };
     console.log("obtien request body");
     this.http.post<any>(url, requestBody).subscribe(
-      (response) => {  
+      (response) => {
         console.log("obtien response");
-        this.listaUsuarios =  response.list;
+        this.listaUsuarios = response.list;
         console.log(this.listaUsuarios.length);
-        for (const registro of  this.listaUsuarios) {
-          if(registro.roles.includes("TRIBUNAL")){
+        for (const registro of this.listaUsuarios) {
+          if (registro.roles.includes("TRIBUNAL")) {
             console.log("Los roles en este registro son " + registro.roles);
             console.log("Nombre " + registro.persona.primerNombre);
             const existe = registro.persona.documento;
-            const coincidencia = this.setTribunal.find(item => item.persona.documento === existe); 
+            const coincidencia = this.setTribunal.find(item => item.persona.documento === existe);
             if (!coincidencia) {
-             this.usuariosTribunal.push(registro);
+              this.usuariosTribunal.push(registro);
             }
           }
         }
-        
+
       },
       (error) => {
         console.log('Error al obtener los usuarios:', error);
@@ -89,8 +90,8 @@ export class AsignarTribunalComponent {
     };
     console.log("obtien request body");
     this.http.post<any>(url, requestBody).subscribe(
-      (response) => {  
-        this.tiposIntegrantes =  response.list;       
+      (response) => {
+        this.tiposIntegrantes = response.list;
       },
       (error) => {
         console.log('Error al obtener los usuarios:', error);
@@ -99,7 +100,7 @@ export class AsignarTribunalComponent {
     );
   }
 
-  obtenerTribunal(){
+  obtenerTribunal() {
     const url = `http://localhost:5000/api/Llamados/${this.llamadoId}`;
     this.http.get<any>(url).subscribe(
       response => {
@@ -115,37 +116,52 @@ export class AsignarTribunalComponent {
 
 
 
-  registrarMiembroTribunal(form: NgForm){
-      console.log("PERSONAID: "+form.value.personaId)
-      console.log("TIPODEINTEGRANTEID: "+form.value.tipoDeIntegranteId)
-      console.log("LLAMADOID: "+this.llamadoId)
-      console.log("EL ORDEN ES: "+this.tiposIntegrantes.find(tipoIntegrante => tipoIntegrante.id == form.value.tipoDeIntegranteId).orden)
-
-        const url = `http://localhost:5000/api/MiembrosTribunales`;
-        const requestBody = {
-          activo: true,
-          orden: form.value.tipoOrden,
-          renuncia: false,
-          motivoRenuncia: "",
-          llamadoId: this.llamadoId,
-          personaId: form.value.personaId,
-          tipoDeIntegranteId: form.value.tipoDeIntegranteId,
-        };
-        this.http.post<any>(url, requestBody).subscribe(
-          response => {
-            console.log("Lo logro");
-            this.ordenarTribunal();
-            location.reload();
-          },
-          error => {
-            console.log('Hubo un error');
-          },
-        );
+  registrarMiembroTribunal(form: NgForm) {
+   // console.log("PERSONAID: " + form.value.personaId)
+   // console.log("TIPODEINTEGRANTEID: " + form.value.tipoDeIntegranteId)
+  //  console.log("LLAMADOID: " + this.llamadoId)
+   // console.log("EL ORDEN ES: " + this.tiposIntegrantes.find(tipoIntegrante => tipoIntegrante.id == form.value.tipoDeIntegranteId).orden)
+    if (form.invalid || !form.value.tipoDeIntegranteId) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor, complete todos los campos',
+        timer: 2000,
+        timerProgressBar: true
+      });
+      return;
+    }
+    const url = `http://localhost:5000/api/MiembrosTribunales`;
+    const requestBody = {
+      activo: true,
+      orden: form.value.tipoOrden,
+      renuncia: false,
+      motivoRenuncia: "",
+      llamadoId: this.llamadoId,
+      personaId: form.value.personaId,
+      tipoDeIntegranteId: form.value.tipoDeIntegranteId,
+    };
+    this.http.post<any>(url, requestBody).subscribe(
+      response => {
+        console.log("Lo logro");
+        this.ordenarTribunal();
+        location.reload();
+      },
+      error => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error,
+          timer: 2000,
+          timerProgressBar: true
+        });
+      },
+    );
   }
 
   ordenarTribunal() {
     this.setTribunal.sort((a, b) => {
-      
+
       if (a.orden < b.orden) {
         return -1;
       } else if (a.orden > b.orden) {

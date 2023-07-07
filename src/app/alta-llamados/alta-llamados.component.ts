@@ -160,6 +160,16 @@ export class AltaLlamadosComponent {
   }
 
   registrarLlamado(form: NgForm){
+    if (form.invalid || !form.value.idArea) {
+      Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: 'Por favor, complete todos los campos',
+        timer: 2000,
+        timerProgressBar: true
+      });
+      return;
+    }
     if (form.valid) {
       const url = 'http://localhost:5000/api/Llamados';
       const requestBody = {

@@ -72,7 +72,7 @@ export class ModificarLlamadoComponent {
 
 
   modificarLlamado(){
-    console.log(this.llamado.id);     
+    console.log(this.llamado.id);  
       const body = {
         "id": this.llamado.id,
         "activo": true,
@@ -92,13 +92,24 @@ export class ModificarLlamadoComponent {
           this.http.put<any>(url, body).subscribe(
             response => {
               if (response.statusOk) {
-                console.log('Lo logró');
-              } else {
-                console.log('No lo logró');
+                Swal.fire({
+                  icon: 'success',
+                  title: 'Éxito',
+                  text: 'El llamado se registro correctamente',
+                  timer: 2000,
+                  timerProgressBar: true
+                });
+                
               }
             },
             error => {
-              console.log('Hubo un error');
+              Swal.fire({
+                icon: 'error',
+                title: 'Error',
+                text: 'Por favor, complete todos los campos',
+                timer: 2000,
+                timerProgressBar: true
+              });
             }
           );
         },
