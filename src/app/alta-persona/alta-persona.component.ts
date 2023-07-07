@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-alta-persona',
@@ -60,10 +61,22 @@ export class AltaPersonaComponent {
       this.http.post<any>(url, requestBody)
       .subscribe(
         response => {
-          
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'La Persona se credó correctamente',
+            timer: 2000,
+            timerProgressBar: true
+          });
         },
         error => {
-          console.log('Hubo un error');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text:error,
+            timer: 2000,
+            timerProgressBar: true
+          });
         }
       );  
     }

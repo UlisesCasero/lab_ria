@@ -147,14 +147,27 @@ export class PostulanteLlamadoComponent {
     });
   }
   
-
   filtrarPersonas() {
     this.personaPaginated = this.PersonaData.filter(persona =>
-      persona.email.toLowerCase().includes(this.searchTerm.toLowerCase())
+      this.compararValor(persona.email) ||
+      this.compararValor(persona.primerNombre) ||
+      this.compararValor(persona.primerApellido)
     );
   }
-
-
+  
+  compararValor(valor: any): boolean {
+    if (valor && typeof valor === 'string') {
+      return valor.toLowerCase().includes(this.searchTerm.toLowerCase());
+    }
+    return false;
+  }
+  limpiarBusqueda() {
+    this.searchTerm = ''; // Reiniciar el término de búsqueda
+    this.filtrarPersonas(); // Aplicar filtro inicial para mostrar todos los datos
+    this.actualizarDatosPaginados(); // Actualizar los datos paginados
+  }
+  
+  
   irPaginaAnterior() {
     if (this.currentPage > 1) {
       this.currentPage--;
