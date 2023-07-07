@@ -15,6 +15,8 @@ export class PostulanteLlamadoComponent {
   PersonaData: any[] = []; 
   personaPaginated: any[] = [];
 
+  llamado: any;
+
   error: String = '';
   llamadoId: number = 0;
   fechaHora: string = "";
@@ -39,8 +41,12 @@ export class PostulanteLlamadoComponent {
     this.obtenerPersonas();
   }
 
-  obtenerPersonas(){
+  obtenerllamado(){
+    const url = `http://localhost:5000/api/Llamados/${this.llamadoId}`;
+    return this.http.get<any>(url);
+  }
 
+  obtenerPersonas(){
     const url = `http://localhost:5000/api/Personas/Paged`;
     const filters = {
       activo: true
@@ -52,18 +58,31 @@ export class PostulanteLlamadoComponent {
       orders: ['']
     };
 
-    this.http.post<any>(url, bodyRequest).subscribe(
-      (response) => {       
-        this.PersonaData = response.list;
-        this.totalItems = response.totalCount;
-        this.actualizarDatosPaginados(); // Actualizar datos paginados después de recibir los usuarios
-      },
-      (error) => {
-        console.log('Error al obtener los usuarios:', error);
-        this.error = 'Error al obtener los usuarios';
-      } 
-    ); 
+    this.obtenerllamado().subscribe(
+      (responsellamado) => {
+        this.http.post<any>(url, bodyRequest).subscribe(
+          (responsePersonas) => { 
+            for (const persona of responsePersonas.list) {
+              const personaEncontrada = responsellamado.postulantes.find((postulantes: any) => postulantes.persona.documento == persona.documento);
+              if(!personaEncontrada){
+                console.log(persona.documento)
+                this.PersonaData.push(persona);
+                this.totalItems++;
+              }
+            }
+            this.actualizarDatosPaginados();
+          },
+          (error) => {
+            console.log('Error al obtener los usuarios:', error);
+            this.error = 'Error al obtener los usuarios';
+          } 
+        ); 
+      }
+
+    )
+
   }
+
 
   asignarLlamado(persona: any){
     const url = `http://localhost:5000/api/Postulantes`;
@@ -76,14 +95,6 @@ export class PostulanteLlamadoComponent {
       llamadoId: this.llamadoId,
       personaId: persona.id,
     };
-    console.log(
-      requestBody.activo,         
-      requestBody.fechaHoraEntrevista,
-      requestBody.estudioMeritosRealizado,
-      requestBody.entrevistaRealizada,
-      requestBody.llamadoId,
-      requestBody.personaId,
-      );
 
     this.http.post<any>(url, requestBody).subscribe(
       response => {
@@ -126,6 +137,8 @@ export class PostulanteLlamadoComponent {
       if (result.isConfirmed) {
         this.asignarLlamado(persona);
         console.log('Guardado');
+        //this.obtenerPersonas(); POR QUE CADA VEZ QUE REALIZO LA FUNCION SE AGREGAN MAS PERSONAS (las mismas`) A LA LISTA?
+        location.reload();
       }
     });
   }

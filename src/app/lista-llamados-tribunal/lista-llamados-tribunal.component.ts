@@ -22,7 +22,7 @@ export class ListaLlamadosTribunalComponent {
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = sessionStorage.getItem('documento') || '';
+  docuemento: string = "503233971";//sessionStorage.getItem('documento') || '';
 
   public error: String = '';
 
@@ -43,11 +43,11 @@ export class ListaLlamadosTribunalComponent {
   }
 
   obtenerUsuario(){
-    const url = `http://localhost:5000/api/Personas/5`; 
+    const url = `http://localhost:5000/api/Personas/7`; 
     console.log('response');
     this.http.get<any>(url).subscribe(
       (response) => {       
-        debugger
+        
         this.obtenerLlamados();
         console.log('response');
         this.persona = response;
