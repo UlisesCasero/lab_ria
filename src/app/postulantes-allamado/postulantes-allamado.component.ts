@@ -17,6 +17,7 @@ export class PostulantesALlamadoComponent {
   lista: any[] = [];
 
   llamadoId: number = 0;
+  fechaHora: string = "";
 
   public error: String = '';
 
@@ -110,15 +111,71 @@ export class PostulantesALlamadoComponent {
       requestBody.entrevistaRealizada = true;
     }
     this.http.put<any>(url, requestBody).subscribe(
-      (response) => {
-        console.log('Área:', response);
-        location.reload();
+      (response) => {         
+        location.reload(); 
       },
       (error) => {
         console.log('Error al eliminar el área:', error);
         this.error = `Error al eliminar el área`;
       }
     );
+  }
+
+  asignarEntrevista(postulante: any){
+    console.log("ENTRA A LA FUNCION")
+    const url = `http://localhost:5000/api/Postulantes/${postulante.id}`;
+    const requestBody = {
+      id: postulante.id,
+      activo: postulante.activo,
+      fechaHoraEntrevista: this.fechaHora,
+      estudioMeritosRealizado: postulante.estudioMeritosRealizado,
+      entrevistaRealizada: postulante.entrevistaRealizada,
+      llamadoId: postulante.llamadoId,
+      personaId: postulante.persona.id,
+    };
+    console.log("Body Esss", requestBody)
+    this.http.put<any>(url, requestBody).subscribe(
+      response => {
+        console.log("RESPONSE")
+        if (response.statusOk) {
+          console.log('Lo logró');
+        } else {
+          console.log('No lo logró');
+        }
+      },
+      error => {
+        console.log('Hubo un error');
+      }
+    );
+  }
+
+  abrirVentanaAsignarFechaHora(postulante: any) {
+    Swal.fire({
+      title: 'Asignar Entrevista',
+      html: '<input type="datetime-local" id="inputFechaHora" class="swal2-input">',
+      showCancelButton: true,
+      cancelButtonText: 'Cancelar',
+      confirmButtonText: 'Guardar',
+      didOpen: () => {
+        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
+        // Aquí puedes realizar acciones adicionales si es necesario.
+      },
+      preConfirm: () => {
+        const inputFechaHora = document.getElementById('inputFechaHora') as HTMLInputElement;
+        const fechaHoraSeleccionada = inputFechaHora.value;
+
+      
+        const fechaHoraISO = new Date(fechaHoraSeleccionada).toISOString();
+        this.fechaHora = fechaHoraISO;
+      }
+    }).then((result) => {
+      if (result.isConfirmed) {
+        this.asignarEntrevista(postulante);
+        console.log('Entrevista Agendada');
+        //this.obtenerPersonas(); POR QUE CADA VEZ QUE REALIZO LA FUNCION SE AGREGAN MAS PERSONAS (las mismas`) A LA LISTA?
+        //location.reload();
+      }
+    })
   }
 
   cancelar() {
