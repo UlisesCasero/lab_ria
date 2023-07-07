@@ -1,0 +1,64 @@
+<div class="flex justify-center items-center h-screen bg-blue-900">
+	<div class="container mx-auto lg:max-w-8xl columns-1 bg-gray-600 p-4 my-8" style="margin-top: 70px;">
+		<div class="flex flex-col">
+			<div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+				<div class="inline-block min-w-full py-2 sm:px-6 lg:px-10"> <button
+						class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaPersona()">Agregar</button>
+					<div class="overflow-hidden">
+						<table class="min-w-full text-left text-sm text-slate-300 font-light">
+							<thead class="border-b font-medium dark:border-neutral-500">
+								<tr>
+									<th scope="col" class="px-6 py-4">Primer Nombre</th>
+									<th scope="col" class="px-6 py-4">Segundo Nombre</th>
+									<th scope="col" class="px-6 py-4">Primer Apellido</th>
+									<th scope="col" class="px-6 py-4">Segundo Apellido</th>
+									<th scope="col" class="px-6 py-4">Documento</th>
+									<th scope="col" class="px-6 py-4">Tipo Documento</th>
+									<th scope="col" class="px-6 py-4">Activo</th>
+									<th scope="col" class="px-6 py-4">modificar</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr class="border-b dark:border-neutral-500" *ngFor="let persona of personaPaginated">
+									<td class="whitespace-nowrap px-6 py-4">{{ persona.primerNombre }} </td>
+									<td class="whitespace-nowrap px-6 py-4">{{ persona.segundoNombre }} </td>
+									<td class="whitespace-nowrap px-6 py-4">{{ persona.primerApellido }} </td>
+									<td class="whitespace-nowrap px-6 py-4">{{ persona.segundoApellido }} </td>
+									<td class="whitespace-nowrap px-6 py-4">{{ persona.tipoDeDocumento.nombre }} </td>
+									<td class="whitespace-nowrap px-6 py-4">{{ persona.documento }} </td>
+									<td class="whitespace-nowrap px-6 py-4">
+                    <svg *ngIf="!persona.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                        stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-red-500">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" (click)="estadoPostulante(persona, 'alta')" style="cursor: pointer"></path>
+                        </svg>
+                    <svg *ngIf="persona.activo" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
+                      stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500" (click)="estadoPostulante(persona, 'baja')" style="cursor: pointer">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                  </td> 
+									<div class="flex flex-row">
+										<div class="w-1/2">
+											<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5"
+												stroke="currentColor" class="w-6 h-6" (click)="modificarPersona(persona.id)"
+												style="cursor: pointer">
+												<path stroke-linecap="round" stroke-linejoin="round"
+													d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
+											</svg>
+										</div>
+									</div>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+					<div class="flex justify-between items-center mt-4">
+						<button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaAnterior()"
+							[disabled]="currentPage === 1">Anterior</button>
+						<div>Página {{ currentPage }} de {{ getTotalItems() > 0 ? getTotalPages() : 1 }}</div>
+						<button class="px-3 py-1 bg-gray-300 text-gray-600 rounded text-sm" (click)="irPaginaSiguiente()"
+							[disabled]="currentPage === getTotalPages()">Siguiente</button>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

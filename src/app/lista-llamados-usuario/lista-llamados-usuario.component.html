@@ -20,7 +20,7 @@
                   <td class="whitespace-nowrap px-6 py-4">{{ llamado.ultimoEstado.llamadoEstadoPosible.nombre}}</td>
                   <ng-container *ngFor="let postulante of llamado.postulantes; let i = index">
                     <td class="whitespace-nowrap px-6 py-4" *ngIf="postulante.persona.documento == docuemento  && postulante.entrevistaRealizada == false">{{ postulante.fechaHoraEntrevista}}</td>
-                    <td class="whitespace-nowrap px-6 py-4" *ngIf="postulante.entrevistaRealizada == true"> 
+                    <td class="whitespace-nowrap px-6 py-4" *ngIf="postulante.persona.documento == docuemento  && postulante.entrevistaRealizada == true"> 
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
                         stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-green-500">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"></path>
