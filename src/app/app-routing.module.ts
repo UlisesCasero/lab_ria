@@ -37,6 +37,9 @@ import { ListarResponsabilidadesComponent } from './listar-responsabilidades/lis
 import { ModificarResponsabilidadesComponent } from './modificar-responsabilidades/modificar-responsabilidades.component';
 import { ListaLlamadosUsuarioComponent } from './lista-llamados-usuario/lista-llamados-usuario.component';
 import { ListaLlamadosTribunalComponent } from './lista-llamados-tribunal/lista-llamados-tribunal.component';
+import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
+import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
+import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
 
 
 const routes: Routes = [
@@ -191,6 +194,18 @@ const routes: Routes = [
   {
     path: 'lista-llamados-tribunal', 
     component: ListaLlamadosTribunalComponent
+  },
+  {
+    path: 'alta-persona', 
+    component: AltaPersonaComponent
+  },
+  {
+    path: 'listar-personas', 
+    component: ListarPersonasComponent
+  },
+  {
+    path: 'modificar-persona/:personaId', 
+    component: ModificarPersonaComponent
   }
 ];
 

@@ -47,6 +47,9 @@ import { ListarResponsabilidadesComponent } from './listar-responsabilidades/lis
 import { ModificarResponsabilidadesComponent } from './modificar-responsabilidades/modificar-responsabilidades.component';
 import { ListaLlamadosUsuarioComponent } from './lista-llamados-usuario/lista-llamados-usuario.component';
 import { ListaLlamadosTribunalComponent } from './lista-llamados-tribunal/lista-llamados-tribunal.component';
+import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
+import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
+import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
 
 @NgModule({
   declarations: [
@@ -90,6 +93,9 @@ import { ListaLlamadosTribunalComponent } from './lista-llamados-tribunal/lista-
     ModificarResponsabilidadesComponent,
     ListaLlamadosUsuarioComponent,
     ListaLlamadosTribunalComponent,
+    AltaPersonaComponent,
+    ListarPersonasComponent,
+    ModificarPersonaComponent
   ],
   imports: [
     HttpClientModule,
