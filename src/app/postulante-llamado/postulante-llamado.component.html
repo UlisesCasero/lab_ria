@@ -5,7 +5,7 @@
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
           <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10">
             <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar..." class="form-control campo-buscar" (keyup)="filtrarPersonas()">
-            <button class="px-4 py-2 bg-blue-600 text-white rounded" >Agregar</button>
+            <button class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaPersona()">Agregar</button>
             <div class="overflow-hidden">
                 <table class="min-w-full text-left text-sm text-slate-300 font-light">
                     <thead class="border-b font-medium dark:border-neutral-500">

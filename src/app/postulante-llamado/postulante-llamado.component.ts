@@ -46,6 +46,10 @@ export class PostulanteLlamadoComponent {
     return this.http.get<any>(url);
   }
 
+  altaPersona() {
+    this.router.navigate(['alta-persona-llamado', this.llamadoId]);
+  }
+
   obtenerPersonas(){
     const url = `http://localhost:5000/api/Personas/Paged`;
     const filters = {

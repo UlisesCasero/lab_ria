@@ -40,6 +40,7 @@ import { ListaLlamadosTribunalComponent } from './lista-llamados-tribunal/lista-
 import { AltaPersonaComponent } from './alta-persona/alta-persona.component';
 import { ListarPersonasComponent } from './listar-personas/listar-personas.component';
 import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
+import { AltaPersonaLlamadoComponent } from './alta-persona-llamado/alta-persona-llamado.component';
 
 
 const routes: Routes = [
@@ -206,6 +207,10 @@ const routes: Routes = [
   {
     path: 'modificar-persona/:personaId', 
     component: ModificarPersonaComponent
+  },
+  {
+    path: 'alta-persona-llamado/:llamadoId', 
+    component: AltaPersonaLlamadoComponent
   }
 ];
 
