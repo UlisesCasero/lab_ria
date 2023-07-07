@@ -6,14 +6,12 @@
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-10">
           <button class="px-4 py-2 bg-blue-600 text-white rounded" (click)="altaUsuario()">Agregar</button>
           <input type="text" [(ngModel)]="searchTerm" placeholder="Buscar..." class="form-control campo-buscar" (keyup)="filtrarLlamados()">  
-          <select id="opciones" (change)="filtrarLlamados()" >
+          <select id="opciones" (change)="seleccionarOpcion($event)" >
             <option value="todos">Todos</option>
             <option value="activos">Activos</option>
             <option value="inactivos">Inactivos</option>
           </select>
-            <input type="checkbox" [(ngModel)]="filtroInactivo" (change)="filtrarLlamados()"
-            class="form-checkbox text-blue-600 h-4 w-4 rounded border-gray-300 focus:ring-blue-500 focus:border-blue-500">
-          <div class="overflow-hidden">
+           <div class="overflow-hidden">
             <table class="min-w-full text-left text-sm text-slate-300 font-light">
               <thead class="border-b font-medium dark:border-neutral-500">
                 <tr>

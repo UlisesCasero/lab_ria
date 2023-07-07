@@ -76,142 +76,107 @@ export class ListarUsuariosComponent {
 
   seleccionarOpcion(event: any): void {
     const opcionSeleccionada = event.target.value;
-  
+
     switch (opcionSeleccionada) {
       case 'activos':
         this.usuariosActivos();
         break;
       case 'inactivos':
-       this.usuariosInactivos();
+        this.usuariosInactivos();
         break;
-        case 'todos':
-          this.usuarios();
-          break;
+      case 'todos':
+        this.obtenerUsuarios();
+        break;
       default:
         // Lógica para mostrar todos los llamados
         console.log('Mostrando todos los llamados...');
         break;
     }
   }
- usuariosActivos() {
-    const url = 'http://localhost:5000/api/Auth/Users';
+
+  usuariosActivos() {
+    const url = `http://localhost:5000/api/Auth/Users`;
     const Body = {
-      limit: -1,
+      limit: 22,
       offset: 0,
       id: 0,
       filters: {
-        activo: true,
-        nombre: "",
-        identificador: "",
-        personaTribunalId: 0,
-        estadoId: 0
+        activo: false
       },
       orders: ['']
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('obtenidos');   
+      (response) => {
+        console.log('obtenidos');
         this.UsuarioData = response.list;
-this.usuarioDataOriginal = response.list;
+        this.UsuarioData = response.list.filter((usuario: { activo: boolean; }) => usuario.activo === true);
 
-        this.totalItems = response.totalCount;
+        this.usuarioDataOriginal = response.list;
+
+        console.log('obtenidos', this.UsuarioData);
+        this.totalItems = this.UsuarioData.length;
         this.actualizarDatosPaginados();
       },
       (error) => {
         console.log('Error al obtener las áreas');
         this.error = `Error al obtener las áreas`;
-      } 
+      }
     );
   }
 
   usuariosInactivos() {
     const url = 'http://localhost:5000/api/Auth/Users';
     const Body = {
-      limit: -1,
+      limit: 22,
       offset: 0,
       id: 0,
       filters: {
-        activo: false,
-        nombre: "",
-        identificador: "",
-        personaTribunalId: 0,
-        estadoId: 0
+        activo: false
       },
       orders: ['']
     };
 
     this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('obtenidos');   
-        this.UsuarioData = response.list;
-this.usuarioDataOriginal = response.list;
-
-        this.totalItems = response.totalCount;
+      (response) => {
+        console.log('obtenidos');
+        this.UsuarioData = response.list.filter((usuario: { activo: boolean; }) => usuario.activo === false);
+        this.usuarioDataOriginal = response.list;
+        console.log('obtenidos', this.UsuarioData);
+        this.totalItems = this.UsuarioData.length;
         this.actualizarDatosPaginados();
       },
       (error) => {
-        console.log('Error al obtener las áreas');
-        this.error = `Error al obtener las áreas`;
-      } 
+        console.log('Error al obtener los usuarios inactivos:', error);
+        this.error = 'Error al obtener los usuarios inactivos';
+      }
     );
   }
 
-  usuarios(){
-    const url = 'http://localhost:5000/api/Auth/Users';
-    const Body = {
-      limit: -1,
-      offset: 0,
-      id: 0,
-      filters: {
-        activo: null,
-        nombre: "",
-        identificador: "",
-        personaTribunalId: 0,
-        estadoId: 0
-      },
-      orders: ['']
-    };
-
-    this.http.post<any>(url, Body).subscribe(
-      (response) => {       
-        console.log('obtenidos');   
-        this.UsuarioData = response.list;
-this.usuarioDataOriginal = response.list;
-
-        this.totalItems = response.totalCount;
-        this.actualizarDatosPaginados();
-      },
-      (error) => {
-        console.log('Error al obtener las áreas');
-        this.error = `Error al obtener las áreas`;
-      } 
-    );
-  }
   filtrarLlamados() {
     let filteredData = this.UsuarioData;
-  
+
     if (this.searchTerm.trim() !== '') {
       filteredData = filteredData.filter(usuario =>
         usuario.email.toLowerCase().includes(this.searchTerm.toLowerCase())
       );
     }
-  
+
     if (this.filtroInactivo) {
       filteredData = filteredData.filter(usuario => usuario.activo);
     }
-  
+
     this.totalItems = filteredData.length;
     this.currentPage = 1;
     this.usuarioPaginated = this.paginarDatos(filteredData);
   }
-  
+
   paginarDatos(data: any[]): any[] {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     return data.slice(startIndex, endIndex);
   }
-  
+
 
   cargarRoles(select: HTMLSelectElement) {
     this.http.get<string[]>('http://localhost:5000/api/Auth/Users/Roles').subscribe(
@@ -478,8 +443,11 @@ this.usuarioDataOriginal = response.list;
   getTotalItems(): number {
     return this.UsuarioData.length;
   }
-
   getTotalPages(): number {
+    return Math.ceil(this.totalItems / this.itemsPerPage);
+  }
+
+  getTotalPages2(): number {
     return Math.ceil(this.getTotalItems() / this.itemsPerPage);
   }
 }
