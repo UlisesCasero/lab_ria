@@ -114,6 +114,9 @@ export class ListaLlamadosTribunalComponent {
     };
   }
 
+  // TENGO QUE REALIZAR LA FUNCION PARA QUE SOLO DEJE TRANCICIONAR DE 
+  //ESTADO UNA VEZ QUE TODOS LOS USUARIOS FUERON ENTREVISTADOS O PARA EL OTRO CASO DE QUE TODOS TUVIERAN SU ESTUDIO DE MERITOS
+
   asignarEstadoLlamado(llamado: any){    
     const fechaHoraActual = new Date().toISOString();
     const url = `http://localhost:5000/api/LlamadosEstados`;
