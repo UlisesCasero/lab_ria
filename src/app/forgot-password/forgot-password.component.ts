@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-forgot-password',
@@ -24,12 +25,14 @@ export class ForgotPasswordComponent {
     this.http.post<any>(url, requestBody)
       .subscribe(
         response => {
-          if (response.status) {
-            this.successMessage = response.mensaje;
-          } else {
-            const errorMessage = response.mensaje;
-            this.errorMessage = errorMessage;
-          }
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Se le envio un correo electronico',
+            timer: 2000,
+            timerProgressBar: true
+          });
+          this.router.navigate(['/']);
         },
         error => {
           this.errorMessage = 'Ocurrió un error al restablecer la contraseña. Por favor, intenta nuevamente.';

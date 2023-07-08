@@ -22,7 +22,7 @@ export class ListaLlamadosTribunalComponent {
   estadosPosibles: any[] = [];
 
   postulanteData: any[] = [];
-  docuemento: string = "503233971";//sessionStorage.getItem('documento') || '';
+  docuemento = sessionStorage.getItem('documento');
 
   public error: String = '';
 

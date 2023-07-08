@@ -42,14 +42,21 @@ export class ModificarTipoDocumentoComponent {
     const url = `http://localhost:5000/api/TiposDeDocumentos/${this.documento.id}`;
     const body = {
       id: this.documento.id,
-     // activo: this.documento.activo,
+      activo: true,
       nombre: this.documento.nombre,      
     };
 
     this.http.put<any>(url, body).subscribe(
       (response) => {       
-        console.log('Documento:', response);   
         this.documento = response;   
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'El documento se modificó correctamente',
+          timer: 2000,
+          timerProgressBar: true
+        });
+        this.location.back();
       },
       (error) => {
         console.log('Error al obtener el documento:', error);

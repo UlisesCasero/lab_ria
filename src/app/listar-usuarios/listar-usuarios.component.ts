@@ -63,7 +63,7 @@ export class ListarUsuariosComponent {
     this.http.post<any>(url, request).subscribe(
       (response) => {
         const currentUserEmail = sessionStorage.getItem('email');
-        this.UsuarioData = response.list.filter((usuario: { email: string | null; }) => usuario.email !== currentUserEmail);
+        this.UsuarioData = response.list.filter((usuario: { email: string | null; }) => usuario.email !== currentUserEmail && usuario.email !== 'admin@admin.com');
         this.totalItems = response.totalCount;
         this.actualizarDatosPaginados();
       },

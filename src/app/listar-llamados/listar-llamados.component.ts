@@ -350,7 +350,6 @@ this.llamadoDataOriginal = response.list;
           this.obtenerLlamados();
           break;
       default:
-        // Lógica para mostrar todos los llamados
         console.log('Mostrando todos los llamados...');
         break;
     }
@@ -387,7 +386,11 @@ this.llamadoDataOriginal = response.list;
       } 
     );
   }
-
+  isAdmin(): boolean {
+    const rolesString = sessionStorage.getItem('roles');
+    const roles = rolesString ? JSON.parse(rolesString) : [];
+    return roles.includes('ADMIN');
+  }
   LlamadosInactivos() {
     const url = 'http://localhost:5000/api/llamados/Paged';
     const Body = {

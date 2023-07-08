@@ -18,7 +18,6 @@ export class AuthService {
     return this.isLoggedInValue;
   }
   getUser(): any {
-    // Obtener el objeto de usuario en sesión desde algún lugar (por ejemplo, una variable privada)
     return this.currentUser;
   }
 }

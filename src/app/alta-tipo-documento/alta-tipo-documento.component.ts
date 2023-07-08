@@ -33,6 +33,7 @@ export class AltaTipoDocumentoComponent {
           timer: 2000,
           timerProgressBar: true
         });
+        this.location.back();
       },
       (error) => {
         console.log('Error al crear el tipo de documento:', error);

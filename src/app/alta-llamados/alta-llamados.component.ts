@@ -194,14 +194,11 @@ export class AltaLlamadosComponent {
   
           this.http.post<any>(url, requestBody).subscribe(
             response => {
-              console.log("LLEGA HASTA ACAAAAAAAAAA");
               this.llamado = response;
               for (const miembro of this.setTribunal) {
                 console.log(miembro.persona.primerNombre);
               }
-              console.log("NO LLEGA HASTA ACAAAAAAAAAA");
               this.asignarTribunal(this.llamado);
-              console.log("Y TAMPOOCO LLEGA HASTA ACAAAAAAAAAA");
               Swal.fire({
                 icon: 'success',
                 title: 'Éxito',
@@ -211,6 +208,7 @@ export class AltaLlamadosComponent {
               });
               this.location.back();
             },
+
             error => {
               Swal.fire({
                 icon: 'error',
@@ -221,18 +219,14 @@ export class AltaLlamadosComponent {
               });
             }
           );
+
+          
         },
         (error) => {
           console.log('Error al obtener el área:', error);
         }
       );
     }
-  }
-
-  //TENGO QUE REGISTRAR EL TIPO DE INTEGRANTE CREO QUE ES SUPLENTE TITULAR Y DEMAS,
-  // PROBAR ESO LUEGO DE QUE SE TIENE EL TIPO DE INTTEGRANTE ESO SE ASIGNA AL MIAMBRO DEL TRIBUNAL Y AHI SE PUEDE ASIGNAR MIEBRO DE TRIBUNAL AL LLAMADO
-  tipoIntegrante(){
-
   }
 
   asignarTribunal(llamado: any){
@@ -265,6 +259,14 @@ export class AltaLlamadosComponent {
             }
           }
           this.cantTribunal = this.usuariosTribunal.length;
+
+          Swal.fire({
+            icon: 'success',
+            title: 'Éxito',
+            text: 'Tribunal Asignado',
+            timer: 5000,
+            timerProgressBar: true
+          });
         },
         (error) => {
           console.log('Error al obtener los usuarios:', error);

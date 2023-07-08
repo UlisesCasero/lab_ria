@@ -14,14 +14,15 @@ import { Router } from '@angular/router';
 })
 export class AltaTipoDeIntegrantesComponent {
   public id: number = 0;
-  public nombre: String ="";
+  public nombre: string = "";
   public activo: boolean = true;
   public error: String = '';
-
+  public selectedOption: string = '';
+  
   constructor(private http: HttpClient, private route: ActivatedRoute, private location: Location, private router: Router) { }
 
-  altaTipoDeIntegrantes(nombre: String){
-
+  altaTipoDeIntegrantes(nombre: string, selectedOption: string) {
+    const orden: number = parseInt(selectedOption);
       if (!nombre) {
         Swal.fire({
           icon: 'error',
@@ -33,7 +34,7 @@ export class AltaTipoDeIntegrantesComponent {
         return;
       }
     const url = `http://localhost:5000/api/TiposDeIntegrantes`;
-    const nom = { nombre: nombre , activo: true};
+    const nom = { nombre: nombre , activo: true, orden: orden};
     this.http.post<any>(url, nom).subscribe(
       (response) => {
         console.log('tipo de Integrante creada:', response);
@@ -44,6 +45,7 @@ export class AltaTipoDeIntegrantesComponent {
           timer: 2000,
           timerProgressBar: true
         });
+        this.location.back();
       },
       (error) => {
         console.log('Error al crear el tipo de integrante:', error);

@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import Swal from 'sweetalert2';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-alta-persona',
@@ -13,7 +14,7 @@ export class AltaPersonaComponent {
   tiposDocumentos: any[] = [];
   public error: String = '';
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private router: Router) { }
 
   ngOnInit(){
     this.obtenerTipoDocumentos();
@@ -64,10 +65,11 @@ export class AltaPersonaComponent {
           Swal.fire({
             icon: 'success',
             title: 'Éxito',
-            text: 'La Persona se credó correctamente',
+            text: 'La Persona se creó correctamente',
             timer: 2000,
             timerProgressBar: true
           });
+          this.router.navigate(['/listar-personas']);
         },
         error => {
           Swal.fire({
@@ -82,5 +84,8 @@ export class AltaPersonaComponent {
     }
 
 
+  }
+  cancelar() {
+    this.router.navigate(['/listar-personas']);
   }
 }

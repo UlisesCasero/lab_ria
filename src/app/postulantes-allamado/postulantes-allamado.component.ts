@@ -157,8 +157,6 @@ export class PostulantesALlamadoComponent {
       cancelButtonText: 'Cancelar',
       confirmButtonText: 'Guardar',
       didOpen: () => {
-        // En este evento "didOpen", se ejecuta cuando la ventana emergente está abierta.
-        // Aquí puedes realizar acciones adicionales si es necesario.
       },
       preConfirm: () => {
         const inputFechaHora = document.getElementById('inputFechaHora') as HTMLInputElement;

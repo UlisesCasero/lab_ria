@@ -38,23 +38,23 @@ export class ModificarTipoDeIntegrantesComponent {
     );
   }
   
-
-  modificarIntegrantes(){
-    const url = `http://localhost:5000/api/TiposDeIntegrantes/${this.Integrantes.id}`;
+  modificarIntegrantes(id: number) {
+    const url = `http://localhost:5000/api/TiposDeIntegrantes/${id}`;
     const body = {
-      id: this.Integrantes.idIntegrante,
-      //activo: this.Integrantes.activo,
-      nombre: this.Integrantes.nombre,      
+      id: this.Integrantes.id,
+      activo: this.Integrantes.activo,
+      nombre: this.Integrantes.nombre,
+      orden: this.Integrantes.orden,
     };
-
+  
     this.http.put<any>(url, body).subscribe(
-      (response) => {       
-        console.log('Integrante:', response);   
-        this.Integrantes = response;   
+      (response) => {
+        console.log('Integrante:', response);
+        this.Integrantes = response;
         Swal.fire({
           icon: 'success',
           title: 'Éxito',
-          text: 'El integrante se modifico correctamente',
+          text: 'El integrante se modificó correctamente',
           timer: 2000,
           timerProgressBar: true
         });
@@ -66,6 +66,7 @@ export class ModificarTipoDeIntegrantesComponent {
       }
     );
   }
+  
   
   cancelar() {
     this.location.back();

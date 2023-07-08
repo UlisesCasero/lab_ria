@@ -97,7 +97,7 @@ import { AltaPersonaLlamadoComponent } from './alta-persona-llamado/alta-persona
     AltaPersonaComponent,
     ListarPersonasComponent,
     ModificarPersonaComponent,
-    AltaPersonaLlamadoComponent
+    AltaPersonaLlamadoComponent,
   ],
   imports: [
     HttpClientModule,

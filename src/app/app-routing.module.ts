@@ -42,7 +42,6 @@ import { ListarPersonasComponent } from './listar-personas/listar-personas.compo
 import { ModificarPersonaComponent } from './modificar-persona/modificar-persona.component';
 import { AltaPersonaLlamadoComponent } from './alta-persona-llamado/alta-persona-llamado.component';
 
-
 const routes: Routes = [
   {
     path: 'alta-usuario', 

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-restore-password',
@@ -45,11 +46,25 @@ export class RestorePasswordComponent implements OnInit {
     this.http.post<any>(url, payload).subscribe(
       () => {
         console.log('Password restored successfully');
-        // Realiza cualquier acción necesaria después de restaurar la contraseña
+        Swal.fire({
+          icon: 'success',
+          title: 'Éxito',
+          text: 'Se le envio un correo electronico',
+          timer: 2000,
+          timerProgressBar: true
+        });
+        this.router.navigate(['/']);
       },
       (error) => {
         console.error('Failed to restore password', error);
-        // Muestra un mensaje de error o realiza cualquier otra acción necesaria en caso de error
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text:error,
+          timer: 2000,
+          timerProgressBar: true
+        });
+      
       }
     );
   }
